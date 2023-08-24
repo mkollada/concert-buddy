@@ -8,5 +8,8 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
-  ]
+  ],
+  "paths": {
+    "@/*": ["./src/*"]
+  }
 }
