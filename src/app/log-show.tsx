@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import {
   SafeAreaView,
   ScrollView,
+  
   StyleSheet,
   TouchableOpacity,
   Button,
@@ -12,10 +13,11 @@ import {
 
 import { Text, View } from '../components/Themed';
 import LogShowAccordion from '../components/LogShowAccordion';
+import React from 'react';
 
 export default function LogShowScreen() {
   return (
-    <View style={styles.container}>
+    <View style={styles.container} >
       <LogShowAccordion />
     </View>
   );
