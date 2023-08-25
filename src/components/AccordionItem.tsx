@@ -5,19 +5,34 @@ import type { PropsWithChildren } from 'react';
 import Icon from '@expo/vector-icons/FontAwesome';
 import Collapsable from 'react-native-collapsible'
 import { Calendar } from "react-native-calendars";
-
+import { AirbnbRating, Rating } from 'react-native-ratings';
 
 import { Text, View } from '../components/Themed';
 import { TextInput } from "react-native";
 
 type AccordionHeaderIconNames = 'chevron-up' | 'chevron-down' | 'plus-circle' | 'close'
 
-const AccordionHeader = ({title, submittedText, headerIcons, isCollapsed}
+function isAirbnbRatingComponent(component: React.ReactNode) {
+    return (component as any).type === AirbnbRating;
+}
+
+const AccordionHeaderWithProp = (
+    {title, optionalComponent, headerIcons, isCollapsed}
     ) => {
         return (
-            <>
+            <>             
                 <Text style={styles.accordTitle}>{ title }</Text>
-                <Text>{submittedText}</Text>
+                {isAirbnbRatingComponent(optionalComponent) ? (
+                    <Collapsable collapsed={!isCollapsed}>
+                        {optionalComponent}
+                    </Collapsable>
+                ) : (
+                    <View>
+                        {optionalComponent}
+                    </View>
+                    
+                )}
+                
                 <Icon name={ isCollapsed ? headerIcons[0] : headerIcons[1] }
                     size={20} color="#bbb" />
             </>
@@ -49,7 +64,11 @@ export const AccordionWithBodyText = (
     return (
         <View>
             <TouchableOpacity style={styles.accordHeader} onPress={ handleAccordionToggle }>
-                <AccordionHeader title={title} submittedText={submittedText} headerIcons={headerIcons} isCollapsed={isCollapsed} />
+                <AccordionHeaderWithProp
+                    title={title} 
+                    optionalComponent={<Text children={submittedText}/>} 
+                    headerIcons={headerIcons} 
+                    isCollapsed={isCollapsed} />
             </TouchableOpacity>
             <Collapsable collapsed={isCollapsed}>
                 <TextInput 
@@ -87,15 +106,13 @@ export const AccordionWithCalendar = (
     return (
         <View>
             <TouchableOpacity style={styles.accordHeader} onPress={ handleAccordionToggle }>
-                <AccordionHeader title={title} submittedText={selectedDate} headerIcons={headerIcons} isCollapsed={isCollapsed} />
+                <AccordionHeaderWithProp
+                    title={title} 
+                    optionalComponent={<Text children={selectedDate}/>} 
+                    headerIcons={headerIcons} 
+                    isCollapsed={isCollapsed} />
             </TouchableOpacity>
             <Collapsable collapsed={isCollapsed}>
-                {/* <TextInput 
-                    placeholder={placeholderText}
-                    value={inputText}
-                    onChangeText={handleInputChange}
-                    onSubmitEditing={handleSubmittedText} 
-                    returnKeyType="done"/> */}
                 <Calendar 
                     theme={styles.calendar} 
                     onDayPress={handleDateSelect}>
@@ -106,50 +123,93 @@ export const AccordionWithCalendar = (
 
 }
 
-// TODO
-export const AccordionWithRatings = ( 
-    {title, 
+export const AccordionWithRatings = ( {
+    title, 
     headerIcons,
-    placeholderText}
+}
 ) => {
     const [isCollapsed, setIsCollapsed] = useState(true)
-    const [submittedText, setSubmittedText] = useState('')
-    const [inputText, setInputText] = useState('')
+    const [overallRatingHeader, setOverallRatingHeader] = useState(0)
+    const [overallRatingBody, setOverallRatingBody] = useState(0)
+
 
     const handleAccordionToggle = () =>  {
         setIsCollapsed(!isCollapsed)
     }
 
-    const handleInputChange = (text) => {
-        setInputText(text)
+    const handleBodyRatingChange = (newRatingBody: React.SetStateAction<number>) => {
+        setOverallRatingHeader(newRatingBody)
+        setOverallRatingBody(newRatingBody)
     }
 
-    const handleSubmittedText = () => {
-        setSubmittedText(inputText)
-        setIsCollapsed(true)
+    const handleHeaderRatingChange = (newRatingHeader: React.SetStateAction<number>) => {
+        setOverallRatingHeader(newRatingHeader)
+        setOverallRatingBody(newRatingHeader)
     }
 
     return (
         <View>
             <TouchableOpacity style={styles.accordHeader} onPress={ handleAccordionToggle }>
-                <AccordionHeader title={title} submittedText={submittedText} headerIcons={headerIcons} isCollapsed={isCollapsed} />
+                <AccordionHeaderWithProp 
+                    title={title} 
+                    optionalComponent={<AirbnbRating 
+                        selectedColor='yellow'
+                        size={25}
+                        defaultRating={overallRatingHeader}
+                        onFinishRating={handleHeaderRatingChange}
+                        showRating={false}
+                        ratingContainerStyle={styles.ratingContainer}
+                        starContainerStyle={styles.starContainer}
+                    />}
+                    headerIcons={headerIcons} 
+                    isCollapsed={isCollapsed} />
             </TouchableOpacity>
             <Collapsable collapsed={isCollapsed}>
-                <TextInput 
-                    style={styles.textSmall}
-                    placeholder={placeholderText}
-                    value={inputText}
-                    onChangeText={handleInputChange}
-                    onSubmitEditing={handleSubmittedText} 
-                    returnKeyType="done"/>
+            <View style={styles.ratingView}>
+                    <Text>Overall Show Rating</Text>
+                    <AirbnbRating 
+                        selectedColor='yellow'
+                        defaultRating={overallRatingBody}
+                        onFinishRating={handleBodyRatingChange}
+                        showRating={false}
+                        ratingContainerStyle={styles.ratingContainer}
+                        starContainerStyle={styles.starContainer}
+                    />
+                </View>
+                <View style={styles.ratingView}>
+                    <Text>Stage Presence</Text>
+                    <AirbnbRating 
+                        selectedColor='yellow'
+                        showRating={false}
+                        defaultRating={0}
+                        ratingContainerStyle={styles.ratingContainer}
+                        starContainerStyle={styles.starContainer}
+                    />
+                </View>
+                <View style={styles.ratingView}>
+                    <Text>Musicality</Text>
+                    <AirbnbRating 
+                        selectedColor='yellow'
+                        showRating={false}
+                        defaultRating={0}
+                        ratingContainerStyle={styles.ratingContainer}
+                        starContainerStyle={styles.starContainer}
+                    />
+                </View>
+                <View style={styles.ratingView}>
+                    <Text>Production</Text>
+                    <AirbnbRating 
+                        selectedColor='yellow'
+                        showRating={false}
+                        defaultRating={0}
+                        ratingContainerStyle={styles.ratingContainer}
+                        starContainerStyle={styles.starContainer}
+                    />
+                </View>
             </Collapsable>
         </View>
     )
-
 }
-
-
-
 
 const styles = StyleSheet.create({
     container: {
@@ -196,8 +256,11 @@ const styles = StyleSheet.create({
     keyboardAvoid: {
         flex: 1
     },
-    rating: {
-        backgroundColor: '#000000'
+    ratingContainer: {
+
+    },
+    starContainer: {
+        
     },
     ratingView: {
         alignItems: 'center'
