@@ -22,6 +22,8 @@ import Icon from '@expo/vector-icons/FontAwesome';
 import { Calendar } from 'react-native-calendars';
 import { Rating } from 'react-native-ratings';
 
+import { AccordionWithBodyText, AccordionWithCalendar } from './AccordionItem';
+
 type AccordionHeaderIconNames = 'chevron-up' | 'chevron-down' | 'plus-circle' | 'close'
 
 type AccordionItemPros = PropsWithChildren<{
@@ -122,21 +124,17 @@ export default function LogShowAccordion() {
           <ScrollView
             contentInsetAdjustmentBehavior="automatic"
             style={styles.container}>
-            <AccordionItem title="Artist Name" headerIcons={['chevron-up','chevron-down']}>
-                <TextInput 
-                    style={styles.textSmall} 
-                    placeholder='Enter The Artists Name'
-                    returnKeyType='done'
-                    // onSubmitEditing=
-                />
-            </AccordionItem>
-            <AccordionItem title="Date" headerIcons={['close','plus-circle']}>
-                <Calendar theme={styles.calendar} onDayPress={ day => { console.log('selected day', typeof day)}}          >
-                </Calendar>
-            </AccordionItem>
-            <AccordionItem title="Venue" headerIcons={['chevron-up','chevron-down']}>
-                <TextInput style={styles.textSmall} placeholder='Enter Venue Name'></TextInput>
-            </AccordionItem>
+            <AccordionWithBodyText 
+                title="Artist Name" 
+                headerIcons={['chevron-down','chevron-up']} 
+                placeholderText='Enter Artist Name...'/>
+            <AccordionWithCalendar
+                title="Date"
+                headerIcons={['plus-circle','close']} />
+            <AccordionWithBodyText 
+                title="Venue" 
+                headerIcons={['chevron-down','chevron-up']} 
+                placeholderText='Enter Venue Name...'/>
             <AccordionItem title="Rating" headerIcons={['chevron-up','chevron-down']}>
                 <View style={styles.ratingView}>
                     <Text>Overall Show Rating</Text>
@@ -191,28 +189,18 @@ export default function LogShowAccordion() {
                     />
                 </View>
             </AccordionItem>
-            <AccordionItem title="Photos" headerIcons={['chevron-up','chevron-down']}>
-                <Text style={styles.textSmall}>Select Photos</Text>
-            </AccordionItem>
-            <AccordionItem title="Memories" headerIcons={['chevron-up','chevron-down']}>
-                <Text style={styles.textSmall}>What mems did yo have?</Text>
-            </AccordionItem>
-            <AccordionItem title="Notes" headerIcons={['chevron-up','chevron-down']}>
-                <KeyboardAvoidingView 
-                    // style={styles.keyboardAvoid} 
-                    behavior={Platform.OS === "ios" ? "padding" : "height"}
-                    keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}
-                >   
-                    <View>
-                        <TextInput 
-                            style={styles.textSmall} 
-                            placeholder='Enter some notes from the show...'
-                            returnKeyLabel='Enter'
-                        />
-                    </View>
-                    
-                </KeyboardAvoidingView>
-            </AccordionItem>
+            <AccordionWithBodyText 
+                title="Photos" 
+                headerIcons={['chevron-down','chevron-up']} 
+                placeholderText='Select Photos'/>
+            <AccordionWithBodyText 
+                title="Memories" 
+                headerIcons={['chevron-down','chevron-up']} 
+                placeholderText='What mems did you have?'/>
+            <AccordionWithBodyText 
+                title="Notes" 
+                headerIcons={['chevron-down','chevron-up']} 
+                placeholderText='Enter other thoughts from the show...'/>
           </ScrollView>
         </SafeAreaView>
       );
