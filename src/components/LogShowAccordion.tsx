@@ -21,9 +21,9 @@ export default function LogShowAccordion() {
 
     const [artistName, setArtistName] = useState('')
 
-    const handleArtistName = (name: string) => {
-        setArtistName(name)
-    }
+    // const handleArtistName = (name: string) => {
+    //     setArtistName(name)
+    // }
 
     // const [date, setDate] = useState('')
 
@@ -33,18 +33,19 @@ export default function LogShowAccordion() {
 
     const [venue, setVenue] = useState('')
 
-    const handleVenue = (name: string) => {
-        setArtistName(name)
-    }
+    // const handleVenue = (name: string) => {
+    //     setArtistName(name)
+    // }
 
     function submitShowLog( artistName: string,
         date: string,
         venue: string,
         overallRating: number,
+        notes: string,
         stagePresenceRating?: number,
         musicalityRating?: number,
         productionRating?: number,
-        notes: string
+        
     ) {
         
         
@@ -70,10 +71,11 @@ export default function LogShowAccordion() {
             '2023-07-07',
             venue,
             5,
+            'no notes',
             5,
             5,
             5,
-            'no notes'
+            
         )
     }
 
@@ -98,7 +100,7 @@ export default function LogShowAccordion() {
             <AccordionWithRatings
                 title="Show Rating" 
                 headerIcons={['chevron-down','chevron-up']} />
-            <AccordionWithBodyText 
+            {/* <AccordionWithBodyText 
                 title="Photos" 
                 headerIcons={['chevron-down','chevron-up']} 
                 placeholderText='Select Photos'/>
@@ -109,7 +111,7 @@ export default function LogShowAccordion() {
             <AccordionWithBodyText 
                 title="Notes" 
                 headerIcons={['chevron-down','chevron-up']} 
-                placeholderText='Enter other thoughts from the show...'/>
+                placeholderText='Enter other thoughts from the show...'/> */}
             <Button title='Save' onPress={handleSubmitPress} />
 
 

@@ -48,6 +48,7 @@ interface AccordionWithBodyTextProps {
     title: string
     headerIcons: string[]
     placeholderText: string
+    setValue: (value: string) => void
 }
 
 export const AccordionWithBodyText: React.FC<AccordionWithBodyTextProps> = ( 
