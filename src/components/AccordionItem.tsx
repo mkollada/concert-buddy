@@ -54,7 +54,8 @@ interface AccordionWithBodyTextProps {
 export const AccordionWithBodyText: React.FC<AccordionWithBodyTextProps> = ( 
     {title, 
     headerIcons,
-    placeholderText}
+    placeholderText,
+    setValue}
 ) => {
     const [isCollapsed, setIsCollapsed] = useState(true)
     const [submittedText, setSubmittedText] = useState('')
@@ -70,6 +71,7 @@ export const AccordionWithBodyText: React.FC<AccordionWithBodyTextProps> = (
 
     const handleSubmittedText = () => {
         setSubmittedText(inputText)
+        setValue(inputText)
         setIsCollapsed(true)
     }
 
@@ -99,11 +101,14 @@ export const AccordionWithBodyText: React.FC<AccordionWithBodyTextProps> = (
 interface AccordionWithCalendarProps {
     title: string
     headerIcons: string[]
+    setDate: (value: string) => void
 }
 
-export const AccordionWithCalendar: React.FC<AccordionWithCalendarProps> = ( 
-    {title, 
-    headerIcons}
+export const AccordionWithCalendar: React.FC<AccordionWithCalendarProps> = ({
+    title, 
+    headerIcons,
+    setDate
+}
 ) => {
     const [isCollapsed, setIsCollapsed] = useState(true)
     const [selectedDate, setSelectedDate] = useState('')
@@ -115,6 +120,7 @@ export const AccordionWithCalendar: React.FC<AccordionWithCalendarProps> = (
 
     const handleDateSelect = (date: { dateString: React.SetStateAction<string>; }) => {
         setSelectedDate(date.dateString);
+        setDate(selectedDate)
         console.log(selectedDate)
         setIsCollapsed(true); // Close accordion after selecting a date
     };

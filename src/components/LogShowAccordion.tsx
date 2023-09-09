@@ -15,27 +15,13 @@ import { Show } from '../types/types';
 
 import { AccordionWithBodyText, AccordionWithCalendar, AccordionWithRatings } from './AccordionItem';
 
-// function submitShowLog(artistName, venue, )
-
 export default function LogShowAccordion() {
 
     const [artistName, setArtistName] = useState('')
-
-    // const handleArtistName = (name: string) => {
-    //     setArtistName(name)
-    // }
-
-    // const [date, setDate] = useState('')
-
-    // const handleDate = (date: string) => {
-    //     setArtistName(date)
-    // }
-
+    const [date, setDate] = useState('')
     const [venue, setVenue] = useState('')
-
-    // const handleVenue = (name: string) => {
-    //     setArtistName(name)
-    // }
+    const [overallRating, setOverallRating] = useState(0)
+    const [notes, setNotes] = useState('')
 
     function submitShowLog( artistName: string,
         date: string,
@@ -47,7 +33,6 @@ export default function LogShowAccordion() {
         productionRating?: number,
         
     ) {
-        
         
         const show: Show = {
             artistName: artistName,
@@ -68,10 +53,10 @@ export default function LogShowAccordion() {
     function handleSubmitPress() {
         submitShowLog(
             artistName,
-            '2023-07-07',
+            date,
             venue,
             5,
-            'no notes',
+            notes,
             5,
             5,
             5,
@@ -91,7 +76,8 @@ export default function LogShowAccordion() {
                     setValue={setArtistName} />
             <AccordionWithCalendar
                 title="Date"
-                headerIcons={['plus-circle','close']} />
+                headerIcons={['plus-circle','close']}
+                setDate={setDate} />
             <AccordionWithBodyText 
                 title="Venue" 
                 headerIcons={['chevron-down','chevron-up']} 
@@ -107,11 +93,12 @@ export default function LogShowAccordion() {
             <AccordionWithBodyText 
                 title="Memories" 
                 headerIcons={['chevron-down','chevron-up']} 
-                placeholderText='What mems did you have?'/>
+                placeholderText='What mems did you have?'/> */}
             <AccordionWithBodyText 
                 title="Notes" 
                 headerIcons={['chevron-down','chevron-up']} 
-                placeholderText='Enter other thoughts from the show...'/> */}
+                placeholderText='Enter other thoughts from the show...'
+                setValue={setNotes} />
             <Button title='Save' onPress={handleSubmitPress} />
 
 
