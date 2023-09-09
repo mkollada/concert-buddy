@@ -1,22 +1,27 @@
 
 import React, { useState } from "react";
 import { StyleSheet, TouchableOpacity, } from "react-native";
-import type { PropsWithChildren } from 'react';
 import Icon from '@expo/vector-icons/FontAwesome';
 import Collapsable from 'react-native-collapsible'
 import { Calendar } from "react-native-calendars";
-import { AirbnbRating, Rating } from 'react-native-ratings';
+import { AirbnbRating } from 'react-native-ratings';
 
 import { Text, View } from '../components/Themed';
 import { TextInput } from "react-native";
 
-type AccordionHeaderIconNames = 'chevron-up' | 'chevron-down' | 'plus-circle' | 'close'
 
 function isAirbnbRatingComponent(component: React.ReactNode) {
-    return (component as any).type === AirbnbRating;
+    return component instanceof AirbnbRating;
 }
 
-const AccordionHeaderWithProp = (
+interface AccordionHeaderWithPropProps {
+    title: string
+    optionalComponent: React.ReactNode
+    headerIcons: string[]
+    isCollapsed: boolean
+}
+
+const AccordionHeaderWithProp: React.FC<AccordionHeaderWithPropProps> = (
     {title, optionalComponent, headerIcons, isCollapsed}
     ) => {
         return (
@@ -37,9 +42,15 @@ const AccordionHeaderWithProp = (
                     size={20} color="#bbb" />
             </>
         )
-    }
+}
 
-export const AccordionWithBodyText = ( 
+interface AccordionWithBodyTextProps {
+    title: string
+    headerIcons: string[]
+    placeholderText: string
+}
+
+export const AccordionWithBodyText: React.FC<AccordionWithBodyTextProps> = ( 
     {title, 
     headerIcons,
     placeholderText}
@@ -52,7 +63,7 @@ export const AccordionWithBodyText = (
         setIsCollapsed(!isCollapsed)
     }
 
-    const handleInputChange = (text) => {
+    const handleInputChange = (text: React.SetStateAction<string>) => {
         setInputText(text)
     }
 
@@ -66,7 +77,7 @@ export const AccordionWithBodyText = (
             <TouchableOpacity style={styles.accordHeader} onPress={ handleAccordionToggle }>
                 <AccordionHeaderWithProp
                     title={title} 
-                    optionalComponent={<Text children={submittedText}/>} 
+                    optionalComponent={<Text>{submittedText}</Text>} 
                     headerIcons={headerIcons} 
                     isCollapsed={isCollapsed} />
             </TouchableOpacity>
@@ -84,20 +95,24 @@ export const AccordionWithBodyText = (
 
 }
 
-export const AccordionWithCalendar = ( 
+interface AccordionWithCalendarProps {
+    title: string
+    headerIcons: string[]
+}
+
+export const AccordionWithCalendar: React.FC<AccordionWithCalendarProps> = ( 
     {title, 
     headerIcons}
 ) => {
     const [isCollapsed, setIsCollapsed] = useState(true)
     const [selectedDate, setSelectedDate] = useState('')
-    const [headerText, setHeaderText] = useState('')
 
 
     const handleAccordionToggle = () =>  {
         setIsCollapsed(!isCollapsed)
     }
 
-    const handleDateSelect = (date) => {
+    const handleDateSelect = (date: { dateString: React.SetStateAction<string>; }) => {
         setSelectedDate(date.dateString);
         console.log(selectedDate)
         setIsCollapsed(true); // Close accordion after selecting a date
@@ -108,7 +123,7 @@ export const AccordionWithCalendar = (
             <TouchableOpacity style={styles.accordHeader} onPress={ handleAccordionToggle }>
                 <AccordionHeaderWithProp
                     title={title} 
-                    optionalComponent={<Text children={selectedDate}/>} 
+                    optionalComponent={<Text>{selectedDate}</Text>} 
                     headerIcons={headerIcons} 
                     isCollapsed={isCollapsed} />
             </TouchableOpacity>
@@ -123,7 +138,12 @@ export const AccordionWithCalendar = (
 
 }
 
-export const AccordionWithRatings = ( {
+interface AccordionWithRatingsProps {
+    title: string
+    headerIcons: string[]
+}
+
+export const AccordionWithRatings: React.FC<AccordionWithRatingsProps> = ( {
     title, 
     headerIcons,
 }

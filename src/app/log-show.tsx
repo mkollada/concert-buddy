@@ -1,17 +1,6 @@
-import { StatusBar } from 'expo-status-bar';
-import {
-  SafeAreaView,
-  ScrollView,
-  
-  StyleSheet,
-  TouchableOpacity,
-  Button,
-  Platform,
-  UIManager,
-  LayoutAnimation
-} from 'react-native';
+import { StyleSheet } from 'react-native';
 
-import { Text, View } from '../components/Themed';
+import { View } from '../components/Themed';
 import LogShowAccordion from '../components/LogShowAccordion';
 import React from 'react';
 
