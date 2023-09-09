@@ -10,8 +10,8 @@ export async function addSupabaseRow(row: object, tableName: string) {
     return;
   }
 
-  console.log('Row added successfully in ${tableName}.');
-  console.log('Supabase returned: ' + data);
+  console.log(`Row added successfully in ${tableName}.`);
+  console.log(`Supabase returned: ${data}`);
 }
 
 export async function addSupabaseShow(show: Show) {
