@@ -2,9 +2,12 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
-import React from 'react';
-import { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Pressable, useColorScheme, Text } from 'react-native';
+import { Session } from '@supabase/supabase-js'
+import { supabase } from '../utils/supabase';
+import Auth from '../components/Auth';
+
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -19,6 +22,10 @@ export const unstable_settings = {
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  const [session, setSession] = useState<Session | null>(null)
+
+
+
   const [loaded, error] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
     ...FontAwesome.font,
@@ -35,18 +42,34 @@ export default function RootLayout() {
     }
   }, [loaded]);
 
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session)
+    })
+
+    supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session)
+    })
+  }, [])
+
   if (!loaded) {
     return null;
   }
-
-  return <RootLayoutNav />;
+  return (
+    <>
+      { session && session.user ? <RootLayoutNav session={session}/> : <Auth />}
+    </>
+  )
 }
 
-function RootLayoutNav() {
+function RootLayoutNav({ session }: { session: Session | null }) {
   const colorScheme = useColorScheme();
+
+  console.log(session)
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen 
