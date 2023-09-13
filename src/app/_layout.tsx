@@ -65,8 +65,6 @@ export default function RootLayout() {
 function RootLayoutNav({ session }: { session: Session | null }) {
   const colorScheme = useColorScheme();
 
-  console.log(session)
-
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       

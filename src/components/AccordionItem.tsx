@@ -119,9 +119,11 @@ export const AccordionWithCalendar: React.FC<AccordionWithCalendarProps> = ({
     }
 
     const handleDateSelect = (date: { dateString: React.SetStateAction<string>; }) => {
+        // TODO: I would guess there's a better way to do this
+        // sets date for accordion header
         setSelectedDate(date.dateString);
+        // sets date to be sent up to supabase in parent component
         setDate(selectedDate)
-        console.log(selectedDate)
         setIsCollapsed(true); // Close accordion after selecting a date
     };
 

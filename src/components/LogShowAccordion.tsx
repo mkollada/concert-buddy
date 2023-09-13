@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import {
     Button,
     SafeAreaView,
     ScrollView,
     StyleSheet,
+    Text,
+    View,
   } from 'react-native';
 
 import { addSupabaseShow } from '../api';
@@ -15,15 +17,39 @@ import { Show } from '../types/types';
 
 import { AccordionWithBodyText, AccordionWithCalendar, AccordionWithRatings } from './AccordionItem';
 
+import { getSupabaseSession } from '../api';
+import { Session } from '@supabase/supabase-js';
+
 export default function LogShowAccordion() {
 
+    const [session, setSession] = useState<Session | null>(null);
     const [artistName, setArtistName] = useState('')
     const [date, setDate] = useState('')
     const [venue, setVenue] = useState('')
-    const [overallRating, setOverallRating] = useState(0)
+    // const [overallRating, setOverallRating] = useState(0)
     const [notes, setNotes] = useState('')
+    const [isLoading, setIsLoading] = useState(false)
+    
 
-    function submitShowLog( artistName: string,
+    const {data, error} = getSupabaseSession()
+
+    if (error) {
+        // handle error here
+        return <View><Text>Error loading session</Text></View>;
+    }
+
+    useEffect(() => { 
+        if (!data?.session) {
+          setIsLoading(true);
+        } else {
+          setSession(data.session);
+          setIsLoading(false);
+        }
+      }, [data, error]);
+
+    function submitShowLog( 
+        user_id: string,
+        artistName: string,
         date: string,
         venue: string,
         overallRating: number,
@@ -35,6 +61,7 @@ export default function LogShowAccordion() {
     ) {
         
         const show: Show = {
+            user_id: user_id,
             artistName: artistName,
             date: date,
             venue: venue,
@@ -51,7 +78,13 @@ export default function LogShowAccordion() {
     }
 
     function handleSubmitPress() {
+        if (!session) {
+            setIsLoading(true)
+            return
+        }
+        
         submitShowLog(
+            session.user.id,
             artistName,
             date,
             venue,
@@ -65,7 +98,10 @@ export default function LogShowAccordion() {
     }
 
     return (
+        
+
         <SafeAreaView style={styles.container}>
+            { isLoading ? <View><Text>Loading... </Text></View> :
           <ScrollView
             contentInsetAdjustmentBehavior="automatic"
             style={styles.container}>
@@ -104,7 +140,8 @@ export default function LogShowAccordion() {
 
             
           </ScrollView>
-        </SafeAreaView>
+        }
+        </SafeAreaView> 
       );
 }
 
