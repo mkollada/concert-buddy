@@ -5,6 +5,7 @@ import { Link } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { getSupabaseShows } from '../../api';
 import { Show } from '../../types/types';
+import { ShowBlock } from '../../components/ShowBlock';
 
 export default function TabOneScreen() {
   const [shows, setShows] = useState<Show[]>([]);
@@ -24,14 +25,15 @@ export default function TabOneScreen() {
   
   
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Get started logging a show!</Text>
+    <View className='items-center p-5'>
+      <Text className='font-bold'>Get started logging a show!</Text>
       <Link href="/log-show" asChild>
         <Button title='Log a show'/>        
       </Link>
       <View>
         {shows.map((show: Show) => (
-          <Text key={show.id}>Show 1 - Artist: {show.artistName}, Date: {show.date}, Venue: {show.venue}</Text>
+          // <Text key={show.id}>Show 1 - Artist: {show.artistName}, Date: {show.date}, Venue: {show.venue}</Text>
+          <ShowBlock key={show.id} show={show} />
         ))}
       </View>
 
