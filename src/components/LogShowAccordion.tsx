@@ -4,7 +4,6 @@ import {
     Button,
     SafeAreaView,
     ScrollView,
-    StyleSheet,
     Text,
     View,
   } from 'react-native';
@@ -19,6 +18,7 @@ import { AccordionWithBodyText, AccordionWithCalendar, AccordionWithRatings } fr
 
 import { getSupabaseSession } from '../api';
 import { Session } from '@supabase/supabase-js';
+import { useNavigation } from '@react-navigation/native';
 
 export default function LogShowAccordion() {
 
@@ -29,6 +29,7 @@ export default function LogShowAccordion() {
     // const [overallRating, setOverallRating] = useState(0)
     const [notes, setNotes] = useState('')
     const [isLoading, setIsLoading] = useState(false)
+    const navigation = useNavigation()
     
 
     const {data, error} = getSupabaseSession()
@@ -72,8 +73,6 @@ export default function LogShowAccordion() {
             notes: notes
         }
 
-        console.log(show)
-
         addSupabaseShow(show)
     }
 
@@ -82,6 +81,7 @@ export default function LogShowAccordion() {
             setIsLoading(true)
             return
         }
+
         
         submitShowLog(
             session.user.id,
@@ -95,16 +95,18 @@ export default function LogShowAccordion() {
             5,
             
         )
+
+        navigation.goBack()
     }
 
     return (
         
 
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView className='flex-1'>
             { isLoading ? <View><Text>Loading... </Text></View> :
           <ScrollView
             contentInsetAdjustmentBehavior="automatic"
-            style={styles.container}>
+            className='flex-1'>
             <AccordionWithBodyText 
                     title="Artist Name"
                     headerIcons={['chevron-down', 'chevron-up']}
@@ -113,7 +115,8 @@ export default function LogShowAccordion() {
             <AccordionWithCalendar
                 title="Date"
                 headerIcons={['plus-circle','close']}
-                setDate={setDate} />
+                setDate={setDate} 
+                date={date} />
             <AccordionWithBodyText 
                 title="Venue" 
                 headerIcons={['chevron-down','chevron-up']} 
@@ -144,11 +147,4 @@ export default function LogShowAccordion() {
         </SafeAreaView> 
       );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-});
-
 
