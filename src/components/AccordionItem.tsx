@@ -102,28 +102,28 @@ interface AccordionWithCalendarProps {
     title: string
     headerIcons: string[]
     setDate: (value: string) => void
+    date: string
 }
 
 export const AccordionWithCalendar: React.FC<AccordionWithCalendarProps> = ({
     title, 
     headerIcons,
-    setDate
+    setDate,
+    date
 }
 ) => {
     const [isCollapsed, setIsCollapsed] = useState(true)
-    const [selectedDate, setSelectedDate] = useState('')
 
 
     const handleAccordionToggle = () =>  {
         setIsCollapsed(!isCollapsed)
     }
 
-    const handleDateSelect = (date: { dateString: React.SetStateAction<string>; }) => {
+    const handleDateSelect = (submittedDate: { dateString: string; }) => {
         // TODO: I would guess there's a better way to do this
         // sets date for accordion header
-        setSelectedDate(date.dateString);
+        setDate(submittedDate.dateString);
         // sets date to be sent up to supabase in parent component
-        setDate(selectedDate)
         setIsCollapsed(true); // Close accordion after selecting a date
     };
 
@@ -132,7 +132,7 @@ export const AccordionWithCalendar: React.FC<AccordionWithCalendarProps> = ({
             <TouchableOpacity style={styles.accordHeader} onPress={ handleAccordionToggle }>
                 <AccordionHeaderWithProp
                     title={title} 
-                    optionalComponent={<Text>{selectedDate}</Text>} 
+                    optionalComponent={<Text>{date}</Text>} 
                     headerIcons={headerIcons} 
                     isCollapsed={isCollapsed} />
             </TouchableOpacity>
