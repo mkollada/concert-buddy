@@ -80,13 +80,13 @@ export default function Account({ session }: { session: Session | null }) {
       </View>
 
 
-      <View style={[styles.verticallySpaced, styles.mt20]}>
+      {/* <View style={[styles.verticallySpaced, styles.mt20]}>
         <Button
           title={loading ? 'Loading ...' : 'Update'}
           onPress={() => updateProfile({ username })}
           disabled={loading}
         />
-      </View>
+      </View> */}
 
       <View style={styles.verticallySpaced}>
         <Button title="Sign Out" onPress={() => supabase.auth.signOut()} />
