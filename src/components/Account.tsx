@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../utils/supabase'
-import { StyleSheet, View, Alert } from 'react-native'
+import { StyleSheet, View, Alert, Text } from 'react-native'
 import { Button, Input } from 'react-native-elements'
 import { Session } from '@supabase/supabase-js'
 import React from 'react'
@@ -71,20 +71,22 @@ export default function Account({ session }: { session: Session | null }) {
   return (
     <View style={styles.container}>
       <View style={[styles.verticallySpaced, styles.mt20]}>
-        <Input label="Email" value={session?.user?.email} disabled />
+        {/* <Input label="Email" value={session?.user?.email} disabled /> */}
+        <Text className='text-white text-lg'>Email: {session?.user?.email}</Text>
       </View>
       <View style={styles.verticallySpaced}>
-        <Input label="Username" value={username || ''} onChangeText={(text) => setUsername(text)} />
+        {/* <Input label="Username" value={username || ''} onChangeText={(text) => setUsername(text)} /> */}
+        <Text className='text-white text-lg'>Username: {username}</Text>
       </View>
 
 
-      <View style={[styles.verticallySpaced, styles.mt20]}>
+      {/* <View style={[styles.verticallySpaced, styles.mt20]}>
         <Button
           title={loading ? 'Loading ...' : 'Update'}
           onPress={() => updateProfile({ username })}
           disabled={loading}
         />
-      </View>
+      </View> */}
 
       <View style={styles.verticallySpaced}>
         <Button title="Sign Out" onPress={() => supabase.auth.signOut()} />
