@@ -24,8 +24,6 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
   const [session, setSession] = useState<Session | null>(null)
 
-
-
   const [loaded, error] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
     ...FontAwesome.font,
@@ -57,12 +55,12 @@ export default function RootLayout() {
   }
   return (
     <>
-      { session && session.user ? <RootLayoutNav session={session}/> : <Auth />}
+      { session && session.user ? <RootLayoutNav /> : <Auth />}
     </>
   )
 }
 
-function RootLayoutNav({ session }: { session: Session | null }) {
+function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
   return (
