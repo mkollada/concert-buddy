@@ -1,4 +1,4 @@
-import { View, Image, StyleSheet, Text } from "react-native";
+import { View, Image, Text } from "react-native";
 import { Show } from "../types/types";
 import React from "react";
 
@@ -12,37 +12,25 @@ export const ShowBlock: React.FC<ShowProps> = ({
 }) => {
     
     return (
-        <View style={styles.container}>
-            <View style={styles.roundedBox}>
+        <View className='w-[90%] h-[10vh] flex-row justify-items-center place-items-center rounded-sm  p-5'>
+            
+            <View className="justify-center pr-5">
+              <Text className="text-white font-bold">{show.date.substring(5,7)}.{show.date.substring(8,10)}</Text>
+            </View>
+            <View className='flex-row px-3'>
                 <Image
-                style={styles.image}
+                className='w-[33%] aspect-square p-3'
                 source={{
                     uri: 'https://mcusercontent.com/f89c714d668e98a972a148b5b/images/d8ddef87-b281-b8c5-7b6f-9560c068ba2f.jpeg',
                 }}
                 />
-                <Text>Artist: {show.artistName}</Text>
+                <View className="px-3 justify-center">
+                  <Text className="text-white font-bold">{show.artistName}</Text>
+                  <Text className="text-white">{show.venue}</Text>
+                </View>
+                
             </View>
         </View>
     )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  roundedBox: {
-    width: 100,
-    height: 100,
-    borderRadius: 15,
-    overflow: 'hidden',
-    backgroundColor: 'white',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  image: {
-    width: '100%',
-    height: '100%',
-  },
-});
