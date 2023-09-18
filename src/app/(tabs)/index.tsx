@@ -36,17 +36,25 @@ export default function TabOneScreen() {
   
   return (
     <ScrollView>
-      <View className='flex-1 items-center p-5 w-[100%]'>
-        <Text className='font-bold'>Get started logging a show!</Text>
-        <Link href="/log-show" asChild>
-          <Button title='Log a show'/>        
-        </Link>
-        <View className='bg-transparent'>
+      <View className='flex-1 p-5'>
+        {shows.length === 0 ? ( <View className='flex-1 items-center'>
+        
+          <Text className='font-bold'>Get started logging a show!</Text>
+          <Link href="/log-show" asChild>
+            <Button title='Log a show'/>        
+          </Link>
+          </View>
+        ) : (
+          <View className='bg-transparent'>
           {shows.map((show: Show) => (
             // <Text key={show.id}>Show 1 - Artist: {show.artistName}, Date: {show.date}, Venue: {show.venue}</Text>
             <ShowBlock key={show.id} show={show} />
           ))}
         </View>
+        )}
+        
+        
+        
       </View>
     </ScrollView>
     
