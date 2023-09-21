@@ -1,4 +1,4 @@
-import { Button, ScrollView } from 'react-native';
+import { Button, Pressable, ScrollView } from 'react-native';
 
 import { Text, View } from '../../components/Themed';
 import { Link } from 'expo-router';
@@ -15,7 +15,6 @@ export default function TabOneScreen() {
 
   useEffect(() => {
     const unsubscribeFocus = navigation.addListener('focus', () => {
-      console.log('focusing')
       // Do something when the screen is focused
       const fetchShows = async () => {
         try {
@@ -46,9 +45,21 @@ export default function TabOneScreen() {
           </View>
         ) : (
           <ScrollView className='flex-1'>
+            
             <View className='bg-transparent'>
+            
               {shows.map((show: Show) => (
-                <ShowBlock key={show.id} show={show} />
+                <Link href={`/show-details/${show.id}`} key={`${show.id}-link`}>
+                  <Pressable key={`${show.id}-btn`}>
+                  {({ pressed }) => (
+                  <View style={{ opacity: pressed ? 0.5 : 1 }}>
+                    <ShowBlock key={`${show.id}-block`} show={show} />
+                  </View>
+                )}
+                    
+                    
+                  </Pressable>
+                </Link>
               ))}
             </View>
           </ScrollView>

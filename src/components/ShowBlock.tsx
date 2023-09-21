@@ -12,7 +12,6 @@ export const ShowBlock: React.FC<ShowProps> = ({
 }) => {
     
     return (
-        // w-[90%] h-[10vh] justify-items-center place-items-center rounded-sm  p-5
         <View className='flex-row h-[10vh] p-2'>
             
             <View className="px-3 justify-center">
