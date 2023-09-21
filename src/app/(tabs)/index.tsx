@@ -45,7 +45,7 @@ export default function TabOneScreen() {
             </Link>
           </View>
         ) : (
-          <ScrollView className='flex-1 bg-white'>
+          <ScrollView className='flex-1'>
             <View className='bg-transparent'>
               {shows.map((show: Show) => (
                 // <Text key={show.id}>Show 1 - Artist: {show.artistName}, Date: {show.date}, Venue: {show.venue}</Text>
