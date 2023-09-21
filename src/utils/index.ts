@@ -22,3 +22,13 @@ export function showArrayFromSupabase(data: any[]): Show[] {
 
     return shows
 }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function showFromSupabase(data: any[]): Show {
+  if (data.length > 1) {
+    console.error('Error show array is greater than 1 and should not be.')
+    return data[0]
+  }
+    
+  return data[0]
+}
