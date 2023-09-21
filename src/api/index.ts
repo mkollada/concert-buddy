@@ -2,7 +2,7 @@ import { supabase } from '../utils/supabase';
 import { Show } from '../types/types';
 import { Session } from '@supabase/supabase-js';
 import { useEffect, useState } from 'react';
-import { showArrayFromSupabase } from '../utils';
+import { showArrayFromSupabase, showFromSupabase } from '../utils';
 
 interface SessionData {
   session: Session | null;
@@ -45,6 +45,27 @@ export async function getSupabaseShows(): Promise<Show[]> {
   const showArray = showArrayFromSupabase(shows)
 
   return showArray
+}
+
+export async function getSupabaseShow(id: string): Promise<Show|null> {
+  const { data: show, error } = await supabase
+  .from('shows')
+  .select('*')
+  .eq('id', id)
+
+  if(error) {
+    console.log('Error getting shows from supabase', error)
+    return null
+  }
+
+  if (!show) {
+    console.log('No shows found')
+    return null
+  }
+
+  const showObject = showFromSupabase(show)
+
+  return showObject
 }
 
 export function getSupabaseSession() {
