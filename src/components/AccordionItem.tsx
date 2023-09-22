@@ -86,7 +86,7 @@ export const AccordionWithBodyText: React.FC<AccordionWithBodyTextProps> = (
             </TouchableOpacity>
             <Collapsable collapsed={isCollapsed}>
                 <TextInput 
-                    style={styles.textSmall}
+                    className='text-white font-medium p-5'
                     placeholder={placeholderText}
                     value={inputText}
                     onChangeText={handleInputChange}
