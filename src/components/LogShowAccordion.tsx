@@ -14,11 +14,19 @@ import { useState } from 'react';
 
 import { Show } from '../types/types';
 
-import { AccordionWithBodyText, AccordionWithCalendar, AccordionWithRatings } from './AccordionItem';
+import { 
+    AccordionWithBodyText, 
+    AccordionWithCalendar, 
+    AccordionWithRatings, 
+    AccordionWithPhotos 
+} from './AccordionItem';
 
 import { getSupabaseSession } from '../api';
 import { Session } from '@supabase/supabase-js';
 import { useNavigation } from '@react-navigation/native';
+
+import * as ImagePicker from 'expo-image-picker';
+
 
 export default function LogShowAccordion() {
 
@@ -26,6 +34,7 @@ export default function LogShowAccordion() {
     const [artistName, setArtistName] = useState('')
     const [date, setDate] = useState('')
     const [venue, setVenue] = useState('')
+    const [photos, setPhotos] = useState<ImagePicker.ImagePickerAsset[]>([])
     // const [overallRating, setOverallRating] = useState(0)
     const [notes, setNotes] = useState('')
     const [isLoading, setIsLoading] = useState(false)
@@ -122,6 +131,11 @@ export default function LogShowAccordion() {
                 headerIcons={['chevron-down','chevron-up']} 
                 placeholderText='Enter Venue Name...'
                 setValue={setVenue} />
+            <AccordionWithPhotos
+                title="Photos"
+                headerIcons={['chevron-down','chevron-up']}
+                setPhotos={setPhotos} 
+            />
             <AccordionWithRatings
                 title="Show Rating" 
                 headerIcons={['chevron-down','chevron-up']} />

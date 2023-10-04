@@ -5,9 +5,11 @@ import Icon from '@expo/vector-icons/FontAwesome';
 import Collapsable from 'react-native-collapsible'
 import { Calendar } from "react-native-calendars";
 import { AirbnbRating } from 'react-native-ratings';
-
 import { Text, View } from '../components/Themed';
 import { TextInput } from "react-native";
+import { Button } from "react-native-elements";
+import * as ImagePicker from 'expo-image-picker';
+import ThumbnailGallery from "./ThumbnailGallery";
 
 
 function isAirbnbRatingComponent(component: React.ReactNode) {
@@ -238,6 +240,64 @@ export const AccordionWithRatings: React.FC<AccordionWithRatingsProps> = ( {
             </Collapsable>
         </View>
     )
+}
+
+interface AccordionWithPhotosProps {
+    title: string
+    headerIcons: string[]
+    setPhotos: (value: ImagePicker.ImagePickerAsset[]) => void
+}
+
+
+
+export const AccordionWithPhotos: React.FC<AccordionWithPhotosProps> = ( 
+    {title, 
+    headerIcons,
+    setPhotos}
+) => {
+    const [isCollapsed, setIsCollapsed] = useState(true)
+    const [images, setImages] = useState<ImagePicker.ImagePickerAsset[]>([]);
+    
+    const pickImageAsync = async () => {
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            quality: 1,
+            allowsMultipleSelection: true
+        });
+
+        if (!result.canceled) {
+            setPhotos(result.assets)
+            setImages(result.assets)
+        } else {
+          alert('You did not select any image.');
+        }
+      };
+
+    const handleAccordionToggle = () =>  {
+        setIsCollapsed(!isCollapsed)
+        // console.log(isCollapsed)
+    }
+
+    return (
+        <View className="flex-1">
+            <TouchableOpacity style={styles.accordHeader} onPress={ handleAccordionToggle }>
+                <AccordionHeaderWithProp
+                    title={title} 
+                    optionalComponent={<Text></Text>} 
+                    headerIcons={headerIcons} 
+                    isCollapsed={isCollapsed} />
+            </TouchableOpacity>
+            <Collapsable collapsed={isCollapsed}>
+                <View className="p-2">
+                    <Button className="p-2" onPress={pickImageAsync} title='Select Photos'/>
+                    <View className='p-2 m-2 justify-center'>
+                        <ThumbnailGallery images={images} />
+                    </View>
+                </View>
+            </Collapsable>
+        </View>
+    )
+
 }
 
 const styles = StyleSheet.create({
