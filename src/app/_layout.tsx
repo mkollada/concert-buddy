@@ -7,6 +7,7 @@ import { Pressable, useColorScheme, Text } from 'react-native';
 import { Session } from '@supabase/supabase-js'
 import { supabase } from '../utils/supabase';
 import Auth from '../components/Auth';
+// import { Show } from '../types/types';
 
 
 export {
@@ -62,6 +63,7 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
+  // const [submitShow, setSubmitShow] = useState<Show|null>(null)
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
@@ -72,7 +74,7 @@ function RootLayoutNav() {
           name="log-show" 
           options={{ 
             presentation: 'modal',
-            // title: 'Log Show',
+            title: 'Log Show',
             headerRight: 
             () => (
               <Pressable>
@@ -86,6 +88,13 @@ function RootLayoutNav() {
               </Pressable>
            ),
           }} />
+        <Stack.Screen 
+          name="show-details/[id]"
+          options={{
+            presentation: 'modal',
+            headerShown: false
+          }}
+        />
       </Stack>
     </ThemeProvider>
   );
