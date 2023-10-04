@@ -2,7 +2,9 @@ import { supabase } from '../utils/supabase';
 import { Show } from '../types/types';
 import { Session } from '@supabase/supabase-js';
 import { useEffect, useState } from 'react';
-import { showArrayFromSupabase, showFromSupabase } from '../utils';
+import { showArrayFromSupabase, showFromSupabase, showToSupabaseShow } from '../utils';
+import * as ImagePicker from 'expo-image-picker';
+
 
 interface SessionData {
   session: Session | null;
@@ -22,7 +24,10 @@ export async function addSupabaseRow(row: object, tableName: string) {
 }
 
 export async function addSupabaseShow(show: Show) {
-  await addSupabaseRow(show, 'shows');
+
+  const supabaseShow = showToSupabaseShow(show)
+  
+  await addSupabaseRow(supabaseShow, 'shows');
 
   console.log('Show added successfully.');
 }
@@ -88,4 +93,27 @@ export function getSupabaseSession() {
   return ({ 
     data, error 
   })
+}
+
+//TODO photos are all going to be public for now, that probably needs to change
+export async function uploadSupabasePhotos(photos: ImagePicker.ImagePickerAsset[]) {
+  const photoURLs = [];
+
+  // Upload each photo to Supabase Storage
+  for (const photo of photos) {
+    const fileExtension = photo.uri.split('.').pop(); // Assuming photos have a fileName property
+    const path = `shows/${new Date().getTime()}.${fileExtension}`; // Create a unique path for each photo
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { error, data } = await supabase.storage.from('show_photos').upload(path, photo.uri);
+
+    if (error) {
+      console.error('Error uploading image:', error);
+    } else {
+      const url = supabase.storage.from('show_photos').getPublicUrl(path);
+      photoURLs.push(url.data.publicUrl);
+    }
+  }
+
+  return photoURLs
 }

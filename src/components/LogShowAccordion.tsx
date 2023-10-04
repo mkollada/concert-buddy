@@ -8,7 +8,7 @@ import {
     View,
   } from 'react-native';
 
-import { addSupabaseShow } from '../api';
+import { addSupabaseShow, uploadSupabasePhotos } from '../api';
 
 import { useState } from 'react';
 
@@ -57,21 +57,23 @@ export default function LogShowAccordion() {
         }
       }, [data, error]);
 
-    function submitShowLog( 
-        user_id: string,
+    async function submitShowLog( 
+        userId: string,
         artistName: string,
         date: string,
         venue: string,
         overallRating: number,
         notes: string,
+        photos: ImagePicker.ImagePickerAsset[],
         stagePresenceRating?: number,
         musicalityRating?: number,
-        productionRating?: number,
-        
+        productionRating?: number
     ) {
+
+        const photoUrls = await uploadSupabasePhotos(photos)
         
         const show: Show = {
-            user_id: user_id,
+            userId: userId,
             artistName: artistName,
             date: date,
             venue: venue,
@@ -79,7 +81,8 @@ export default function LogShowAccordion() {
             stagePresenceRating: stagePresenceRating,
             musicalityRating: musicalityRating,
             productionRating: productionRating,
-            notes: notes
+            notes: notes,
+            photoUrls: photoUrls
         }
 
         addSupabaseShow(show)
@@ -99,6 +102,7 @@ export default function LogShowAccordion() {
             venue,
             5,
             notes,
+            photos,
             5,
             5,
             5,
