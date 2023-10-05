@@ -4,6 +4,8 @@ import { Session } from '@supabase/supabase-js';
 import { useEffect, useState } from 'react';
 import { showArrayFromSupabase, showFromSupabase, showToSupabaseShow } from '../utils';
 import * as ImagePicker from 'expo-image-picker';
+import * as FileSystem from 'expo-file-system';
+import { decode } from 'base64-arraybuffer'
 
 
 interface SessionData {
@@ -53,7 +55,7 @@ export async function getSupabaseShows(): Promise<Show[]> {
 }
 
 export async function getSupabaseShow(id: string): Promise<Show|null> {
-  const { data: show, error } = await supabase
+  const { data: supabaseShow, error } = await supabase
   .from('shows')
   .select('*')
   .eq('id', id)
@@ -63,12 +65,12 @@ export async function getSupabaseShow(id: string): Promise<Show|null> {
     return null
   }
 
-  if (!show) {
+  if (!supabaseShow) {
     console.log('No shows found')
     return null
   }
 
-  const showObject = showFromSupabase(show)
+  const showObject = showFromSupabase(supabaseShow)
 
   return showObject
 }
@@ -102,10 +104,16 @@ export async function uploadSupabasePhotos(photos: ImagePicker.ImagePickerAsset[
   // Upload each photo to Supabase Storage
   for (const photo of photos) {
     const fileExtension = photo.uri.split('.').pop(); // Assuming photos have a fileName property
-    const path = `shows/${new Date().getTime()}.${fileExtension}`; // Create a unique path for each photo
+    const path = `${(await supabase.auth.getSession()).data.session?.user.id}/${new Date().getTime()}.${fileExtension}`; // Create a unique path for each photo
+    
+    const file = await FileSystem.readAsStringAsync(photo.uri, {
+      encoding: FileSystem.EncodingType.Base64,
+    });
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { error, data } = await supabase.storage.from('show_photos').upload(path, photo.uri);
+    const { error, data } = await supabase.storage.from('show_photos').upload(path, decode(file),{
+      contentType: 'image/jpeg'
+    })
 
     if (error) {
       console.error('Error uploading image:', error);

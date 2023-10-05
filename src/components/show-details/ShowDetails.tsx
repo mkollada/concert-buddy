@@ -20,8 +20,8 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
 
       const fetchShows = async () => {
         try {
-          const result = await getSupabaseShow(showId);
-          setShow(result);
+          const show = await getSupabaseShow(showId);
+          setShow(show);
         } catch (error) {
           console.error('Error fetching shows', error);
         }
@@ -37,19 +37,16 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
         
         <ShowDetailsHeader show={show} />
         <View>
-          <ShowDetailsCarousel />
+          <ShowDetailsCarousel show={show} />
         </View>
-        <View className='flex-1 justify-center items-center'>
-          <Text className="font-bold">{show?.notes}</Text>
-          <Text>{show?.artistName}</Text>
-          <Text>{show?.venue}</Text>
-          <Text>{show?.date}</Text>
-          
+        <View className='flex-1 items-center'>
+          <Text className="font-bold text-2xl p-2">{show?.notes}</Text>
+          <Text className='text-xl'>Rating: {show?.overallRating}/5</Text>          
         </View>
       </View> 
     ) : (
       <View>
-        <Text>Show did not load</Text>
+        <Text>Loading...</Text>
       </View>
     )
     

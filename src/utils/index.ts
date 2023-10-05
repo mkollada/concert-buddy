@@ -1,6 +1,5 @@
 import { Show } from "../types/types";
 
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function showArrayFromSupabase(data: any[]): Show[] {
     const shows: Show[] = data.map( show => {
@@ -52,5 +51,5 @@ export function showFromSupabase(data: any[]): Show {
     return data[0]
   }
     
-  return data[0]
+  return supabaseShowToShow(data[0])
 }
