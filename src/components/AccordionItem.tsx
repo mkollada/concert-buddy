@@ -37,9 +37,7 @@ const AccordionHeaderWithProp: React.FC<AccordionHeaderWithPropProps> = (
                     <View>
                         {optionalComponent}
                     </View>
-                    
                 )}
-                
                 <Icon name={ isCollapsed ? headerIcons[0] : headerIcons[1] }
                     size={20} color="#bbb" />
             </>

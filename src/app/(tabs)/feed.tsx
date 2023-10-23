@@ -1,29 +1,20 @@
-import React from 'react';
-import { StyleSheet } from 'react-native';
-
-import { Text, View } from '../../components/Themed';
+import React, { useState } from 'react';
+import { View } from '../../components/Themed';
+import { searchArtistName } from '../../api/jambase';
+import SearchArtistDropdown from '../../components/find-show/artists/search-artist-dropdown';
+import { JamBaseArtist } from '../../types/jambase';
+import ArtistBlock from '../../components/find-show/artists/artist-block';
 
 export default function FeedScreen() {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Feed Goes Here</Text>
-    </View>
-  );
+  const [selectedArtist, setSelectedArtist] = useState<JamBaseArtist>()
+  function handleSelectingArtist(artist: JamBaseArtist) {
+    setSelectedArtist(artist)
+    console.log('Selected:', artist.name)
+  }
+  return ( 
+     <SearchArtistDropdown query_func={searchArtistName} selectArtist={handleSelectingArtist}/>
+  )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-});
+
+
