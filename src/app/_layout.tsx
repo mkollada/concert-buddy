@@ -7,8 +7,6 @@ import { Pressable, useColorScheme, Text } from 'react-native';
 import { Session } from '@supabase/supabase-js'
 import { supabase } from '../utils/supabase';
 import Auth from '../components/Auth';
-// import { Show } from '../types/types';
-
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -69,11 +67,12 @@ function RootLayoutNav() {
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       
       <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="(tabs)" options={{ headerShown: false, presentation: 'modal' }} />
+        <Stack.Screen name="find-artist" options={{  title: 'Artist' }} />
+        <Stack.Screen name="find-venue" options={{ title: 'Venue' }} />
         <Stack.Screen 
           name="log-show" 
           options={{ 
-            presentation: 'modal',
             title: 'Log Show',
             headerRight: 
             () => (

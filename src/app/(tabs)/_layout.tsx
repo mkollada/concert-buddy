@@ -28,7 +28,7 @@ export default function TabLayout() {
           title: 'My Shows',
           tabBarIcon: ({ color }) => <TabBarIcon name="pencil-square-o" color={color} />,
           headerRight: () => (
-            <Link href="/log-show" asChild>
+            <Link href="/find-artist" asChild>
               <Pressable>
                 {({ pressed }) => (
                   <FontAwesome

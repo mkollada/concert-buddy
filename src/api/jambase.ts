@@ -21,7 +21,7 @@ export async function searchArtistName(artistName: string): Promise<JamBaseApiRe
     )
 }
 
-export async function searchVenue(venueName: string): Promise<JamBaseApiResponse> {
+export async function searchVenues(venueName: string): Promise<JamBaseApiResponse> {
     return fetchData(
         `${getJambaseVenuePrefix()}apikey=${getLocalJambaseApiKey()}&venueName=${venueName}`
     )

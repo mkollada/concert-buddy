@@ -2,6 +2,7 @@ export type JamBaseApiResponse = {
     success: boolean;
     pagination: JamBasePagination;
     artists: JamBaseArtist[];
+    venues: JamBaseVenue[];
     request: JamBaseRequest;
   };
   
@@ -207,8 +208,36 @@ export type JamBaseApiResponse = {
   type JamBaseRequest = {
     endpoint: string;
     method: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     params: any[];
     ip: string;
     userAgent: string;
   };
-  
+
+  type JamBaseURLObject = {
+    "@type": string;
+    identifier: string;
+    url: string;
+}
+
+
+export type JamBaseVenue = {
+    name: string;
+    identifier: string;
+    url: string;
+    image: string;
+    sameAs: JamBaseURLObject[];
+    datePublished: string;
+    dateModified: string;
+    maximumAttendeeCapacity: number;
+    address: JamBaseAddress;
+    geo: JamBaseGeoCoordinates;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    events: any[];  // This can be replaced with a proper type later.
+    "x-isPermanentlyClosed": boolean;
+    "x-numUpcomingEvents": number;
+    "x-externalIdentifiers": {
+        source: string;
+        identifier: string;
+    }[];
+}

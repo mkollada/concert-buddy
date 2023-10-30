@@ -11,8 +11,8 @@ interface ArtistBlockProps {
 export default function ArtistBlock({ artist }: ArtistBlockProps) {
     return (
             <View className='rounded-xl'>
-              <Image className='h-20 w-full' source={{uri: artist.image}} onError={(error) => console.log("Image error", error)}/>
-              <View className="bg-themeGray p-3">
+              <Image className='h-[10vh] w-full rounded-t-xl' source={{uri: artist.image}} onError={(error) => console.log("Image error", error)}/>
+              <View className="rounded-b-xl bg-themeGray p-3">
                 <Text className='text-xl'>{artist.name}</Text>
               </View>
             </View>

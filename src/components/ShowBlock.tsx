@@ -1,4 +1,5 @@
-import { View, Image, Text } from "react-native";
+import { Image } from "react-native";
+import { Text, View } from "../components/Themed"
 import { Show } from "../types/types";
 import React from "react";
 
@@ -10,7 +11,7 @@ interface ShowProps {
 export const ShowBlock: React.FC<ShowProps> = ({
     show
 }) => {
-    
+
     return (
         <View className='flex-row h-[10vh] p-2'>
             
