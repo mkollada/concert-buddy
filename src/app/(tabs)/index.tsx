@@ -39,7 +39,7 @@ export default function TabOneScreen() {
         {shows.length === 0 ? ( 
           <View className='flex-1 justify-center items-center'>
             <Text className='font-bold'>Get started logging a show!</Text>
-            <Link href="/log-show" asChild>
+            <Link href="/find-artist" asChild>
               <Button title='Log a show'/>        
             </Link>
           </View>

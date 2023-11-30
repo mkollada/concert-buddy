@@ -18,9 +18,9 @@ export const ShowBlock: React.FC<ShowProps> = ({
             <View className="px-3 w-[10vh] justify-center">
               <Text className="text-white font-bold">{show.date.substring(5,7)}.{show.date.substring(8,10)}</Text>
             </View>
-            <View className='flex-row justify-items-center px-2'>
+            <View className='flex-row justify-items-center px-2 rounded'>
                 <Image
-                className='aspect-square px-2'
+                className='aspect-square px-2 rounded'
                 source={{
                     uri: show.artistImageUri,
                 }}
