@@ -2,22 +2,16 @@ import React, { useState, useCallback } from 'react';
 import { Text, View } from '../../../components/Themed';
 import { TextInput } from 'react-native-gesture-handler';
 import debounce from 'lodash/debounce';
-import { JamBaseArtist } from '../../../types/jambase';
+import { JamBaseEvent } from '../../../types/jambase';
 import {  ScrollView, TouchableOpacity } from 'react-native';
-import ArtistBlock from './artist-block';
+import SelectShowBlock from './select-show-block';
 import { searchArtistName } from '../../../api/jambase';
-
-interface SearchArtistDropdownProps {
-  setArtistName: (value: string) => void
-  setArtistId: (value: string) => void
-  setArtistImageUri: (value: string) => void
-}
+import { useRouter } from 'expo-router';
 
 
-export function SearchArtistDropdown({
-  setArtistName, setArtistId, setArtistImageUri
-}: SearchArtistDropdownProps) {
-  const [artists, setArtists] = useState<JamBaseArtist[]>([])
+export function SelecPastShowDropdown() {
+  const [shows, setShows] = useState<JamBaseEvent[]>([])
+  const router = useRouter()
 
   const debouncedInputChange = useCallback(
     debounce((text: string) => {
@@ -37,12 +31,6 @@ export function SearchArtistDropdown({
     }, 300),
     []  // ensures that the debounce function isn't recreated on every render
   );
-
-  const handleSubmitPress = (artist: JamBaseArtist) => {
-    setArtistImageUri(artist.image)
-    setArtistId(artist.identifier)
-    setArtistName(artist.name)
-  }
   
   return (
     <ScrollView className='flex-1'>
@@ -60,15 +48,10 @@ export function SearchArtistDropdown({
          
           <View className='flex-row p-5' key={ix}>
             <TouchableOpacity className='flex-1'
-              // onPress={() => {
-                // router.push({ pathname: "/find-venue", 
-                // params: { 
-                //   artistId: artist.identifier,
-                //   artistName: artist.name,
-                //   artistImageUri: artist.image } });
-              // }}
-              onPress={() => handleSubmitPress(artist)}
-              >
+              onPress={() => {
+                router.push({ pathname: "/find-venue", 
+                params: { artistId: artist.identifier, } });
+              }}>
               <ArtistBlock artist={artist} />
             </TouchableOpacity>          
           </View>

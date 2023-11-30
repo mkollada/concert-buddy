@@ -16,6 +16,26 @@ function isAirbnbRatingComponent(component: React.ReactNode) {
     return component instanceof AirbnbRating;
 }
 
+interface AccordionHeaderNoComponentProps {
+    title: string
+    subtitle: string
+}
+
+export const AccordionHeaderNoComponent: React.FC<AccordionHeaderNoComponentProps> = (
+    {title, subtitle}
+) => {
+    return (
+        <View style={styles.accordHeader}>
+            <Text style={styles.accordTitle}>{ title }</Text>
+            <View  className="items-center">
+                <Text style={styles.textSmall}>{ subtitle }</Text>
+            </View>
+            <View></View>
+        </View>
+            
+    )
+}
+
 interface AccordionHeaderWithPropProps {
     title: string
     optionalComponent: React.ReactNode

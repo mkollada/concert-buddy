@@ -22,7 +22,11 @@ export function showToSupabaseShow(show: Show): object {
     production_rating: show.productionRating, 
     notes: show.notes,
     user_id: show.userId,
-    photo_urls: show.photoUrls
+    photo_urls: show.photoUrls,
+    artist_id: show.artistId,
+    artist_image_uri: show.artistImageUri,
+    venue_id: show.venueId,
+    venue_loc: show.venueLoc,
   }
 }
 
@@ -40,7 +44,11 @@ export function supabaseShowToShow(show: any): Show {
     photoUrls: show.photo_urls,
     productionRating: show.production_rating,
     musicalityRating: show.musicality_rating,
-    stagePresenceRating: show.stage_presence_rating
+    stagePresenceRating: show.stage_presence_rating,
+    artistId: show.artist_id,
+    artistImageUri: show.artist_image_uri,
+    venueId: show.venue_id,
+    venueLoc: show.venue_loc
   }
 }
 

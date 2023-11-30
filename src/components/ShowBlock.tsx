@@ -22,7 +22,7 @@ export const ShowBlock: React.FC<ShowProps> = ({
                 <Image
                 className='aspect-square px-2'
                 source={{
-                    uri: 'https://mcusercontent.com/f89c714d668e98a972a148b5b/images/d8ddef87-b281-b8c5-7b6f-9560c068ba2f.jpeg',
+                    uri: show.artistImageUri,
                 }}
                 />
                 <View className="flex-column justify-center px-2">

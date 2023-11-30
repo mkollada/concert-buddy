@@ -11,12 +11,16 @@ export type Show = {
     productionRating?: number
     notes: string
     photoUrls: string[]
+    venueId: string
+    venueLoc: string
+    artistId: string
+    artistImageUri: string
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function isShow(obj: any): obj is Show {
     if (!obj) return false;
-    console.log(obj)
+    console.log(obj);
     return (
         // Checking for mandatory fields first
         typeof obj.userId === 'string' &&
@@ -25,6 +29,11 @@ export function isShow(obj: any): obj is Show {
         typeof obj.venue === 'string' &&
         typeof obj.overallRating === 'number' &&
         typeof obj.notes === 'string' &&
+        Array.isArray(obj.photoUrls) && obj.photoUrls.every((url: string) => typeof url === 'string') &&
+        typeof obj.venueId === 'string' &&
+        typeof obj.venueLoc === 'string' &&
+        typeof obj.artistId === 'string' &&
+        typeof obj.artistImageUri === 'string' &&
 
         // Checking for optional fields
         (typeof obj.id === 'undefined' || typeof obj.id === 'string') &&

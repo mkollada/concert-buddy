@@ -17,13 +17,19 @@ export async function fetchData(request: string) {
 
 export async function searchArtistName(artistName: string): Promise<JamBaseApiResponse> {
     return fetchData(
-        `${getJambaseArtistPrefix()}apikey=${getLocalJambaseApiKey()}&artistName=${artistName}`
+        `${getJambaseSearchArtistPrefix()}apikey=${getLocalJambaseApiKey()}&artistName=${artistName}`
     )
 }
 
 export async function searchVenues(venueName: string): Promise<JamBaseApiResponse> {
     return fetchData(
-        `${getJambaseVenuePrefix()}apikey=${getLocalJambaseApiKey()}&venueName=${venueName}`
+        `${getJambaseSearchVenuePrefix()}apikey=${getLocalJambaseApiKey()}&venueName=${venueName}`
+    )
+}
+
+export async function getPastEventsForArtist(artistId: string): Promise<JamBaseApiResponse> {
+    return fetchData(
+        `${getJamBaseArtistPrefix()}jambase:${artistId}?expandPastEvents=true&apikey=${getLocalJambaseApiKey()}`
     )
 }
 
@@ -36,15 +42,19 @@ export function getJambaseApiPrefix() {
     return 'https://www.jambase.com/jb-api/v1/'
 }
 
-export function getJambaseArtistPrefix() {
+export function getJamBaseArtistPrefix() {
+    return getJambaseApiPrefix() + 'artists/id/'
+}
+
+export function getJambaseSearchArtistPrefix() {
     return getJambaseApiPrefix() + 'artists?'
 }
 
-export function getJambaseEventsPrefix() {
+export function getJambaseSearchEventsPrefix() {
     return getJambaseApiPrefix() + 'events?'
 }
 
-export function getJambaseVenuePrefix() {
+export function getJambaseSearchVenuePrefix() {
     return getJambaseApiPrefix() + 'venues?'
 }
 

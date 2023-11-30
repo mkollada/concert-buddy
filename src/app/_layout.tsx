@@ -3,7 +3,7 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native
 import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { Pressable, useColorScheme, Text } from 'react-native';
+import { useColorScheme } from 'react-native';
 import { Session } from '@supabase/supabase-js'
 import { supabase } from '../utils/supabase';
 import Auth from '../components/Auth';
@@ -70,22 +70,23 @@ function RootLayoutNav() {
         <Stack.Screen name="(tabs)" options={{ headerShown: false, presentation: 'modal' }} />
         <Stack.Screen name="find-artist" options={{  title: 'Artist' }} />
         <Stack.Screen name="find-venue" options={{ title: 'Venue' }} />
+        <Stack.Screen name="select-date" options={{ title: 'Date' }} />
         <Stack.Screen 
           name="log-show" 
           options={{ 
             title: 'Log Show',
-            headerRight: 
-            () => (
-              <Pressable>
-                {({ pressed }) => (
-                  <Text
-                    style={{ marginRight: 15, 
-                      opacity: pressed ? 0.5 : 1,
-                    color: 'white' }}
-                  >Save</Text>
-                )}
-              </Pressable>
-           ),
+          //   headerRight: 
+          //   () => (
+          //     <Pressable>
+          //       {({ pressed }) => (
+          //         <Text
+          //           style={{ marginRight: 15, 
+          //             opacity: pressed ? 0.5 : 1,
+          //           color: 'white' }}
+          //         >Save</Text>
+          //       )}
+          //     </Pressable>
+          //  ),
           }} />
         <Stack.Screen 
           name="show-details/[id]"

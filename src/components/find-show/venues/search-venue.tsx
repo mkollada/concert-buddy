@@ -4,17 +4,24 @@ import { TextInput } from 'react-native-gesture-handler';
 import debounce from 'lodash/debounce';
 import { JamBaseVenue } from '../../../types/jambase';
 import {  ScrollView, TouchableOpacity } from 'react-native';
-import { useRouter, useLocalSearchParams } from 'expo-router';
+// import { useRouter, useLocalSearchParams } from 'expo-router';
 import { searchVenues } from '../../../api/jambase';
 import VenueBlock from './venue-block';
 
+interface SearchVenueDropdownProps {
+  setVenueName: (value: string) => void
+  setVenueId: (value: string) => void
+  setVenueLoc: (value: string) => void
+}
 
-export function SearchVenueDropdown() {
+
+export function SearchVenueDropdown({
+  setVenueName, setVenueId, setVenueLoc
+}: SearchVenueDropdownProps) {
   const [venues, setVenues] = useState<JamBaseVenue[]>([])
-  const router = useRouter(); // Initialize the navigation hook
-  const params = useLocalSearchParams()
+  // const router = useRouter(); // Initialize the navigation hook
+  // const params = useLocalSearchParams()
 
-  console.log(params)
 
   const debouncedInputChange = useCallback(
     debounce((text: string) => {
@@ -33,6 +40,12 @@ export function SearchVenueDropdown() {
     }, 300),
     []  // ensures that the debounce function isn't recreated on every render
   );
+
+  const handleSubmitPress = (venue: JamBaseVenue) => {
+    setVenueLoc(venue.address.addressLocality)
+    setVenueId(venue.identifier)
+    setVenueName(venue.name)
+  }
   
   return (
     <ScrollView className='flex-1'>
@@ -50,11 +63,19 @@ export function SearchVenueDropdown() {
          
           <View className='flex-row' key={ix}>
             <TouchableOpacity className='flex-1'
-              onPress={() => {
-                router.push({ pathname: "/log-show", 
-                params: { artistId: params.artistId,
-                         venueId: venue.identifier } });
-              }}>
+              // onPress={() => {
+              //   router.push({ pathname: "/select-date", 
+              //   params: { 
+              //     artistId: params.artistId,
+              //     artistName: params.artistName,
+              //     artistImageUri: params.artistImageUri,
+              //     venueId: venue.identifier,
+              //     venueName: venue.name,
+              //     venueLoc: venue.address.addressLocality
+              //   } });
+              // }}
+              onPress={() => handleSubmitPress(venue)}
+              >
               <VenueBlock venue={venue} />
             </TouchableOpacity>          
           </View>

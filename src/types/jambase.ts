@@ -54,7 +54,7 @@ export type JamBaseApiResponse = {
     name: string;
   };
   
-  type JamBaseEvent = {
+export type JamBaseEvent = {
     name: string;
     identifier: string;
     url: string;
