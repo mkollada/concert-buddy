@@ -19,11 +19,15 @@ export default function TabOneScreen() {
       const fetchShows = async () => {
         try {
           const result = await getSupabaseShows();
-          setShows(result);
+          // Sort shows by date in ascending order
+          const sortedShows = result.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+          setShows(sortedShows);
         } catch (error) {
           console.error('Error fetching shows', error);
         }
       };
+      
+      
   
       fetchShows();
     });
