@@ -53,17 +53,18 @@ export default function TabOneScreen() {
             <View className='bg-transparent'>
             
               {shows.map((show: Show) => (
-                <Link href={`/show-details/${show.id}`} key={`${show.id}-link`}>
-                  <Pressable key={`${show.id}-btn`}>
-                  {({ pressed }) => (
+                <Pressable key={`${show.id}-btn`}>
+                
+                  
+                  {({ pressed }) => (    
                   <View style={{ opacity: pressed ? 0.5 : 1 }}>
+                    <Link href={`/show-details/${show.id}`} key={`${show.id}-link`}>
                     <ShowBlock key={`${show.id}-block`} show={show} />
+                    </Link>
                   </View>
                 )}
-                    
-                    
-                  </Pressable>
-                </Link>
+                
+                </Pressable>
               ))}
             </View>
           </ScrollView>
