@@ -57,10 +57,13 @@ export default function LogShowAccordionPreSelect({
     // const [date, setDate] = useState('')
     // const [venue, setVenue] = useState('')
     const [photos, setPhotos] = useState<ImagePicker.ImagePickerAsset[]>([])
-    // const [overallRating, setOverallRating] = useState(0)
+    const [overallRating, setOverallRating] = useState(0)
     const [notes, setNotes] = useState('')
     const [isLoading, setIsLoading] = useState(false)
     // const navigation = useNavigation()
+    const [musicalityRating, setMusicalityRating] = useState(0)
+    const [productionRating, setProductionRating] = useState(0)
+    const [stagePresenceRating, setStagePresenceRating] = useState(0)
     
 
     const {data, error} = getSupabaseSession()
@@ -130,16 +133,16 @@ export default function LogShowAccordionPreSelect({
             artistName,
             date,
             venueName,
-            5,
+            overallRating,
             notes,
             photos,
             artistId,
             artistImageUri,
             venueId,
             venueLoc,
-            5,
-            5,
-            5,
+            stagePresenceRating,
+            musicalityRating,
+            productionRating,
             
         )
 
@@ -166,16 +169,6 @@ export default function LogShowAccordionPreSelect({
             <AccordionHeaderNoComponent
                     title="Date"
                     subtitle={date} />
-            {/* <AccordionWithCalendar
-                title="Date"
-                headerIcons={['plus-circle','close']}
-                setDate={setDate} 
-                date={date} /> */}
-            {/* <AccordionWithBodyText 
-                title="Venue" 
-                headerIcons={['chevron-down','chevron-up']} 
-                placeholderText='Enter Venue Name...'
-                setValue={setVenue} /> */}
             <AccordionWithPhotos
                 title="Photos"
                 headerIcons={['chevron-down','chevron-up']}
@@ -183,15 +176,11 @@ export default function LogShowAccordionPreSelect({
             />
             <AccordionWithRatings
                 title="Show Rating" 
-                headerIcons={['chevron-down','chevron-up']} />
-            {/* <AccordionWithBodyText 
-                title="Photos" 
                 headerIcons={['chevron-down','chevron-up']} 
-                placeholderText='Select Photos'/>
-            <AccordionWithBodyText 
-                title="Memories" 
-                headerIcons={['chevron-down','chevron-up']} 
-                placeholderText='What mems did you have?'/> */}
+                setOverallRating={setOverallRating}
+                setMusicalityRating={setMusicalityRating}
+                setStagePresenceRating={setStagePresenceRating}
+                setProductionRating={setProductionRating}/>
             <AccordionWithBodyText 
                 title="Notes" 
                 headerIcons={['chevron-down','chevron-up']} 

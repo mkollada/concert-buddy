@@ -170,30 +170,58 @@ export const AccordionWithCalendar: React.FC<AccordionWithCalendarProps> = ({
 interface AccordionWithRatingsProps {
     title: string
     headerIcons: string[]
+    setOverallRating: (value: React.SetStateAction<number>) => void
+    setMusicalityRating: (value: React.SetStateAction<number>) => void
+    setProductionRating: (value: React.SetStateAction<number>) => void
+    setStagePresenceRating: (value: React.SetStateAction<number>) => void
 }
 
 export const AccordionWithRatings: React.FC<AccordionWithRatingsProps> = ( {
     title, 
     headerIcons,
+    setOverallRating,
+    setMusicalityRating,
+    setProductionRating,
+    setStagePresenceRating
 }
 ) => {
     const [isCollapsed, setIsCollapsed] = useState(true)
     const [overallRatingHeader, setOverallRatingHeader] = useState(0)
     const [overallRatingBody, setOverallRatingBody] = useState(0)
+    const [musicalityRating, setMusicalityRatingInner] = useState(0)
+    const [stagePresenceRating, setStagePresenceRatingInner] = useState(0)
+    const [productionRating, setProductionRatingInner] = useState(0)
 
 
     const handleAccordionToggle = () =>  {
         setIsCollapsed(!isCollapsed)
     }
 
-    const handleBodyRatingChange = (newRatingBody: React.SetStateAction<number>) => {
+    const handleBodyOverallRatingChange = (newRatingBody: React.SetStateAction<number>) => {
         setOverallRatingHeader(newRatingBody)
         setOverallRatingBody(newRatingBody)
+        setOverallRating(newRatingBody)
     }
 
-    const handleHeaderRatingChange = (newRatingHeader: React.SetStateAction<number>) => {
+    const handleHeaderOverallRatingChange = (newRatingHeader: React.SetStateAction<number>) => {
         setOverallRatingHeader(newRatingHeader)
         setOverallRatingBody(newRatingHeader)
+        setOverallRating(newRatingHeader)
+    }
+
+    const handleStagePresenceRatingChange =  (newRating: React.SetStateAction<number>) => {
+        setStagePresenceRating(newRating)
+        setStagePresenceRatingInner(newRating)
+    }
+
+    const handleMusicalityRatingChange =  (newRating: React.SetStateAction<number>) => {
+        setMusicalityRating(newRating)
+        setMusicalityRatingInner(newRating)
+    }
+
+    const handleProductionRatingChange =  (newRating: React.SetStateAction<number>) => {
+        setProductionRating(newRating)
+        setProductionRatingInner(newRating)
     }
 
     return (
@@ -205,7 +233,7 @@ export const AccordionWithRatings: React.FC<AccordionWithRatingsProps> = ( {
                         selectedColor='yellow'
                         size={25}
                         defaultRating={overallRatingHeader}
-                        onFinishRating={handleHeaderRatingChange}
+                        onFinishRating={handleHeaderOverallRatingChange}
                         showRating={false}
                         ratingContainerStyle={styles.ratingContainer}
                         starContainerStyle={styles.starContainer}
@@ -219,7 +247,7 @@ export const AccordionWithRatings: React.FC<AccordionWithRatingsProps> = ( {
                     <AirbnbRating 
                         selectedColor='yellow'
                         defaultRating={overallRatingBody}
-                        onFinishRating={handleBodyRatingChange}
+                        onFinishRating={handleBodyOverallRatingChange}
                         showRating={false}
                         ratingContainerStyle={styles.ratingContainer}
                         starContainerStyle={styles.starContainer}
@@ -230,7 +258,8 @@ export const AccordionWithRatings: React.FC<AccordionWithRatingsProps> = ( {
                     <AirbnbRating 
                         selectedColor='yellow'
                         showRating={false}
-                        defaultRating={0}
+                        defaultRating={stagePresenceRating}
+                        onFinishRating={handleStagePresenceRatingChange}
                         ratingContainerStyle={styles.ratingContainer}
                         starContainerStyle={styles.starContainer}
                     />
@@ -240,7 +269,8 @@ export const AccordionWithRatings: React.FC<AccordionWithRatingsProps> = ( {
                     <AirbnbRating 
                         selectedColor='yellow'
                         showRating={false}
-                        defaultRating={0}
+                        defaultRating={musicalityRating}
+                        onFinishRating={handleMusicalityRatingChange}
                         ratingContainerStyle={styles.ratingContainer}
                         starContainerStyle={styles.starContainer}
                     />
@@ -250,7 +280,9 @@ export const AccordionWithRatings: React.FC<AccordionWithRatingsProps> = ( {
                     <AirbnbRating 
                         selectedColor='yellow'
                         showRating={false}
-                        defaultRating={0}
+                        defaultRating={productionRating}
+                        onFinishRating={handleProductionRatingChange}
+                        
                         ratingContainerStyle={styles.ratingContainer}
                         starContainerStyle={styles.starContainer}
                     />
