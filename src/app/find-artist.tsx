@@ -14,7 +14,7 @@ export default function FindArtistScreen() {
   useEffect(() => { 
     if((artistName != '') && (artistId != '') && (artistImageUri != '')) {
         router.push({
-            pathname: '/find-venue',
+            pathname: '/select-show',
             params: {
                 artistId: artistId,
                 artistName: artistName,

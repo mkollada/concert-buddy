@@ -3,6 +3,7 @@ import React from 'react';
 import { SearchVenueDropdown } from '../components/find-show/venues/search-venue';
 import { useState, useEffect } from 'react';
 import { useLocalSearchParams, useRouter } from "expo-router";
+import { SelecPastShowDropdown } from '../components/find-show/shows/select-show-dropdown';
 
 export default function FindVenueScreen() {  
 
