@@ -5,7 +5,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { ensureString } from '../utils';
 
 // Selects show when artist is known by api
-export default function FindVenueScreen() {  
+export default function SelectShowScreen() {  
 
   // const router = useRouter(); // Initialize the navigation hook
   const rawParams = useLocalSearchParams()
@@ -27,7 +27,6 @@ export default function FindVenueScreen() {
   }
 
   useEffect(() => {
-    console.log('effect')
     setShowSelected(false)
     if(showSelected) {
       router.push({
