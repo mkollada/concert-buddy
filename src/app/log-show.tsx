@@ -23,6 +23,7 @@ export default function LogShowScreen() {
     venueId: ensureString(rawParams.venueId),
     venueName: ensureString(rawParams.venueName),
     venueLoc: ensureString(rawParams.venueLoc),
+    eventId: ensureString(rawParams.eventId),
     date: ensureString(rawParams.date)
   };
 

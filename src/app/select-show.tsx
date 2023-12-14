@@ -1,26 +1,62 @@
 import { View } from '../components/Themed';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { SelecPastShowDropdown } from '../components/find-show/shows/select-show-dropdown';
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { ensureString } from '../utils';
 
 // Selects show when artist is known by api
 export default function FindVenueScreen() {  
 
   // const router = useRouter(); // Initialize the navigation hook
-  const params = useLocalSearchParams()
+  const rawParams = useLocalSearchParams()
+  const router = useRouter()
 
-  let artistId = params.artistId
-  if (Array.isArray(artistId)) {
-    console.warn('Warning: artistId is an array. Using the first element.');
-    artistId = artistId[0];
+  // const artistName = params.artistName
+  // const artistImageUri = params.artistImageUri
+  const [showSelected, setShowSelected] = useState(false)
+  const [venueName, setVenueName] = useState('')
+  const [venueId, setVenueId] = useState('')
+  const [venueLoc, setVenueLoc] = useState('')
+  const [date, setDate] = useState('')
+  const [eventId, setEventId] = useState('')
+
+  const params = {
+    artistId: ensureString(rawParams.artistId),
+    artistName: ensureString(rawParams.artistName),
+    artistImageUri: ensureString(rawParams.artistImageUri)
   }
-  // const [venueName, setVenueName] = useState('')
-  // const [venueId, setVenueId] = useState('')
-  // const [venueLoc, setVenueLoc] = useState('')
 
+  useEffect(() => {
+    console.log('effect')
+    setShowSelected(false)
+    if(showSelected) {
+      router.push({
+        pathname: "/log-show",
+        params: {
+          artistId: params.artistId,
+          artistName: params.artistName,
+          artistImageUri: params.artistImageUri,
+          venueName: venueName,
+          venueId: venueId,
+          venueLoc: venueLoc,
+          eventId: eventId,
+          date: date
+        }
+      })
+    }
+  }, [showSelected])
+
+  
   return (
     <View className='flex-1 justify-center'>
-      <SelecPastShowDropdown artistId={artistId}/>
+      <SelecPastShowDropdown 
+      artistId={params.artistId} 
+      setVenueName={setVenueName}
+      setVenueId={setVenueId}
+      setVenueLoc={setVenueLoc}
+      setEventId={setEventId}
+      setDate={setDate}
+      setShowSelected={setShowSelected}  />
     </View>
   );
 }

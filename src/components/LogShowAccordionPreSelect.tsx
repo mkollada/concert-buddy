@@ -36,6 +36,7 @@ interface LogShowAccordionPreSelectProps {
     venueName: string
     venueLoc: string
     date: string
+    eventId: string
 }
 
 export default function LogShowAccordionPreSelect({ 
@@ -45,7 +46,8 @@ export default function LogShowAccordionPreSelect({
     venueId,
     venueName,
     venueLoc,
-    date
+    date,
+    eventId
 }: LogShowAccordionPreSelectProps) {
 
     // console.log(artistImageUri)
@@ -94,6 +96,7 @@ export default function LogShowAccordionPreSelect({
         artistImageUri: string,
         venueId: string,
         venueLoc: string,
+        eventId: string,
         stagePresenceRating?: number,
         musicalityRating?: number,
         productionRating?: number,
@@ -115,7 +118,8 @@ export default function LogShowAccordionPreSelect({
             venueId: venueId,
             venueLoc: venueLoc,
             artistId: artistId,
-            artistImageUri: artistImageUri
+            artistImageUri: artistImageUri,
+            eventId: eventId
         }
 
         addSupabaseShow(show)
@@ -127,7 +131,6 @@ export default function LogShowAccordionPreSelect({
             return
         }
 
-        
         submitShowLog(
             session.user.id,
             artistName,
@@ -140,6 +143,7 @@ export default function LogShowAccordionPreSelect({
             artistImageUri,
             venueId,
             venueLoc,
+            eventId,
             stagePresenceRating,
             musicalityRating,
             productionRating,

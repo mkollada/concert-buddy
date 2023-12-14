@@ -27,6 +27,7 @@ export function showToSupabaseShow(show: Show): object {
     artist_image_uri: show.artistImageUri,
     venue_id: show.venueId,
     venue_loc: show.venueLoc,
+    event_id : show.eventId
   }
 }
 
@@ -48,7 +49,8 @@ export function supabaseShowToShow(show: any): Show {
     artistId: show.artist_id,
     artistImageUri: show.artist_image_uri,
     venueId: show.venue_id,
-    venueLoc: show.venue_loc
+    venueLoc: show.venue_loc,
+    eventId: show.event_id
   }
 }
 
@@ -61,3 +63,11 @@ export function showFromSupabase(data: any[]): Show {
     
   return supabaseShowToShow(data[0])
 }
+
+export const ensureString = (param: string | string[]) => {
+  if (Array.isArray(param)) {
+    // If it's an array, take the first element, or join them, based on your needs
+    return param.join(', ')
+  }
+  return param || ''; // Fallback to an empty string if param is undefined
+};

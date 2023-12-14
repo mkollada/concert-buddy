@@ -27,10 +27,9 @@ export const AccordionHeaderNoComponent: React.FC<AccordionHeaderNoComponentProp
     return (
         <View style={styles.accordHeader}>
             <Text style={styles.accordTitle}>{ title }</Text>
-            <View  className="items-center">
+            <View style={styles.accordSubtitle}>
                 <Text style={styles.textSmall}>{ subtitle }</Text>
             </View>
-            <View></View>
         </View>
             
     )
@@ -371,12 +370,16 @@ const styles = StyleSheet.create({
     accordTitle: {
         fontSize: 20,
     },
+    accordSubtitle: {
+        backgroundColor: '#111'
+    },
     accordBody: {
         padding: 12,
     },
     textSmall: {
         fontSize: 16,
         color: "white",
+        backgroundColor: '#111'
     },
     seperator: {
         height: 12

@@ -11,11 +11,12 @@ interface SearchArtistDropdownProps {
   setArtistName: (value: string) => void
   setArtistId: (value: string) => void
   setArtistImageUri: (value: string) => void
+  setArtistSelected: (value: boolean) => void
 }
 
 
 export function SearchArtistDropdown({
-  setArtistName, setArtistId, setArtistImageUri
+  setArtistName, setArtistId, setArtistImageUri, setArtistSelected
 }: SearchArtistDropdownProps) {
   const [artists, setArtists] = useState<JamBaseArtist[]>([])
 
@@ -42,6 +43,7 @@ export function SearchArtistDropdown({
     setArtistImageUri(artist.image)
     setArtistId(artist.identifier)
     setArtistName(artist.name)
+    setArtistSelected(true)
   }
   
   return (

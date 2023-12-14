@@ -15,6 +15,7 @@ export type Show = {
     venueLoc: string
     artistId: string
     artistImageUri: string
+    eventId: string
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -34,6 +35,7 @@ export function isShow(obj: any): obj is Show {
         typeof obj.venueLoc === 'string' &&
         typeof obj.artistId === 'string' &&
         typeof obj.artistImageUri === 'string' &&
+        typeof obj.eventId === 'string' &&
 
         // Checking for optional fields
         (typeof obj.id === 'undefined' || typeof obj.id === 'string') &&

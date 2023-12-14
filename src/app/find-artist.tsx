@@ -10,26 +10,29 @@ export default function FindArtistScreen() {
   const [artistName, setArtistName] = useState('')
   const [artistId, setArtistId] = useState('')
   const [artistImageUri, setArtistImageUri] = useState('')
+  const [artistSelected, setArtistSelected] = useState(false)
 
   useEffect(() => { 
-    if((artistName != '') && (artistId != '') && (artistImageUri != '')) {
-        router.push({
-            pathname: '/select-show',
-            params: {
-                artistId: artistId,
-                artistName: artistName,
-                artistImageUri: artistImageUri,
-            }
-        })
-    }
-  }, [artistName, artistId, artistImageUri]);
+    if(artistSelected) {
+      setArtistSelected(false)
+      router.push({
+          pathname: '/select-show',
+          params: {
+              artistId: artistId,
+              artistName: artistName,
+              artistImageUri: artistImageUri,
+          }
+      })
+    } 
+  }, [artistSelected]);
 
     return (
     <View className='flex-1 justify-center'>
       <SearchArtistDropdown 
         setArtistName={setArtistName} 
         setArtistId={setArtistId} 
-        setArtistImageUri={setArtistImageUri}/>
+        setArtistImageUri={setArtistImageUri}
+        setArtistSelected={setArtistSelected}/>
     </View>
   );
 }
