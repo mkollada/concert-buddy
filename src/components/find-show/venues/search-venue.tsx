@@ -12,11 +12,12 @@ interface SearchVenueDropdownProps {
   setVenueName: (value: string) => void
   setVenueId: (value: string) => void
   setVenueLoc: (value: string) => void
+  setVenueSelected: (value: boolean) => void
 }
 
 
 export function SearchVenueDropdown({
-  setVenueName, setVenueId, setVenueLoc
+  setVenueName, setVenueId, setVenueLoc, setVenueSelected
 }: SearchVenueDropdownProps) {
   const [venues, setVenues] = useState<JamBaseVenue[]>([])
   // const router = useRouter(); // Initialize the navigation hook
@@ -45,6 +46,7 @@ export function SearchVenueDropdown({
     setVenueLoc(venue.address.addressLocality)
     setVenueId(venue.identifier)
     setVenueName(venue.name)
+    setVenueSelected(true)
   }
   
   return (

@@ -9,7 +9,8 @@ module.exports = {
     extend: {},
     colors: {
       themeGray: '#1E2129',
-      white: '#FFFFFF'
+      white: '#FFFFFF',
+      themePurple: '#9069F4'
     }
   },
   plugins: [],

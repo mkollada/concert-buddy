@@ -7,13 +7,13 @@ import { ensureString } from '../utils';
 // Selects show when artist is known by api
 export default function SelectShowScreen() {  
 
-  // const router = useRouter(); // Initialize the navigation hook
   const rawParams = useLocalSearchParams()
   const router = useRouter()
 
   // const artistName = params.artistName
   // const artistImageUri = params.artistImageUri
   const [showSelected, setShowSelected] = useState(false)
+  const [logOwnShowSelected, setLogOwnShowSelected] = useState(false)
   const [venueName, setVenueName] = useState('')
   const [venueId, setVenueId] = useState('')
   const [venueLoc, setVenueLoc] = useState('')
@@ -27,8 +27,9 @@ export default function SelectShowScreen() {
   }
 
   useEffect(() => {
-    setShowSelected(false)
+    
     if(showSelected) {
+      setShowSelected(false)
       router.push({
         pathname: "/log-show",
         params: {
@@ -43,19 +44,28 @@ export default function SelectShowScreen() {
         }
       })
     }
-  }, [showSelected])
+    if(logOwnShowSelected) {
+      setLogOwnShowSelected(false)
+      router.push({
+        pathname: "/find-venue",
+        params: params
+      })
+    }
+  }, [showSelected, logOwnShowSelected])
 
   
   return (
     <View className='flex-1 justify-center'>
       <SelecPastShowDropdown 
-      artistId={params.artistId} 
+      artistId={params.artistId}
+      artistName={params.artistName}
       setVenueName={setVenueName}
       setVenueId={setVenueId}
       setVenueLoc={setVenueLoc}
       setEventId={setEventId}
       setDate={setDate}
-      setShowSelected={setShowSelected}  />
+      setShowSelected={setShowSelected}
+      setLogOwnShowSelected={setLogOwnShowSelected} />
     </View>
   );
 }
