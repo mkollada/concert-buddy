@@ -47,7 +47,7 @@ export function SearchArtistDropdown({
   }
   
   return (
-    <ScrollView className='flex-1'>
+    <ScrollView keyboardShouldPersistTaps='handled' className='flex-1'>
       <View className='bg-themeGray p-3'>
         <Text className='text-sm text-white'>Find an Artist</Text>
         <TextInput className='p-2 text-2xl text-white font-bold'
