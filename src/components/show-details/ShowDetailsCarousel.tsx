@@ -16,8 +16,7 @@ const ShowDetailsCarousel: React.FC<ShowDetailsCarouselProps> = ({ show }) => {
 
     if (show.photoUrls.length === 0) {
         publicUrls = [
-            'https://mcusercontent.com/f89c714d668e98a972a148b5b/images/d8ddef87-b281-b8c5-7b6f-9560c068ba2f.jpeg',
-            'https://mcusercontent.com/f89c714d668e98a972a148b5b/images/d8ddef87-b281-b8c5-7b6f-9560c068ba2f.jpeg'
+            show.artistImageUri
         ]
     } else {
         const uris = show.photoUrls
@@ -33,11 +32,11 @@ const ShowDetailsCarousel: React.FC<ShowDetailsCarouselProps> = ({ show }) => {
 
     return (
 
-        <View className="flex-column p-5 items-center">
+        <View className="flex-column py-5 items-center">
             <Carousel
-                loop
-                width={3*width/4}
-                height={width/2}
+                loop={false}
+                width={width}
+                height={4*width/7}
                 data={publicUrls}
                 // onSnapToItem={(index) => console.log('current index:', index)}
                 renderItem={({ index }) => {

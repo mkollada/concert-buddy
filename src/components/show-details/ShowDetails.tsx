@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Text } from "../Themed";
-import { Show, isShow } from "../../types/types";
+import { Show } from "../../types/types";
 import { getSupabaseShow } from "../../api";
 import ShowDetailsHeader from "./ShowDetailsHeader";
 import ShowDetailsCarousel from "./ShowDetailsCarousel";
@@ -14,7 +14,6 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
 }) => {  
 
     const [show, setShow] = useState<Show|null>(null)
-    const showLoaded = isShow(show)
 
   useEffect(() => {
 
@@ -32,7 +31,7 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
 
   return (
     <View className="flex-1 items-center">
-    { showLoaded ? (
+    { show ? (
       <View className="flex-1 items-center">
         
         <ShowDetailsHeader show={show} />
