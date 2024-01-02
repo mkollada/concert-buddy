@@ -10,7 +10,7 @@ type DetailsRouteParams = {
 const Details = () => {  
   const showId = useLocalSearchParams<DetailsRouteParams>().id  
   return (
-    <View className='flex-1 justify-center p-3'>
+    <View className='flex-1 justify-center'>
       <ShowDetails showId={showId}/>
     </View>
   );

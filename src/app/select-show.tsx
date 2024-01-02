@@ -23,7 +23,8 @@ export default function SelectShowScreen() {
   const params = {
     artistId: ensureString(rawParams.artistId),
     artistName: ensureString(rawParams.artistName),
-    artistImageUri: ensureString(rawParams.artistImageUri)
+    artistImageUri: ensureString(rawParams.artistImageUri),
+    artistSpotifyUrl: ensureString(rawParams.artistSpotifyUrl)
   }
 
   useEffect(() => {
@@ -36,6 +37,7 @@ export default function SelectShowScreen() {
           artistId: params.artistId,
           artistName: params.artistName,
           artistImageUri: params.artistImageUri,
+          artistSpotifyUrl: params.artistSpotifyUrl,
           venueName: venueName,
           venueId: venueId,
           venueLoc: venueLoc,

@@ -12,8 +12,9 @@ import {
 import { addSupabaseShow, uploadSupabasePhotos } from '../api';
 
 import { useState } from 'react';
+import uuid from 'react-native-uuid';
 
-import { Show } from '../types/types';
+import { Memories, Show } from '../types/types';
 
 import { 
     AccordionWithBodyText, 
@@ -32,6 +33,7 @@ interface LogShowAccordionPreSelectProps {
     artistId: string
     artistName: string
     artistImageUri: string
+    artistSpotifyUrl: string
     venueId: string
     venueName: string
     venueLoc: string
@@ -43,6 +45,7 @@ export default function LogShowAccordionPreSelect({
     artistId, 
     artistImageUri, 
     artistName, 
+    artistSpotifyUrl,
     venueId,
     venueName,
     venueLoc,
@@ -53,6 +56,12 @@ export default function LogShowAccordionPreSelect({
     // console.log(artistImageUri)
     const router = useRouter(); // Initialize the navigation hook
 
+    // Setting initial memories
+    const memories = {
+        'Tonight I met the band and...':'',
+        'My favorite part of the show was...':'',
+        'I\'ll never forget...':''
+    }
 
     const [session, setSession] = useState<Session | null>(null);
     // const [artistName, setArtistName] = useState('')
@@ -85,6 +94,8 @@ export default function LogShowAccordionPreSelect({
       }, [data, error]);
 
     async function submitShowLog( 
+        id: string,
+        createdAt: string,
         userId: string,
         artistName: string,
         date: string,
@@ -97,14 +108,19 @@ export default function LogShowAccordionPreSelect({
         venueId: string,
         venueLoc: string,
         eventId: string,
+        artistSpotifyUrl: string,
+        memories: Memories,
         stagePresenceRating?: number,
         musicalityRating?: number,
         productionRating?: number,
+        
     ) {
 
         const photoUrls = await uploadSupabasePhotos(photos)
         
         const show: Show = {
+            id: id,
+            createdAt: createdAt,
             userId: userId,
             artistName: artistName,
             date: date,
@@ -119,8 +135,12 @@ export default function LogShowAccordionPreSelect({
             venueLoc: venueLoc,
             artistId: artistId,
             artistImageUri: artistImageUri,
-            eventId: eventId
+            eventId: eventId,
+            artistSpotifyUrl: artistSpotifyUrl,
+            memories: memories
         }
+
+        console.log(show)
 
         addSupabaseShow(show)
     }
@@ -130,8 +150,14 @@ export default function LogShowAccordionPreSelect({
             setIsLoading(true)
             return
         }
+        
+        const newUuid = uuid.v4().toString()
+
+        console.log(Date().toString())
 
         submitShowLog(
+            newUuid,
+            Date().toString(),
             session.user.id,
             artistName,
             date,
@@ -144,10 +170,11 @@ export default function LogShowAccordionPreSelect({
             venueId,
             venueLoc,
             eventId,
+            artistSpotifyUrl,
+            memories,
             stagePresenceRating,
             musicalityRating,
             productionRating,
-            
         )
 
         router.push({ pathname: "/"})

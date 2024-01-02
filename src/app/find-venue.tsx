@@ -26,6 +26,7 @@ export default function FindVenueScreen() {
             artistId: params.artistId,
             artistName: params.artistName,
             artistImageUri: params.artistImageUri,
+            artistSpotifyUrl: params.artistSpotifyUrl,
             venueName: venueName,
             venueId: venueId,
             venueLoc: venueLoc,

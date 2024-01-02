@@ -1,4 +1,4 @@
-import { Show } from "../types/types";
+import { Show, SupabaseShow } from "../types/types";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function showArrayFromSupabase(data: any[]): Show[] {
@@ -10,9 +10,11 @@ export function showArrayFromSupabase(data: any[]): Show[] {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function showToSupabaseShow(show: Show): object {
-  
+export function showToSupabaseShow(show: Show): SupabaseShow {
+
   return {
+    id: show.id,
+    created_at: show.createdAt,
     artist_name: show.artistName,
     date: show.date,
     venue: show.venue, 
@@ -27,7 +29,9 @@ export function showToSupabaseShow(show: Show): object {
     artist_image_uri: show.artistImageUri,
     venue_id: show.venueId,
     venue_loc: show.venueLoc,
-    event_id : show.eventId
+    event_id: show.eventId,
+    artist_spotify_url: show.artistSpotifyUrl,
+    memories: show.memories
   }
 }
 
@@ -50,7 +54,9 @@ export function supabaseShowToShow(show: any): Show {
     artistImageUri: show.artist_image_uri,
     venueId: show.venue_id,
     venueLoc: show.venue_loc,
-    eventId: show.event_id
+    eventId: show.event_id,
+    artistSpotifyUrl: show.artist_spotify_url,
+    memories: show.memories
   }
 }
 

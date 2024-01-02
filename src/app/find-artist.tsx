@@ -11,6 +11,7 @@ export default function FindArtistScreen() {
   const [artistId, setArtistId] = useState('')
   const [artistImageUri, setArtistImageUri] = useState('')
   const [artistSelected, setArtistSelected] = useState(false)
+  const [artistSpotifyUrl, setArtistSpotifyUrl] = useState('')
 
   useEffect(() => { 
     if(artistSelected) {
@@ -21,6 +22,7 @@ export default function FindArtistScreen() {
               artistId: artistId,
               artistName: artistName,
               artistImageUri: artistImageUri,
+              artistSpotifyUrl: artistSpotifyUrl
           }
       })
     } 
@@ -32,6 +34,7 @@ export default function FindArtistScreen() {
         setArtistName={setArtistName} 
         setArtistId={setArtistId} 
         setArtistImageUri={setArtistImageUri}
+        setArtistSpotifyUrl={setArtistSpotifyUrl}
         setArtistSelected={setArtistSelected}/>
     </View>
   );

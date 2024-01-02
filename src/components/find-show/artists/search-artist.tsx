@@ -12,11 +12,12 @@ interface SearchArtistDropdownProps {
   setArtistId: (value: string) => void
   setArtistImageUri: (value: string) => void
   setArtistSelected: (value: boolean) => void
+  setArtistSpotifyUrl: (value: string) => void
 }
 
 
 export function SearchArtistDropdown({
-  setArtistName, setArtistId, setArtistImageUri, setArtistSelected
+  setArtistName, setArtistId, setArtistImageUri, setArtistSelected, setArtistSpotifyUrl
 }: SearchArtistDropdownProps) {
   const [artists, setArtists] = useState<JamBaseArtist[]>([])
 
@@ -39,10 +40,26 @@ export function SearchArtistDropdown({
     []  // ensures that the debounce function isn't recreated on every render
   );
 
+  const handleSetArtistSpotifyUrl = (artist: JamBaseArtist) => {
+
+    console.log(artist)
+
+    const identifiers = artist['sameAs'];
+
+    console.log(identifiers)
+
+    // Find the object where source is 'spotify'
+    const spotifyObj = identifiers.find(identifier => identifier.identifier === 'spotify');
+
+    // Set the identifier if found, otherwise set empty string
+    spotifyObj ? setArtistSpotifyUrl( spotifyObj.url ) : setArtistSpotifyUrl('')
+  }
+
   const handleSubmitPress = (artist: JamBaseArtist) => {
     setArtistImageUri(artist.image)
     setArtistId(artist.identifier)
     setArtistName(artist.name)
+    handleSetArtistSpotifyUrl(artist)
     setArtistSelected(true)
   }
   

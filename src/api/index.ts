@@ -7,7 +7,6 @@ import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
 import { decode } from 'base64-arraybuffer'
 
-
 interface SessionData {
   session: Session | null;
 }
@@ -124,4 +123,35 @@ export async function uploadSupabasePhotos(photos: ImagePicker.ImagePickerAsset[
   }
 
   return photoURLs
+}
+
+export async function updateSupabaseShow(show: Show) {
+  console.log('updating show...')
+  const supabaseShow = showToSupabaseShow(show)
+  if(show.id) {
+    const data = await updateSupabaseRow('shows', supabaseShow.id, supabaseShow)
+    console.log('show updated!')
+    return data
+  } else {
+    console.log('WARNING show does not have id when trying to update. This is unexpected behavior')
+    return false
+  }
+  
+}
+
+export async function updateSupabaseRow(tableName: string, rowId: string, newData: object) {
+
+  const { data, error } = await supabase
+      .from(tableName)
+      .update(newData)
+      .match({ id: rowId });
+
+  console.log(error)
+
+  if (error) {
+      console.error('Error updating row:', error);
+      return null;
+  }
+
+  return data;
 }
