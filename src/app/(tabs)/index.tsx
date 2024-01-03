@@ -1,8 +1,8 @@
-import { Button, Pressable, ScrollView } from 'react-native';
+import { Button, ScrollView } from 'react-native';
 
 import { Text, View } from '../../components/Themed';
 import { Link } from 'expo-router';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { getSupabaseShows } from '../../api';
 import { Show } from '../../types/types';
 import { ShowBlock } from '../../components/ShowBlock';
@@ -10,8 +10,22 @@ import { useNavigation } from '@react-navigation/native';
 
 export default function TabOneScreen() {
   const [shows, setShows] = useState<Show[]>([]);
+  const [deleteShowId, setDeleteShowId] = useState('')
+  const isInitialRender = useRef(true)
 
   const navigation = useNavigation()
+
+  // To immediately delete deleted show from logged shows on page
+  useEffect(() => {
+    if (isInitialRender.current) {
+      isInitialRender.current = false // Toggle ref after first render
+      return;
+  }
+    const updatedShows = shows.filter(show => show.id !== deleteShowId)
+    setShows(updatedShows)
+    // setDeleteShowId('')
+
+  },[deleteShowId])
 
   useEffect(() => {
     const unsubscribeFocus = navigation.addListener('focus', () => {
@@ -26,9 +40,6 @@ export default function TabOneScreen() {
           console.error('Error fetching shows', error);
         }
       };
-      
-      
-  
       fetchShows();
     });
 
@@ -38,37 +49,25 @@ export default function TabOneScreen() {
   }, [navigation]);
   
   return (
-   
-      <View className='flex-1 p-5'>
-        {shows.length === 0 ? ( 
-          <View className='flex-1 justify-center items-center'>
-            <Text className='font-bold'>Get started logging a show!</Text>
-            <Link href="/find-artist" asChild>
-              <Button title='Log a show'/>        
-            </Link>
+    <View className='flex-1 p-5'>
+      {shows.length === 0 ? ( 
+        <View className='flex-1 justify-center items-center'>
+          <Text className='font-bold'>Get started logging a show!</Text>
+          <Link href="/find-artist" asChild>
+            <Button title='Log a show'/>        
+          </Link>
+        </View>
+      ) : (
+        <ScrollView className='flex-1'>     
+          <View className='bg-transparent'>
+            {shows.map((show: Show) => (
+                <View key={`${show.id}-btn`}>
+                  <ShowBlock show={show} setDeleteShowId={setDeleteShowId}/>
+                </View>
+            ))}
           </View>
-        ) : (
-          <ScrollView className='flex-1'>
-            
-            <View className='bg-transparent'>
-            
-              {shows.map((show: Show) => (
-                <Pressable key={`${show.id}-btn`}>
-                
-                  
-                  {({ pressed }) => (    
-                  <View style={{ opacity: pressed ? 0.5 : 1 }}>
-                    <Link href={`/show-details/${show.id}`} key={`${show.id}-link`}>
-                    <ShowBlock key={`${show.id}-block`} show={show} />
-                    </Link>
-                  </View>
-                )}
-                
-                </Pressable>
-              ))}
-            </View>
-          </ScrollView>
-        )}
-      </View>
-  );
+        </ScrollView>
+      )}
+    </View>
+  )
 }

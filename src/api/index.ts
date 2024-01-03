@@ -155,3 +155,29 @@ export async function updateSupabaseRow(tableName: string, rowId: string, newDat
 
   return data;
 }
+
+/**
+ * Deletes a row from a given table in Supabase.
+ * 
+ * @param {string} tableName The name of the table.
+ * @param {string} columnName The name of the column to match for deletion.
+ * @param {any} value The value to match in the specified column.
+ * @returns {Promise} A promise that resolves when the operation is complete.
+ */
+async function deleteSupabaseRow(tableName: string, columnName: string, value: string) {
+  const { data, error } = await supabase
+      .from(tableName)
+      .delete()
+      .match({ [columnName]: value });
+
+  if (error) {
+      console.error('Error deleting row:', error);
+  }
+
+  return {data, error}
+}
+
+export async function deleteSupabaseShow(showId: string) {
+  const {data, error} = await deleteSupabaseRow('shows','id',showId)
+  return {data, error}
+}
