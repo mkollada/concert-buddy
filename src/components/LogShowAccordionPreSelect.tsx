@@ -121,12 +121,12 @@ export default function LogShowAccordionPreSelect({
     ) {
         if(!overallRating) {
             alert('Please select a rating for the show to submit!')
-            return
+            return false
         }
 
         if(!venueRating) {
             alert('Please select a rating for the venue to submit!')
-            return
+            return false
         }
 
         const photoUrls = await uploadSupabasePhotos(photos)
@@ -157,9 +157,10 @@ export default function LogShowAccordionPreSelect({
         console.log(show)
 
         addSupabaseShow(show)
+        return true
     }
 
-    function handleSubmitPress() {
+    async function handleSubmitPress() {
         if (!session) {
             setIsLoading(true)
             return
@@ -169,7 +170,7 @@ export default function LogShowAccordionPreSelect({
 
         console.log(Date().toString())
 
-        submitShowLog(
+        const showSubmitted = await submitShowLog(
             newUuid,
             Date().toString(),
             session.user.id,
@@ -191,8 +192,10 @@ export default function LogShowAccordionPreSelect({
             musicalityRating,
             productionRating
         )
-
-        router.push({ pathname: "/"})
+        if (showSubmitted) {
+            router.push({ pathname: "/"})
+        }
+        
     }
 
     return (
