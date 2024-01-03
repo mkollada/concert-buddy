@@ -18,6 +18,7 @@ export type Show = {
     artistImageUri: string
     eventId: string
     artistSpotifyUrl?: string
+    venueRating: number
 }
 
 export type SupabaseShow = {
@@ -40,6 +41,7 @@ export type SupabaseShow = {
     artist_image_uri: string
     event_id: string
     artist_spotify_url?: string
+    venue_rating: number
 }
 
 export type Memories = {
@@ -65,6 +67,7 @@ export function isShow(obj: any): obj is Show {
         typeof obj.artistImageUri === 'string' &&
         typeof obj.eventId === 'string' &&
         typeof obj.memories === 'object' &&
+        typeof obj.venueRating === 'number' &&
 
         // Checking for optional fields
         (typeof obj.id === 'undefined' || typeof obj.id === 'string') &&

@@ -10,11 +10,12 @@ import { TextInput } from "react-native";
 import { Button } from "react-native-elements";
 import * as ImagePicker from 'expo-image-picker';
 import ThumbnailGallery from "./ThumbnailGallery";
-
+import EmojiRatingBar from "./utils/emoji-rating-bar";
 
 function isAirbnbRatingComponent(component: React.ReactNode) {
     return component instanceof AirbnbRating;
 }
+
 
 interface AccordionHeaderNoComponentProps {
     title: string
@@ -61,6 +62,28 @@ const AccordionHeaderWithProp: React.FC<AccordionHeaderWithPropProps> = (
                     size={20} color="#bbb" />
             </>
         )
+}
+
+interface AccordionEmojiRatingProps {
+    title: string
+    setRating: (value: number) => void
+    rating: number | null
+}
+
+export const AccordionEmojiRating: React.FC<AccordionEmojiRatingProps> = (
+    {title, setRating, rating}
+) => {
+    return (
+        <View style={styles.accordSubtitle}>
+             <View style={styles.accordHeader}>
+                <Text style={styles.accordTitle}>{ title }</Text>
+            </View>
+            <View style={styles.accordSubtitle}>
+                <EmojiRatingBar rating={rating} setRating={setRating} />
+            </View>
+        </View>
+       
+    )
 }
 
 interface AccordionWithBodyTextProps {

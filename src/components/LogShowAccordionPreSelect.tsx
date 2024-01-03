@@ -18,9 +18,9 @@ import { Memories, Show } from '../types/types';
 
 import { 
     AccordionWithBodyText, 
-    AccordionWithRatings, 
     AccordionWithPhotos,
-    AccordionHeaderNoComponent
+    AccordionHeaderNoComponent,
+    AccordionEmojiRating
 } from './AccordionItem';
 
 import { getSupabaseSession } from '../api';
@@ -68,13 +68,17 @@ export default function LogShowAccordionPreSelect({
     // const [date, setDate] = useState('')
     // const [venue, setVenue] = useState('')
     const [photos, setPhotos] = useState<ImagePicker.ImagePickerAsset[]>([])
-    const [overallRating, setOverallRating] = useState(0)
+    const [overallRating, setOverallRating] = useState<number|null>(null)
+    const [venueRating, setVenueRating] = useState<number|null>(null)
     const [notes, setNotes] = useState('')
     const [isLoading, setIsLoading] = useState(false)
     // const navigation = useNavigation()
     const [musicalityRating, setMusicalityRating] = useState(0)
+    setMusicalityRating(0)
     const [productionRating, setProductionRating] = useState(0)
+    setProductionRating(0)
     const [stagePresenceRating, setStagePresenceRating] = useState(0)
+    setStagePresenceRating(0)
     
 
     const {data, error} = getSupabaseSession()
@@ -100,7 +104,7 @@ export default function LogShowAccordionPreSelect({
         artistName: string,
         date: string,
         venue: string,
-        overallRating: number,
+        overallRating: number|null,
         notes: string,
         photos: ImagePicker.ImagePickerAsset[],
         artistId: string,
@@ -110,11 +114,21 @@ export default function LogShowAccordionPreSelect({
         eventId: string,
         artistSpotifyUrl: string,
         memories: Memories,
+        venueRating: number|null,
         stagePresenceRating?: number,
         musicalityRating?: number,
         productionRating?: number,
         
     ) {
+        if(!overallRating) {
+            alert('Please select a rating for the show to submit!')
+            return
+        }
+
+        if(!venueRating) {
+            alert('Please select a rating for the venue to submit!')
+            return
+        }
 
         const photoUrls = await uploadSupabasePhotos(photos)
         
@@ -137,7 +151,8 @@ export default function LogShowAccordionPreSelect({
             artistImageUri: artistImageUri,
             eventId: eventId,
             artistSpotifyUrl: artistSpotifyUrl,
-            memories: memories
+            memories: memories,
+            venueRating: venueRating,
         }
 
         console.log(show)
@@ -172,9 +187,10 @@ export default function LogShowAccordionPreSelect({
             eventId,
             artistSpotifyUrl,
             memories,
+            venueRating,
             stagePresenceRating,
             musicalityRating,
-            productionRating,
+            productionRating
         )
 
         router.push({ pathname: "/"})
@@ -205,13 +221,16 @@ export default function LogShowAccordionPreSelect({
                 headerIcons={['chevron-down','chevron-up']}
                 setPhotos={setPhotos} 
             />
-            <AccordionWithRatings
+            <AccordionEmojiRating title='Show Rating' setRating={setOverallRating} rating={overallRating} />
+
+            <AccordionEmojiRating title='Venue Rating' setRating={setVenueRating} rating={venueRating} />
+            {/* <AccordionWithRatings
                 title="Show Rating" 
                 headerIcons={['chevron-down','chevron-up']} 
                 setOverallRating={setOverallRating}
                 setMusicalityRating={setMusicalityRating}
                 setStagePresenceRating={setStagePresenceRating}
-                setProductionRating={setProductionRating}/>
+                setProductionRating={setProductionRating}/> */}
             <AccordionWithBodyText 
                 title="Notes" 
                 headerIcons={['chevron-down','chevron-up']} 
