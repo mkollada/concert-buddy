@@ -1,4 +1,4 @@
-# concert-buddy
+# shows
 
 Live music show tracking app
 
