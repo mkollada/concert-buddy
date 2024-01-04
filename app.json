@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "concert-buddy",
-    "slug": "concert-buddy",
+    "name": "shows",
+    "slug": "shows",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/images/icon.png",
@@ -16,13 +16,18 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.mattkollada.shows"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.mattkollada.shows"
     },
     "web": {
       "bundler": "metro",
@@ -31,13 +36,23 @@
     },
     "plugins": [
       "expo-router",
-      ["expo-image-picker",
+      [
+        "expo-image-picker",
         {
           "photosPermission": "The app accesses your photos to let you share them with your friends."
-        }]
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "2dee1ba6-47f4-4f08-8058-0f4c659e380c"
+      }
     }
   }
 }
