@@ -17,7 +17,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.mattkollada.shows"
+      "bundleIdentifier": "com.mattkollada.shows-live-music-diary"
     },
     "android": {
       "adaptiveIcon": {
@@ -49,6 +49,9 @@
     "extra": {
       "router": {
         "origin": false
+      },
+      "eas": {
+        "projectId": "760fa3c2-f853-40c6-a340-58d7d94cff1e"
       }
     }
   }
