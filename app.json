@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "shows",
-    "slug": "shows",
+    "name": "shows - live music diary",
+    "slug": "shows-live-music-diary",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/images/icon.png",
