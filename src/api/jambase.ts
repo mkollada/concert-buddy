@@ -35,7 +35,7 @@ export async function getPastEventsForArtist(artistId: string): Promise<JamBaseA
 }
 
 export function getLocalJambaseApiKey() {
-    const apiKey = process.env.JAMBASE_API_KEY;
+    const apiKey = process.env.EXPO_PUBLIC_JAMBASE_API_KEY;
     return apiKey
 }
 

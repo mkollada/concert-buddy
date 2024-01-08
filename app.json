@@ -17,7 +17,8 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.mattkollada.shows-live-music-diary"
+      "bundleIdentifier": "com.mattkollada.shows-live-music-diary",
+      "buildNumber":"2"
     },
     "android": {
       "adaptiveIcon": {
