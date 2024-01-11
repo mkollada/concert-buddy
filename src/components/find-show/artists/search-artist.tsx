@@ -29,24 +29,19 @@ export function SearchArtistDropdown({
           const response = await searchArtistName(text);
           if (response) {
             setArtists(response.artists);
-            console.log(artists[0])
           }
         }
       }
 
       fetchApiData();
-      console.log("User finished typing:", text);
+      // console.log("User finished typing:", text);
     }, 300),
     []  // ensures that the debounce function isn't recreated on every render
   );
 
   const handleSetArtistSpotifyUrl = (artist: JamBaseArtist) => {
 
-    console.log(artist)
-
     const identifiers = artist['sameAs'];
-
-    console.log(identifiers)
 
     // Find the object where source is 'spotify'
     const spotifyObj = identifiers.find(identifier => identifier.identifier === 'spotify');

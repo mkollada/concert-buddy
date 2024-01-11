@@ -37,7 +37,7 @@ export function SearchVenueDropdown({
       }
 
       fetchApiData();
-      console.log("User finished typing:", text);
+      // console.log("User finished typing:", text);
     }, 300),
     []  // ensures that the debounce function isn't recreated on every render
   );

@@ -347,7 +347,6 @@ export const AccordionWithPhotos: React.FC<AccordionWithPhotosProps> = (
 
     const handleAccordionToggle = () =>  {
         setIsCollapsed(!isCollapsed)
-        // console.log(isCollapsed)
     }
 
     return (

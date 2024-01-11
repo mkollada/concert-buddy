@@ -51,7 +51,6 @@ export type Memories = {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function isShow(obj: any): obj is Show {
     if (!obj) return false;
-    console.log(obj);
     return (
         // Checking for mandatory fields first
         typeof obj.userId === 'string' &&

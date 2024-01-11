@@ -53,8 +53,6 @@ export default function LogShowAccordionPreSelect({
     eventId
 }: LogShowAccordionPreSelectProps) {
 
-    console.log('here')
-
     // console.log(artistImageUri)
     const router = useRouter(); // Initialize the navigation hook
 
@@ -153,8 +151,6 @@ export default function LogShowAccordionPreSelect({
             memories: memories,
             venueRating: venueRating,
         }
-
-        console.log(show)
 
         addSupabaseShow(show)
         return true

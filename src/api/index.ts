@@ -156,6 +156,27 @@ export async function updateSupabaseRow(tableName: string, rowId: string, newDat
   return data;
 }
 
+export async function updateSupabaseItem(tableName: string, rowId: string, columnName: string, value: string | number) {
+  const { data, error } = await supabase
+  .from(tableName)
+  .update({ [columnName]: value })
+  .match({ id: rowId }); // Assuming 'id' is the primary key column
+
+  if (error) {
+    console.error('Error updating data:', error);
+    return null;
+  }
+
+  return data;
+}
+
+export async function updateSupabaseShowItem(showId: string, columnName: string, value: string | number) {
+  
+  const data = await updateSupabaseItem('shows', showId, columnName, value)
+
+  return data;
+}
+
 /**
  * Deletes a row from a given table in Supabase.
  * 

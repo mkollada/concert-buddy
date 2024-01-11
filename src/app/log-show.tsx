@@ -7,9 +7,6 @@ import { ensureString } from '../utils';
 export default function LogShowScreen() { 
   const rawParams = useLocalSearchParams();
 
-  console.log(rawParams.artistSpotifyUrl)
-
-
   // Ensuring all parameters are treated as strings
   const params = {
     artistId: ensureString(rawParams.artistId),

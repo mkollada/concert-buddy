@@ -9,8 +9,6 @@ export default function DatePickerScreen() {
     const params = useLocalSearchParams()
     const [dateSelected, setDateSelected] = useState(false)
 
-    console.log(params)
-
     const [date, setDate] = useState('')
 
     useEffect(() => { 

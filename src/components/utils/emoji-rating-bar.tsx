@@ -14,8 +14,6 @@ export default function EmojiRatingBar({ rating, setRating }: EmojiRatingBarProp
     setRating(newRating)
   }
 
-  console.log(rating)
-
   return (
     <View style={{ padding: 8, flexDirection: 'row', justifyContent: 'space-around' }}>
         <EmojiButton emoji={1} selected={rating === 1} onPress={() => handlePress(1)} />

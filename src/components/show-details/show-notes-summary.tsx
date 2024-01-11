@@ -10,9 +10,11 @@ interface ShowNotesSummaryProps {
 export default function ShowNotesSummary({ show }: ShowNotesSummaryProps) {
     return (
             <View className=''>
-                <Text className='text-4xl text-white'>{show.notes}</Text>
+                <Text className='text-4xl text-white max-h-[225]'
+                    numberOfLines={5}
+                    ellipsizeMode="tail">{show.notes}</Text>
                 <View className="flex-row justify-end mr-4 pt-2">
-                    <SeeMoreButton text="View All Notes" />
+                    <SeeMoreButton show={show} text="View All Notes" link={'show-details/edit-notes'} />
                 </View>
             </View>
     )

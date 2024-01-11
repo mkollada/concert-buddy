@@ -72,7 +72,7 @@ function RootLayoutNav() {
         <Stack.Screen name="find-venue" options={{ title: 'Venue' }} />
         <Stack.Screen name="select-date" options={{ title: 'Date' }} />
         <Stack.Screen name="select-show" options={{ title: 'Show' }} />
-
+        
         <Stack.Screen 
           name="log-show" 
           options={{ 
@@ -97,6 +97,12 @@ function RootLayoutNav() {
             headerShown: false
           }}
         />
+        <Stack.Screen 
+          name="show-details/edit-notes" 
+          options={{ 
+            presentation: 'modal',
+            headerShown: false    
+         }} />
       </Stack>
     </ThemeProvider>
   );

@@ -9,6 +9,9 @@ import { ScrollView } from "react-native-gesture-handler";
 import SpotifyButton from "./spotify-button";
 import MemoryCarousel from "../memories/memory-carousel";
 import EmojiRatingBar from "../utils/emoji-rating-bar";
+import EmptyDetail from "./empty-detail";
+import { useNavigation } from "expo-router";
+
 
 interface ShowDetailsProps {
     showId: string
@@ -18,54 +21,56 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
     showId
 }) => {  
 
-    const [show, setShow] = useState<Show|null>(null)
-    const [showUnsavedChanges, setShowUnsavedChanges] = useState(false)
-    // const [showRating, setShowRating] = useState<number|null>(null)
-    // const [venueRating, setVenueRating] = useState(show?.stagePresenceRating)
-    // const [response, setResponse] = useState('')
+  const navigation = useNavigation()
 
-    const initialLoad = useRef(true); // Ref to track initial load
+  const [show, setShow] = useState<Show|null>(null)
+  const [showUnsavedChanges, setShowUnsavedChanges] = useState(false)
+
+  const initialLoad = useRef(true); // Ref to track initial load
 
 
-    const setShowInitial = (s: Show) => {
-      setShow(s)
-      // setShowRating(s.overallRating)
-      setShowUnsavedChanges(false)
-      initialLoad.current = false; // Set to false after initial load
-    }
+  const setShowInitial = (s: Show) => {
+    setShow(s)
+    // setShowRating(s.overallRating)
+    setShowUnsavedChanges(false)
+    initialLoad.current = false; // Set to false after initial load
+  }
 
-    const setOverallShowRatingUpdateShow = (newOverallShowRating: number) => {
-      if(show) {
-        const updatedShow = {
-          ...show,
-          overallRating: newOverallShowRating
-        }
-        setShow(updatedShow);
-      } else {
-        console.error('Cannot update show rating if show is null')
+  const setOverallShowRatingUpdateShow = (newOverallShowRating: number) => {
+    if(show) {
+      const updatedShow = {
+        ...show,
+        overallRating: newOverallShowRating
       }
-      
+      setShow(updatedShow);
+    } else {
+      console.error('Cannot update show rating if show is null')
     }
+    
+  }
 
-    const setVenueRatingUpdateShow = (newVenueRating: number) => {
-      if(show) {
-        const updatedShow = {
-          ...show,
-          venueRating: newVenueRating
-        }
-        setShow(updatedShow);
-      } else {
-        console.error('Cannot update show rating if show is null')
+  const setVenueRatingUpdateShow = (newVenueRating: number) => {
+    if(show) {
+      const updatedShow = {
+        ...show,
+        venueRating: newVenueRating
       }
-      
+      setShow(updatedShow);
+    } else {
+      console.error('Cannot update show rating if show is null')
     }
+    
+  }
 
   useEffect(() => {
+    const unsubscribeFocus = navigation.addListener('focus', () => {
+      // Do something when the screen is focused
 
-      const fetchShows = async () => {
+      const fetchShow = async () => {
         try {
           console.log('Loading show from supabase')
           const s = await getSupabaseShow(showId);
+          initialLoad.current = true
           if (s) {
             setShowInitial(s)
           } else {
@@ -78,8 +83,13 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
         }
       };
   
-      fetchShows();
-    }, []);
+      fetchShow();
+    });
+
+    return () => {
+      unsubscribeFocus();
+    };
+  }, [navigation]);
 
     useEffect(() => {
       if (!initialLoad.current) {
@@ -123,6 +133,19 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
             <Text className="py-4 items-left text-2xl text-white">Memories:</Text>
             <View className="items-center">
               <MemoryCarousel show={show} setShow={setShow} />
+            </View>
+            <View>
+            { show.notes ? (
+               <></>
+              
+            ) : (
+              <EmptyDetail 
+                title="Notes" 
+                subtitle="Add your thoughts from the show" 
+                iconName="pencil" 
+                link="show-details/edit-notes"
+                show={show}/>
+            )}
             </View>
             { show.artistSpotifyUrl ? (
               <View>

@@ -14,9 +14,6 @@ export default function FindVenueScreen() {
   const [venueSelected, setVenueSelected] = useState(false)
 
   useEffect(() => { 
-    console.log(venueId)
-    console.log(venueName)
-    console.log(venueLoc)
 
     if(venueSelected) {
       setVenueSelected(false)

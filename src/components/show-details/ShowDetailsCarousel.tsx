@@ -22,13 +22,10 @@ const ShowDetailsCarousel: React.FC<ShowDetailsCarouselProps> = ({ show }) => {
         const uris = show.photoUrls
         uris.forEach( uri => {
             const response = supabase.storage.from('show_photos').getPublicUrl(uri.split('show_photos/')[1]);
-            console.log(response.data.publicUrl)
             publicUrls.push(response.data.publicUrl)
 
         })
     }
-
-    // console.log(publicUrls)
 
     return (
 
