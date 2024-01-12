@@ -7,7 +7,7 @@ import { Show } from "../../types/types";
 interface EmptyDetailProps {
     title: string
     subtitle: string
-    iconName: 'pencil'
+    iconName: 'pencil' | 'picture-o' | 'star' | 'list-ul'
     link: 'show-details/edit-notes' | 'add-photos'
     show: Show
 }

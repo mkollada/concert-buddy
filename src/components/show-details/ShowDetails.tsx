@@ -26,6 +26,8 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
   const [show, setShow] = useState<Show|null>(null)
   const [showUnsavedChanges, setShowUnsavedChanges] = useState(false)
 
+  const setlist = null
+  
   const initialLoad = useRef(true); // Ref to track initial load
 
 
@@ -130,10 +132,18 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
               <Text className='text-white text-lg'>The Venue</Text>
             </View>
             <EmojiRatingBar rating={show.venueRating} setRating={setVenueRatingUpdateShow} />
-            <Text className="py-4 items-left text-2xl text-white">Memories:</Text>
-            <View className="items-center">
-              <MemoryCarousel show={show} setShow={setShow} />
-            </View>
+            { Object.values(show.memories).every(value => value === "") ? (
+              <></>
+              ):(
+              <View>
+                <Text className="py-4 items-left text-2xl text-white">Memories:</Text>
+
+                <View className="items-center">
+                  <MemoryCarousel show={show} setShow={setShow} />
+                </View>
+              </View>
+            )}
+
             <View>
             { show.notes ? (
                <></>
@@ -143,6 +153,45 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
                 title="Notes" 
                 subtitle="Add your thoughts from the show" 
                 iconName="pencil" 
+                link="show-details/edit-notes"
+                show={show}/>
+            )}
+            </View>
+            <View>
+            { show.photoUrls && show.photoUrls.length > 0 ? (
+               <></>
+              
+            ) : (
+              <EmptyDetail 
+                title="Photos" 
+                subtitle="Add your thoughts from the show" 
+                iconName="picture-o" 
+                link="show-details/edit-notes"
+                show={show}/>
+            )}
+            </View>
+            <View>
+            { Object.values(show.memories).every(value => value === "") ? (
+               
+               <EmptyDetail 
+               title="Memories" 
+               subtitle="Add your thoughts from the show" 
+               iconName="star" 
+               link="show-details/edit-notes"
+               show={show}/>
+            ) : (
+              <></>
+            )}
+            </View>
+            <View>
+            { setlist ? (
+               <></>
+              
+            ) : (
+              <EmptyDetail 
+                title="Setlist" 
+                subtitle="Add the setlist for the night" 
+                iconName="list-ul" 
                 link="show-details/edit-notes"
                 show={show}/>
             )}
