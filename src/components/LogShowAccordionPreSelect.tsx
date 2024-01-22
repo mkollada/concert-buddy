@@ -28,6 +28,7 @@ import { Session } from '@supabase/supabase-js';
 
 import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from 'expo-router';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 interface LogShowAccordionPreSelectProps {
     artistId: string
@@ -199,9 +200,11 @@ export default function LogShowAccordionPreSelect({
 
         <SafeAreaView className='flex-1'>
             { isLoading ? <View><Text>Loading... </Text></View> :
-          <ScrollView
-            contentInsetAdjustmentBehavior="automatic"
-            className='flex-1 p-3'>
+          <KeyboardAwareScrollView
+            enableOnAndroid={true}
+            extraHeight={100}
+            keyboardShouldPersistTaps='handled'
+            className='flex-1 px-3'>
             <View className='h-[20vh] p-3 pr-10 pl-10 rounded-xl'>
                 <Image className="h-full w-full rounded-xl" source={{ uri: artistImageUri }} />
             </View>
@@ -236,7 +239,7 @@ export default function LogShowAccordionPreSelect({
                 setValue={setNotes} />
             <Button title='Save' onPress={handleSubmitPress} />
 
-          </ScrollView>
+          </KeyboardAwareScrollView>
         }
         </SafeAreaView> 
       );
