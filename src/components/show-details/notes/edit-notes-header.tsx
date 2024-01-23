@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import { Button } from "react-native";
 
 import { useRouter } from "expo-router";
@@ -25,29 +25,26 @@ const EditNotesHeader: React.FC<EditNotesHeaderProps> = ({
     }
 
     const handleCancel = () => {
+        console.log('handled')
         router.back()
     }
 
     return (
-        <View className="flex-row items-center relative p-2">
-            <View className="absolute left-0 ml-4">
-                <Button 
-                color='white' 
-                title="Cancel"
-                onPress={handleCancel} />
-            </View>
-            <View className="flex-1 justify-center items-center">
-                <Text className="text-white font-bold text-lg">Notes</Text>
-            </View>
-            <View className="absolute right-0 mr-4">
-                <Button 
-                color='#9069F4' 
-                title="Save"
-                disabled={!unsavedChanges}
-                onPress={handleSave} />
-            </View>
-        </View>
+        <View className="flex-row items-center justify-between p-2">
+        <TouchableOpacity onPress={handleCancel} style={{ padding: 10 }}>
+            <Text className="text-white text-lg">Cancel</Text>
+        </TouchableOpacity>
         
+        <Text className="text-white font-bold text-lg">Notes</Text>
+
+        <TouchableOpacity 
+            onPress={handleSave}
+            disabled={!unsavedChanges}
+            style={{ padding: 10, opacity: unsavedChanges ? 1 : 0.5 }}
+        >
+            <Text className="text-themePurple text-lg">Save</Text>
+        </TouchableOpacity>
+    </View>
     )
 }
 
