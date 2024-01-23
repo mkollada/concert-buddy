@@ -1,6 +1,5 @@
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
-import { Button } from "react-native";
 
 import { useRouter } from "expo-router";
 import { updateSupabaseShowItem } from "../../../api";
