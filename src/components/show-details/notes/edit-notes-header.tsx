@@ -31,20 +31,20 @@ const EditNotesHeader: React.FC<EditNotesHeaderProps> = ({
 
     return (
         <View className="flex-row items-center justify-between p-2">
-        <TouchableOpacity onPress={handleCancel} style={{ padding: 10 }}>
-            <Text className="text-white text-lg">Cancel</Text>
-        </TouchableOpacity>
-        
-        <Text className="text-white font-bold text-lg">Notes</Text>
+            <TouchableOpacity onPress={handleCancel} style={{ padding: 10 }}>
+                <Text className="text-white text-lg">Cancel</Text>
+            </TouchableOpacity>
+            
+            <Text className="text-white font-bold text-lg">Notes</Text>
 
-        <TouchableOpacity 
-            onPress={handleSave}
-            disabled={!unsavedChanges}
-            style={{ padding: 10, opacity: unsavedChanges ? 1 : 0.5 }}
-        >
-            <Text className="text-themePurple text-lg">Save</Text>
-        </TouchableOpacity>
-    </View>
+            <TouchableOpacity 
+                onPress={handleSave}
+                disabled={!unsavedChanges}
+                style={{ padding: 10, opacity: unsavedChanges ? 1 : 0.5 }}
+            >
+                <Text className="text-themePurple text-lg">Save</Text>
+            </TouchableOpacity>
+        </View>
     )
 }
 
