@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 import {
     Button,
     SafeAreaView,
-    ScrollView,
     Text,
     View,
     Image

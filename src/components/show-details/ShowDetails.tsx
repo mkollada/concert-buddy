@@ -5,7 +5,7 @@ import { getSupabaseShow } from "../../api";
 import ShowDetailsHeader from "./ShowDetailsHeader";
 import ShowDetailsCarousel from "./ShowDetailsCarousel";
 import ShowNotesSummary from "./show-notes-summary";
-import { ScrollView } from "react-native-gesture-handler";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import SpotifyButton from "./spotify-button";
 import MemoryCarousel from "../memories/memory-carousel";
 import EmojiRatingBar from "../utils/emoji-rating-bar";
@@ -108,7 +108,11 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
       <View className="flex-1 items-center">
         
         <ShowDetailsHeader show={show} showUnsavedChanges={showUnsavedChanges} setShowUnsavedChanges={setShowUnsavedChanges} />
-        <ScrollView className="flex-1">
+        <KeyboardAwareScrollView 
+          enableOnAndroid={true}
+          extraHeight={100}
+          keyboardShouldPersistTaps='handled'
+          className="flex-1">
         <View>
           <ShowDetailsCarousel show={show} />
         </View>
@@ -207,7 +211,7 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
         </View>
 
         
-        </ScrollView>
+        </KeyboardAwareScrollView>
       </View> 
     ) : (
       <View>

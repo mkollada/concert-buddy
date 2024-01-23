@@ -3,7 +3,8 @@ import { Text, View } from '../../../components/Themed';
 import { TextInput } from 'react-native-gesture-handler';
 import debounce from 'lodash/debounce';
 import { JamBaseArtist } from '../../../types/jambase';
-import {  ScrollView, TouchableOpacity } from 'react-native';
+import {  TouchableOpacity } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import ArtistBlock from './artist-block';
 import { searchArtistName } from '../../../api/jambase';
 
@@ -59,7 +60,11 @@ export function SearchArtistDropdown({
   }
   
   return (
-    <ScrollView keyboardShouldPersistTaps='handled' className='flex-1'>
+    <KeyboardAwareScrollView 
+      enableOnAndroid={true}
+      extraHeight={100}
+      keyboardShouldPersistTaps='handled' 
+      className='flex-1'>
       <View className='bg-themeGray p-3'>
         <Text className='text-sm text-white'>Find an Artist</Text>
         <TextInput className='p-2 text-2xl text-white font-bold'
@@ -89,6 +94,6 @@ export function SearchArtistDropdown({
         
        ))}
       </View>
-    </ScrollView>
+    </KeyboardAwareScrollView>
   );
 }

@@ -3,7 +3,8 @@ import { Text, View } from '../../../components/Themed';
 import { TextInput } from 'react-native-gesture-handler';
 import debounce from 'lodash/debounce';
 import { JamBaseVenue } from '../../../types/jambase';
-import {  ScrollView, TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 // import { useRouter, useLocalSearchParams } from 'expo-router';
 import { searchVenues } from '../../../api/jambase';
 import VenueBlock from './venue-block';
@@ -50,7 +51,11 @@ export function SearchVenueDropdown({
   }
   
   return (
-    <ScrollView keyboardShouldPersistTaps='handled' className='flex-1'>
+    <KeyboardAwareScrollView 
+      enableOnAndroid={true}
+      extraHeight={100}
+      keyboardShouldPersistTaps='handled'
+      className='flex-1'>
       <View className='bg-themeGray p-3'>
         <Text className='text-sm text-white'>Find a Venue</Text>
         <TextInput className='p-2 text-2xl text-white font-bold'
@@ -84,6 +89,6 @@ export function SearchVenueDropdown({
         
        ))}
       </View>
-    </ScrollView>
+    </KeyboardAwareScrollView>
   );
 }
