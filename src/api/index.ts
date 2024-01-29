@@ -156,7 +156,7 @@ export async function updateSupabaseRow(tableName: string, rowId: string, newDat
   return data;
 }
 
-export async function updateSupabaseItem(tableName: string, rowId: string, columnName: string, value: string | number) {
+export async function updateSupabaseItem(tableName: string, rowId: string, columnName: string, value: string | number | string[]) {
   const { data, error } = await supabase
   .from(tableName)
   .update({ [columnName]: value })
@@ -170,7 +170,7 @@ export async function updateSupabaseItem(tableName: string, rowId: string, colum
   return data;
 }
 
-export async function updateSupabaseShowItem(showId: string, columnName: string, value: string | number) {
+export async function updateSupabaseShowItem(showId: string, columnName: string, value: string | number | string[]) {
   
   const data = await updateSupabaseItem('shows', showId, columnName, value)
 
