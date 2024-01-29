@@ -162,9 +162,16 @@ export async function updateSupabaseItem(tableName: string, rowId: string, colum
   .update({ [columnName]: value })
   .match({ id: rowId }); // Assuming 'id' is the primary key column
 
+  console.log(value)
+
+  console.log('error:', error)
+  console.log('data:', data)
+
   if (error) {
     console.error('Error updating data:', error);
     return null;
+  } else {
+    console.log('Supabase show updated')
   }
 
   return data;
@@ -172,6 +179,8 @@ export async function updateSupabaseItem(tableName: string, rowId: string, colum
 
 export async function updateSupabaseShowItem(showId: string, columnName: string, value: string | number | string[]) {
   
+  console.log('Updating supabase show')
+
   const data = await updateSupabaseItem('shows', showId, columnName, value)
 
   return data;

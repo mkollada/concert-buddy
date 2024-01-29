@@ -27,7 +27,7 @@ const ManagePhotos: React.FC<ManagePhotosProps> = ({
                     showId={show.id} 
                     unsavedChanges={unsavedChanges}
                     setUnsavedChanges={setUnsavedChanges} />
-                <ManagePhotosThumbnailGallery images={photoUrls} setImages={setPhotoUrls}/>
+                <ManagePhotosThumbnailGallery show={show} photoUrls={photoUrls} setPhotoUrls={setPhotoUrls}/>
             </View>
         </KeyboardAwareScrollView>
     )

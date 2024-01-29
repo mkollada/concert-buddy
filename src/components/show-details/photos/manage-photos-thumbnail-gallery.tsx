@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
-import { Image, View, TouchableOpacity, Button, Text } from 'react-native';
+import { Image, View, TouchableOpacity, Button, Text, Pressable } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import { updateSupabaseRow, updateSupabaseShowItem, uploadSupabasePhotos } from '../../../api';
+import { Show } from '../../../types/types';
 
 interface ThumbnailGalleryProps {
-    images: string[],
-    setImages: React.Dispatch<React.SetStateAction<string[]>>
+    show: Show
+    photoUrls: string[],
+    setPhotoUrls: React.Dispatch<React.SetStateAction<string[]>>
 }
 
-const ThumbnailGallery: React.FC<ThumbnailGalleryProps> = ({ images, setImages }) => {
+const ThumbnailGallery: React.FC<ThumbnailGalleryProps> = ({ show, photoUrls, setPhotoUrls }) => {
     const [selectedImages, setSelectedImages] = useState<number[]>([]);
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
             aspect: [4, 3],
             quality: 1,
@@ -20,12 +23,14 @@ const ThumbnailGallery: React.FC<ThumbnailGalleryProps> = ({ images, setImages }
 
         if (!result.canceled) {
 
-            let resultUris: string[] = []
-            result.assets.forEach(asset => {
-                resultUris = [...resultUris, asset.uri]
-            })
+            const newPhotoUrls = await uploadSupabasePhotos(result.assets)
 
-            setImages([...images, ...resultUris]);
+            setPhotoUrls([...photoUrls, ...newPhotoUrls])
+
+            // Wait for the next render to complete so that state is updated
+            await new Promise(resolve => setTimeout(resolve, 0));
+
+            const res = await updateSupabaseShowItem(show.id,'photo_urls',photoUrls)
         }
     };
 
@@ -37,28 +42,40 @@ const ThumbnailGallery: React.FC<ThumbnailGalleryProps> = ({ images, setImages }
         }
     };
 
-    const deleteSelectedImages = () => {
-        setImages(images.filter((_, idx) => !selectedImages.includes(idx)));
+    const deleteSelectedImages = async () => {
+        const newPhotoUrls = photoUrls.filter((_, idx) => !selectedImages.includes(idx));
+        setPhotoUrls(newPhotoUrls);
+    
+        // Wait for the next render to complete so that state is updated
+        await new Promise(resolve => setTimeout(resolve, 0));
+    
+        // Now call the API with the updated photo URLs
+        const res = await updateSupabaseShowItem(show.id, 'photo_urls', newPhotoUrls);
         setSelectedImages([]);
     };
+    
 
     return (
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-            {images.map((imgUri, idx) => (
-                <TouchableOpacity key={idx} style={{ width: '33%', padding: 2 }} onPress={() => toggleSelectImage(idx)}>
-                    <Image source={{ uri: imgUri }} style={{ width: '100%', height: '100%', borderRadius: 10, opacity: selectedImages.includes(idx) ? 0.5 : 1 }} />
+        <View className='flex-1'>
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+                {photoUrls.map((imgUri, idx) => (
+                    <Pressable key={idx} className="w-1/3 aspect-square p-1"  onPress={() => toggleSelectImage(idx)}>
+                        <Image source={{ uri: imgUri }} className={`w-full h-full rounded-lg ${selectedImages.includes(idx) ? 'opacity-50' : 'opacity-100'}`} />
+                    </Pressable>
+                ))}
+                <TouchableOpacity className="w-1/3 aspect-square p-1 items-center justify-center border-2 border-dashed border-gray-300" onPress={pickImage}>
+                    <Text className='text-white font-bold text-4xl'>+</Text>
                 </TouchableOpacity>
-            ))}
-            <TouchableOpacity style={{ width: '33%', padding: 2, alignItems: 'center', justifyContent: 'center', borderStyle: 'dashed', borderWidth: 1, borderColor: '#ccc' }} onPress={pickImage}>
-                <Text>Add</Text>
-            </TouchableOpacity>
-            {selectedImages.length > 0 && (
-                <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: 10 }}>
-                    <Button title="Delete Selected" onPress={deleteSelectedImages} />
-                </View>
-            )}
-        </View>
-    );
-};
+            </View>
+            <View>
+                {selectedImages.length > 0 && (
+                    <View className='p-5'>
+                        <Button color="red" title="Delete Selected" onPress={deleteSelectedImages} />
+                    </View>
+                )}
+            </View>
+        </View>   
+    )
+}
 
 export default ThumbnailGallery;

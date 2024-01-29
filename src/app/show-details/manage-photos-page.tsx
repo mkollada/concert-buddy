@@ -15,8 +15,6 @@ function ManagePhotosPage() {
   const [show, setShow] = useState<Show|null>();
   const [isLoading, setIsLoading] = useState(true);
 
-  console.log('thispage')
-
   useEffect(() => {
     async function fetchShow() {
       try {
@@ -33,14 +31,11 @@ function ManagePhotosPage() {
     }
 
     fetchShow()
-    console.log(isLoading)
   }, []);
 
   if (isLoading) {
     return <ActivityIndicator size="large" />;
   }
-
-  console.log('here')
 
   return (
     <View className='flex-1 justify-center'>

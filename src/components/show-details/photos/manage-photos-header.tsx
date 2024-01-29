@@ -17,12 +17,6 @@ const ManagePhotosHeader: React.FC<ManagePhotosHeaderProps> = ({
 
     const router = useRouter()
 
-    const handleSave = async () => {
-        await updateSupabaseShowItem(showId, 'photoUrls', photoUrls)
-        setUnsavedChanges(false)
-        router.back()
-    }
-
     const handleCancel = () => {
         console.log('handled')
         router.back()
@@ -30,19 +24,15 @@ const ManagePhotosHeader: React.FC<ManagePhotosHeaderProps> = ({
 
     return (
         <View className="flex-row items-center justify-between p-2">
-            <TouchableOpacity onPress={handleCancel} style={{ padding: 10 }}>
-                <Text className="text-white text-lg">Cancel</Text>
+            <TouchableOpacity className='p-5' onPress={handleCancel}>
+                <Text className="text-white text-lg">Back</Text>
             </TouchableOpacity>
             
-            <Text className="text-white font-bold text-lg">Add Photos</Text>
+            <Text className="text-white font-bold text-lg">Manage Photos</Text>
 
-            <TouchableOpacity 
-                onPress={handleSave}
-                disabled={!unsavedChanges}
-                style={{ padding: 10, opacity: unsavedChanges ? 1 : 0.5 }}
-            >
-                <Text className="text-themePurple text-lg">Save</Text>
-            </TouchableOpacity>
+            <View className="p-5">
+                <Text className="text-black text-lg">    </Text> 
+            </View>
         </View>
     )
 }
