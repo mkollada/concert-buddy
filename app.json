@@ -18,7 +18,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.mattkollada.shows-live-music-diary",
-      "buildNumber":"4"
+      "buildNumber":"5"
     },
     "android": {
       "adaptiveIcon": {
@@ -28,7 +28,8 @@
       "permissions": [
         "android.permission.RECORD_AUDIO"
       ],
-      "package": "com.mattkollada.shows"
+      "package": "com.mattkollada.shows",
+      "versionCode": 5
     },
     "web": {
       "bundler": "metro",
