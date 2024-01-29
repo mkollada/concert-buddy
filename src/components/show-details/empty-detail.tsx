@@ -7,8 +7,8 @@ import { Show } from "../../types/types";
 interface EmptyDetailProps {
     title: string
     subtitle: string
-    iconName: 'pencil' | 'picture-o' | 'star' | 'list-ul'
-    link: 'show-details/edit-notes' | 'add-photos'
+    iconName: 'pencil' | 'picture-o' | 'star' | 'list-ul' | 'image'
+    link: ('show-details/edit-notes' | 'show-details/add-photos-page' | 'show-details/manage-photos-page') | (() => void)
     show: Show
 }
 
@@ -18,18 +18,24 @@ export default function EmptyDetail({
 
     const router = useRouter()
 
-    const handlePlusPress =() => {
-        console.log('pressed')
-        router.push({
-            pathname:`/${link}`,
-            params:{
-                showId: show.id
-            }
-        })
+    const handlePress = () => {
+        if(typeof link === 'string'){
+            router.push({
+                pathname:`/${link}`,
+                params:{
+                    showId: show.id
+                }
+            })
+        } else if (typeof link === "function" && link.length === 0) {
+            link()
+        } else {
+            console.error('this type of link input is not supported in empty detail')
+        }
+        
     }
 
     return (
-        <Pressable onPress={handlePlusPress} style={({ pressed }) => [
+        <Pressable onPress={handlePress} style={({ pressed }) => [
             {
               opacity: pressed ? 0.5 : 1
             }
