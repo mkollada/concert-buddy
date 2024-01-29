@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Carousel from 'react-native-reanimated-carousel';
 import { View } from "../Themed";
 import { Dimensions, Image } from "react-native";
@@ -14,18 +14,21 @@ const ShowDetailsCarousel: React.FC<ShowDetailsCarouselProps> = ({ show }) => {
     const width = Dimensions.get('window').width;
     let publicUrls: string[] = []
 
-    if (show.photoUrls.length === 0) {
-        publicUrls = [
-            show.artistImageUri
-        ]
-    } else {
-        const uris = show.photoUrls
-        uris.forEach( uri => {
-            const response = supabase.storage.from('show_photos').getPublicUrl(uri.split('show_photos/')[1]);
-            publicUrls.push(response.data.publicUrl)
+    useEffect(() => {
+        if (show.photoUrls.length === 0) {
+            publicUrls = [
+                show.artistImageUri
+            ]
+        } else {
+            const uris = show.photoUrls
+            uris.forEach( uri => {
+                const response = supabase.storage.from('show_photos').getPublicUrl(uri.split('show_photos/')[1]);
+                publicUrls.push(response.data.publicUrl)
+    
+            })
+        }
 
-        })
-    }
+    }, [show])
 
     return (
 
