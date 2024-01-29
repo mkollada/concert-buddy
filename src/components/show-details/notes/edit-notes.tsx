@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { View, TextInput, Platform, KeyboardAvoidingView } from "react-native";
+import { View, TextInput} from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import EditNotesHeader from "./edit-notes-header";
 
 interface EditNotesProps {
@@ -19,25 +20,26 @@ const EditNotes: React.FC<EditNotesProps> = ({
     }
 
     return (
-        <KeyboardAvoidingView 
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={{ flex: 1 }}
-    >
-        <View className="flex-1">
-            <EditNotesHeader 
-                notes={notes} 
-                showId={showId} 
-                unsavedChanges={unsavedChanges}
-                setUnsavedChanges={setUnsavedChanges} />
-            <View className='flex-1 p-4 bg-themeGray'>
-                <TextInput 
-                    className='flex-1 text-2xl text-white bg-themeGray' 
-                    value={notes} 
-                    onChangeText={handleTextChange}
-                    multiline />
+        <KeyboardAwareScrollView
+            enableOnAndroid={true}
+            extraHeight={100}
+            keyboardShouldPersistTaps='handled'
+            className="flex-1">
+            <View className="flex-1">
+                <EditNotesHeader 
+                    notes={notes} 
+                    showId={showId} 
+                    unsavedChanges={unsavedChanges}
+                    setUnsavedChanges={setUnsavedChanges} />
+                <View className='flex-1 p-4 bg-themeGray'>
+                    <TextInput 
+                        className='flex-1 text-2xl text-white bg-themeGray' 
+                        value={notes} 
+                        onChangeText={handleTextChange}
+                        multiline />
+                </View>
             </View>
-        </View>
-        </KeyboardAvoidingView>
+        </KeyboardAwareScrollView>
     )
 }
 
