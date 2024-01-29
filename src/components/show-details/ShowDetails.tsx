@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { View, Text } from "../Themed";
 import { Show } from "../../types/types";
-import { getSupabaseShow } from "../../api";
+import { getSupabaseShow, updateSupabaseShowItem, uploadSupabasePhotos } from "../../api";
 import ShowDetailsHeader from "./ShowDetailsHeader";
 import ShowDetailsCarousel from "./ShowDetailsCarousel";
 import ShowNotesSummary from "./show-notes-summary";
@@ -11,6 +11,7 @@ import MemoryCarousel from "../memories/memory-carousel";
 import EmojiRatingBar from "../utils/emoji-rating-bar";
 import EmptyDetail from "./empty-detail";
 import { useNavigation } from "expo-router";
+import * as ImagePicker from 'expo-image-picker';
 
 
 interface ShowDetailsProps {
@@ -63,6 +64,41 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
     }
     
   }
+
+  const setPhotosUpdateShow = (photoUrls: string[]) => {
+    if(show) {
+      const updatedShow = {
+        ...show,
+        photoUrls: photoUrls
+      }
+      setShow(updatedShow);
+    } else {
+      console.error('Cannot update show photos if show is null')
+    }
+    
+  }
+
+  const pickImageAsync = async () => {
+    if(show){
+      const result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.Images,
+          quality: 1,
+          allowsMultipleSelection: true
+      });
+
+      if (!result.canceled) {
+        const newPhotoUrls = await uploadSupabasePhotos(result.assets)
+        const photoUrls = [...show.photoUrls, ...newPhotoUrls]
+        await updateSupabaseShowItem(show.id,'photo_urls',photoUrls)
+
+        setPhotosUpdateShow(photoUrls)
+      } else {
+        alert('You did not select any image.');
+      }
+    } else {
+      console.error('cannot add photos if show is null')
+    }
+  };
 
   useEffect(() => {
     const unsubscribeFocus = navigation.addListener('focus', () => {
@@ -147,7 +183,24 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
                 </View>
               </View>
             )}
-
+            <View>
+            { show.photoUrls && show.photoUrls.length > 0 ? (
+               <EmptyDetail 
+               title="Photos" 
+               subtitle="Manage your pictures from the show" 
+               iconName="picture-o" 
+               link='show-details/manage-photos-page'
+               show={show}/>
+              
+            ) : (
+              <EmptyDetail 
+                title="Photos" 
+                subtitle="Add your pictures from the show" 
+                iconName="picture-o" 
+                link={pickImageAsync}
+                show={show}/>
+            )}
+            </View>
             <View>
             { show.notes ? (
                <></>
@@ -157,19 +210,6 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
                 title="Notes" 
                 subtitle="Add your thoughts from the show" 
                 iconName="pencil" 
-                link="show-details/edit-notes"
-                show={show}/>
-            )}
-            </View>
-            <View>
-            { show.photoUrls && show.photoUrls.length > 0 ? (
-               <></>
-              
-            ) : (
-              <EmptyDetail 
-                title="Photos" 
-                subtitle="Add your thoughts from the show" 
-                iconName="picture-o" 
                 link="show-details/edit-notes"
                 show={show}/>
             )}

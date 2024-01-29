@@ -77,18 +77,6 @@ function RootLayoutNav() {
           name="log-show" 
           options={{ 
             title: 'Log Show',
-          //   headerRight: 
-          //   () => (
-          //     <Pressable>
-          //       {({ pressed }) => (
-          //         <Text
-          //           style={{ marginRight: 15, 
-          //             opacity: pressed ? 0.5 : 1,
-          //           color: 'white' }}
-          //         >Save</Text>
-          //       )}
-          //     </Pressable>
-          //  ),
           }} />
         <Stack.Screen 
           name="show-details/[id]"
@@ -99,6 +87,12 @@ function RootLayoutNav() {
         />
         <Stack.Screen 
           name="show-details/edit-notes" 
+          options={{ 
+            presentation: 'modal',
+            headerShown: false    
+         }} />
+         <Stack.Screen 
+          name="show-details/manage-photos-page" 
           options={{ 
             presentation: 'modal',
             headerShown: false    
