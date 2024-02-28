@@ -60,7 +60,7 @@ export default function LoggedShowList({ showReload, setShowReload }: LoggedShow
         <ScrollView className='flex-1'>     
           <View className='bg-transparent'>
             {shows.map((show: Show) => (
-                <View key={`${show.id}-btn`}>
+                <View className='flex-1 justify-center' key={`${show.id}-btn`}>
                   <LoggedShowBlock show={show} setDeleteShowId={setDeleteShowId}/>
                 </View>
             ))}

@@ -16,6 +16,7 @@ export const LoggedShowBlock: React.FC<LoggedShowBlockProps> = ({ show, setDelet
     const rightSwipeActions = () => {
         return (
             <TouchableOpacity
+                className=''
                 onPress={() => confirmDelete()}
                 style={{
                     backgroundColor: 'red',
@@ -23,6 +24,8 @@ export const LoggedShowBlock: React.FC<LoggedShowBlockProps> = ({ show, setDelet
                     alignItems: 'flex-end',
                     height: '100%',
                     paddingHorizontal: 20,
+                    paddingVertical: 0,
+                    marginVertical: 0
                 }}
             >
                 <Text style={{ color: 'white' }}>
@@ -62,33 +65,40 @@ export const LoggedShowBlock: React.FC<LoggedShowBlockProps> = ({ show, setDelet
     };
 
     return (
-        <Swipeable
+        
+            
+        <View className='py-2'>
+            <Swipeable
             renderRightActions={rightSwipeActions}
             onSwipeableOpen={(direction) => {
                 if (direction === 'right') {
                     // No additional logic needed here for now
                 }
             }}
-        >
-            <Link href={`/show-details/${show.id}`}>
-                <View className='flex-row h-[10vh] py-2'>
-                    <View className="px-3 w-[10vh] justify-center">
-                        <Text className="text-white font-bold">{show.date.substring(5,7)}.{show.date.substring(8,10)}</Text>
-                    </View>
-                    <View className='flex-row justify-items-center px-2 rounded'>
-                        <Image
-                            className='aspect-square h-[8vh] px-2 rounded'
-                            source={{
-                                uri: show.artistImageUri,
-                            }}
-                        />
-                        <View className="flex-column justify-center px-2">
-                            <Text className="text-white font-bold">{show.artistName}</Text>
-                            <Text className="text-white">{show.venue}</Text>
+            >
+                <Link href={`/show-details/${show.id}`}>
+                    <View className='flex-row'>
+                        <View className="px-3 w-18 justify-center">
+                            <Text className="text-white font-bold">{show.date.substring(5,7)}.{show.date.substring(8,10)}</Text>
                         </View>
+                        <View className='flex-row w-[80%] items-center p-4 rounded-2xl bg-cardGray'>
+                            <Image
+                                className='aspect-square h-16 px-2 rounded'
+                                source={{
+                                    uri: show.artistImageUri,
+                                }}
+                            />
+                            <View className="flex-column justify-center px-2">
+                                <Text className="text-white font-bold">{show.artistName}</Text>
+                                <Text className="text-white">{show.venue}</Text>
+                            </View>
+                        </View>
+                        
                     </View>
-                </View>
-            </Link>
-        </Swipeable>
+                </Link>
+            </Swipeable>
+        </View>
+            
+        
     );
 }
