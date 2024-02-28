@@ -13,6 +13,8 @@ module.exports = {
         themeGray: '#1E2129',
         white: '#FFFFFF',
         themePurpleDark: '#542db8',
+        cardGray: '#040D17',
+        background: '#0C1319'
       }
     },
     

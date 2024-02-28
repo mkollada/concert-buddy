@@ -3,7 +3,6 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native
 import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { useColorScheme } from 'react-native';
 import { Session } from '@supabase/supabase-js'
 import { supabase } from '../utils/supabase';
 import Auth from '../components/Auth';
@@ -60,11 +59,21 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-  const colorScheme = useColorScheme();
-  // const [submitShow, setSubmitShow] = useState<Show|null>(null)
+
+  const theme = {
+    dark: true,
+    colors: {
+      primary: 'rgb(255, 45, 85)', // The primary color of the app used in various components.
+      background: '#0C1319', // Background color of the screens.
+      card: '#040D17', // Background color of card-like elements, such as headers.
+      text: '#FFFFFF', // The color of text.
+      border: '#000000', // Color for borders and dividers.
+      notification: 'rgb(255, 69, 58)', // Color for Notification dots.
+    }
+  }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <ThemeProvider value={theme}>
       
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false, presentation: 'modal' }} />
