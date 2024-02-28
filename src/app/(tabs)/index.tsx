@@ -1,6 +1,6 @@
 import { Button, ScrollView } from 'react-native';
 
-import { Text, View } from '../../components/Themed';
+import { Text, View } from '../react-native';
 import { Link } from 'expo-router';
 import React, { useEffect, useRef, useState } from 'react';
 import { getSupabaseShows } from '../../api';

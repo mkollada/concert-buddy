@@ -1,4 +1,4 @@
-import { View } from '../components/Themed';
+import { View } from 'react-native';
 import React from 'react';
 import { SearchVenueDropdown } from '../components/find-show/venues/search-venue';
 import { useState, useEffect } from 'react';

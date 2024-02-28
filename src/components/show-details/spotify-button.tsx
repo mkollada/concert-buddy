@@ -1,6 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, Image, Linking } from 'react-native';
-import { View } from '../Themed';
+import { View } from 'react-native';
 
 interface SpotifyButtonProps {
     spotifyUrl: string

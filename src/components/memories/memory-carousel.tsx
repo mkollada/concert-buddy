@@ -1,6 +1,6 @@
 import React from "react";
 import Carousel from 'react-native-reanimated-carousel';
-import { View } from "../Themed";
+import { View } from "react-native";
 import { Dimensions } from "react-native";
 import { Memories, Show } from "../../types/types";
 import MemoryBlock from "./memory-block";

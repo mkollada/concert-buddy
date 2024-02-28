@@ -1,4 +1,4 @@
-import { View } from '../components/Themed';
+import { View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { SelecPastShowDropdown } from '../components/find-show/shows/select-show-dropdown';
 import { useLocalSearchParams, useRouter } from 'expo-router';

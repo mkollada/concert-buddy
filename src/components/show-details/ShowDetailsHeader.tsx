@@ -1,6 +1,6 @@
 import React from "react";
 import { Show } from "../../types/types";
-import { View, Text } from "../Themed";
+import { View, Text } from "react-native";
 import { Button } from "react-native";
 import { updateSupabaseShow } from "../../api";
 

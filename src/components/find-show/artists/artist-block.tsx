@@ -1,6 +1,6 @@
 import { Image } from "react-native";
 import { JamBaseArtist } from "../../../types/jambase";
-import { View, Text } from "../../Themed";
+import { View, Text } from "react-native";
 import React from "react";
 
 

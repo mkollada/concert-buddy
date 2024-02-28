@@ -5,7 +5,7 @@ import Icon from '@expo/vector-icons/FontAwesome';
 import Collapsable from 'react-native-collapsible'
 import { Calendar } from "react-native-calendars";
 import { AirbnbRating } from 'react-native-ratings';
-import { Text, View } from '../components/Themed';
+import { Text, View } from 'react-native';
 import { TextInput } from "react-native";
 import { Button } from "react-native-elements";
 import * as ImagePicker from 'expo-image-picker';

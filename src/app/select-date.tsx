@@ -1,4 +1,4 @@
-import { View } from '../components/Themed';
+import { View } from 'react-native';
 import React from 'react';
 import { DatePicker } from '../components/find-show/show-date-picker'
 import { useLocalSearchParams, useRouter } from "expo-router";

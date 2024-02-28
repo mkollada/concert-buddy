@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { View, Text } from "../Themed";
+import { View, Text } from "react-native";
 import { Show } from "../../types/types";
 import { getSupabaseShow, updateSupabaseShowItem, uploadSupabasePhotos } from "../../api";
 import ShowDetailsHeader from "./ShowDetailsHeader";

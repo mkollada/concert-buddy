@@ -1,4 +1,4 @@
-import { View } from '../../components/Themed';
+import { View } from '../react-native';
 import ShowDetails from '../../components/show-details/ShowDetails';
 import React from 'react';
 import { useLocalSearchParams } from 'expo-router';

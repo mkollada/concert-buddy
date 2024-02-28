@@ -1,4 +1,4 @@
-import { View } from '../components/Themed';
+import { View } from 'react-native';
 import React from 'react';
 import { SearchArtistDropdown } from '../components/find-show/artists/search-artist';
 import { useState, useEffect } from 'react';

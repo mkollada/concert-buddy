@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Carousel from 'react-native-reanimated-carousel';
-import { View } from "../Themed";
+import { View } from "react-native";
 import { Dimensions, Image } from "react-native";
 import { Show } from "../../types/types";
 import { supabase } from "../../utils/supabase";
