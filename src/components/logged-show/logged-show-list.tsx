@@ -4,8 +4,7 @@ import { Text, View, Button, ScrollView } from 'react-native';
 import { Link } from 'expo-router';
 import { getSupabaseShows } from '../../api';
 import { Show } from '../../types/types';
-import { ShowBlock } from '../../components/ShowBlock';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { LoggedShowBlock } from '../../components/logged-show/logged-show-block';
 
 interface LoggedShowListProps {
     showReload: boolean
@@ -62,7 +61,7 @@ export default function LoggedShowList({ showReload, setShowReload }: LoggedShow
           <View className='bg-transparent'>
             {shows.map((show: Show) => (
                 <View key={`${show.id}-btn`}>
-                  <ShowBlock show={show} setDeleteShowId={setDeleteShowId}/>
+                  <LoggedShowBlock show={show} setDeleteShowId={setDeleteShowId}/>
                 </View>
             ))}
           </View>

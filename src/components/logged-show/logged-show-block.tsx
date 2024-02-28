@@ -1,17 +1,17 @@
 import React from 'react';
 import { Image, Alert, TouchableOpacity } from 'react-native';
 import { Text, View } from "react-native";
-import { Show } from "../types/types";
+import { Show } from "../../types/types";
 import { Swipeable } from 'react-native-gesture-handler';
-import { deleteSupabaseShow } from '../api';
+import { deleteSupabaseShow } from '../../api';
 import { Link } from 'expo-router';
 
-interface ShowProps {
+interface LoggedShowBlockProps {
     show: Show
     setDeleteShowId: (value: string) => void
 }
 
-export const ShowBlock: React.FC<ShowProps> = ({ show, setDeleteShowId }) => {
+export const LoggedShowBlock: React.FC<LoggedShowBlockProps> = ({ show, setDeleteShowId }) => {
 
     const rightSwipeActions = () => {
         return (
