@@ -391,6 +391,7 @@ const styles = StyleSheet.create({
     },
     accordTitle: {
         fontSize: 20,
+        color: "white"
     },
     accordSubtitle: {
         backgroundColor: '#111'

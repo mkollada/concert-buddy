@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View } from '../react-native';
+import { Text, View } from 'react-native';
 import { JamBaseEvent } from '../../../types/jambase';
 import {  ScrollView, TouchableOpacity } from 'react-native';
 import SelectShowBlock from './select-show-block';
@@ -59,7 +59,7 @@ export function SelecPastShowDropdown({
         {isLoading ? (
         // If isLoading is true, render the Loading text
         <View className='flex-1 items-center justify-center'>
-          <Text className='font-bold text-md'>Loading...</Text>
+          <Text className='font-bold text-md text-white'>Loading...</Text>
         </View>
       ) : (
         <View className='flex-1 pt-3'>

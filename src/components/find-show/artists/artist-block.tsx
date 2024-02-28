@@ -13,7 +13,7 @@ export default function ArtistBlock({ artist }: ArtistBlockProps) {
             <View className='rounded-xl'>
               <Image className='h-[10vh] w-full rounded-t-xl' source={{uri: artist.image}} onError={(error) => console.log("Image error", error)}/>
               <View className="rounded-b-xl bg-themeGray p-3">
-                <Text className='text-xl'>{artist.name}</Text>
+                <Text className='text-xl text-white'>{artist.name}</Text>
               </View>
             </View>
     )

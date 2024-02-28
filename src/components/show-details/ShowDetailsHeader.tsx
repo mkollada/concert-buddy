@@ -23,8 +23,8 @@ const ShowDetailsHeader: React.FC<ShowDetailsHeaderProps> = ({
     return (
         <View className="flex-row items-center relative p-2">
             <View className="flex-1 justify-center items-center">
-                <Text className="font-bold text-lg">{show?.artistName}</Text>
-                <Text className="text-xs">{show.date} {"\u00b7"} {show.venue}</Text>
+                <Text className="font-bold text-lg text-white">{show?.artistName}</Text>
+                <Text className="text-xs text-white">{show.date} {"\u00b7"} {show.venue}</Text>
             </View>
             <View className="absolute right-0 mr-4">
                 <Button 

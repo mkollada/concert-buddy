@@ -163,7 +163,7 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
               <></>
             )}
             
-            <Text className="py-4 items-left text-2xl">Ratings:</Text>
+            <Text className="py-4 items-left text-2xl text-white">Ratings:</Text>
             <View>
               <Text className='text-white text-lg'>The Show</Text>
             </View>
