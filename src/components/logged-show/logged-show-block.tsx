@@ -67,7 +67,7 @@ export const LoggedShowBlock: React.FC<LoggedShowBlockProps> = ({ show, setDelet
     return (
         
             
-        <View className='py-2'>
+        <View className='py-1'>
             <Swipeable
             renderRightActions={rightSwipeActions}
             onSwipeableOpen={(direction) => {
