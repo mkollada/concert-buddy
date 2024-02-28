@@ -31,11 +31,12 @@ export default function Auth() {
   }
 
   return (
-    <View style={styles.container}>
+    <View className='flex-1 bg-background pt-20' style={styles.container}>
       <View style={[styles.verticallySpaced, styles.mt20]}>
         <Input
+          className='text-white'
           label="Email"
-          leftIcon={{ type: 'font-awesome', name: 'envelope' }}
+          leftIcon={{ type: 'font-awesome', name: 'envelope', color:'white' }}
           onChangeText={(text) => setEmail(text)}
           value={email}
           placeholder="email@address.com"
@@ -44,8 +45,9 @@ export default function Auth() {
       </View>
       <View style={styles.verticallySpaced}>
         <Input
+          className='text-white'
           label="Password"
-          leftIcon={{ type: 'font-awesome', name: 'lock' }}
+          leftIcon={{ type: 'font-awesome', name: 'lock', color: 'white' }}
           onChangeText={(text) => setPassword(text)}
           value={password}
           secureTextEntry={true}
@@ -65,7 +67,7 @@ export default function Auth() {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 40,
+    marginTop: 0,
     padding: 12,
   },
   verticallySpaced: {
