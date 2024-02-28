@@ -1,6 +1,6 @@
 import { Calendar } from "react-native-calendars";
 import React from 'react';
-import { View } from '../react-native';
+import { View } from 'react-native';
 import { StyleSheet } from "react-native";
 
 interface DatePickerProps {

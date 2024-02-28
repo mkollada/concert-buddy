@@ -1,4 +1,4 @@
-import { View } from '../react-native';
+import { View } from 'react-native';
 import React from 'react';
 import { useLocalSearchParams } from 'expo-router';
 import { ensureString } from '../../utils';

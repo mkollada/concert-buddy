@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View } from '../../react-native';
+import { Text, View } from '../react-native';
 import { JamBaseEvent } from '../../../types/jambase';
 import {  ScrollView, TouchableOpacity } from 'react-native';
 import SelectShowBlock from './select-show-block';

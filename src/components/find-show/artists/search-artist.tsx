@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { Text, View } from '../../react-native';
+import { Text, View } from '../react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import debounce from 'lodash/debounce';
 import { JamBaseArtist } from '../../../types/jambase';
