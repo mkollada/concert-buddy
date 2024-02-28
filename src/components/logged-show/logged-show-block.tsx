@@ -71,13 +71,13 @@ export const LoggedShowBlock: React.FC<LoggedShowBlockProps> = ({ show, setDelet
             }}
         >
             <Link href={`/show-details/${show.id}`}>
-                <View className='flex-row h-[10vh] p-2'>
+                <View className='flex-row h-[10vh] py-2'>
                     <View className="px-3 w-[10vh] justify-center">
                         <Text className="text-white font-bold">{show.date.substring(5,7)}.{show.date.substring(8,10)}</Text>
                     </View>
                     <View className='flex-row justify-items-center px-2 rounded'>
                         <Image
-                            className='aspect-square px-2 rounded'
+                            className='aspect-square h-[8vh] px-2 rounded'
                             source={{
                                 uri: show.artistImageUri,
                             }}
