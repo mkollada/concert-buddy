@@ -20,7 +20,6 @@ export default function LoggedShowList({ showReload, setShowReload }: LoggedShow
 
     useEffect(() => {
         if (showReload) {
-            console.log('reloading...')
             const fetchShows = async () => {
                 try {
                     const result = await getSupabaseShows();
@@ -33,7 +32,6 @@ export default function LoggedShowList({ showReload, setShowReload }: LoggedShow
             };
             fetchShows();
             setShowReload(false)
-            console.log(shows)
         }
         
     }, [showReload])
