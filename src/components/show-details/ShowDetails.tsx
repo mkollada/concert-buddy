@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { View, Text } from "react-native";
+import { View, Text, Button, TouchableOpacity } from "react-native";
 import { Show } from "../../types/types";
 import { getSupabaseShow, updateSupabaseShowItem, uploadSupabasePhotos } from "../../api";
 import ShowDetailsHeader from "./ShowDetailsHeader";
@@ -12,7 +12,7 @@ import EmojiRatingBar from "../utils/emoji-rating-bar";
 import EmptyDetail from "./empty-detail";
 import { useNavigation } from "expo-router";
 import * as ImagePicker from 'expo-image-picker';
-
+import { Entypo, Feather, FontAwesome } from "@expo/vector-icons";
 
 interface ShowDetailsProps {
     showId: string
@@ -143,7 +143,7 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
     { show ? (
       <View className="flex-1 items-center">
         
-        <ShowDetailsHeader show={show} showUnsavedChanges={showUnsavedChanges} setShowUnsavedChanges={setShowUnsavedChanges} />
+        {/* <ShowDetailsHeader show={show} showUnsavedChanges={showUnsavedChanges} setShowUnsavedChanges={setShowUnsavedChanges} /> */}
         <KeyboardAwareScrollView 
           enableOnAndroid={true}
           extraHeight={100}
@@ -151,6 +151,21 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
           className="flex-1">
         <View>
           <ShowDetailsCarousel show={show} />
+          <View className="absolute top-0 left-0 right-0 p-4 flex-row justify-between items-center">
+            {/* Left Button with X Icon */}
+            <TouchableOpacity className="p-2 rounded-full">
+              <Feather size={25} color='white' name="x"/>
+            </TouchableOpacity>
+
+            {/* Right Button with Vertical Dots Icon */}
+            <TouchableOpacity className="p-2 rounded-full">
+              <Entypo size={20} color='white' name="dots-three-vertical" />
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View className="px-6">
+          <Text className="text-white font-bold text-lg pb-1">{show.artistName}</Text>
+          <Text className="text-white text-md">{show.date} {'\u00B7'} {show.venue}</Text>
         </View>
         <View className="p-2">
           <View className="p-2">

@@ -40,11 +40,11 @@ const ShowDetailsCarousel: React.FC<ShowDetailsCarouselProps> = ({ show }) => {
 
     return (
 
-        <View className="flex-column py-5 items-center">
+        <View className="flex-column pb-5 items-center">
             <Carousel
                 loop={false}
                 width={width}
-                height={4*width/7}
+                height={5*width/7}
                 data={publicUrls}
                 onSnapToItem={(index) => console.log('current index:', index, publicUrls[index])}
                 renderItem={({ index }) => {
