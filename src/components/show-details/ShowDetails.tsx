@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { View, Text, Button, TouchableOpacity } from "react-native";
 import { Show } from "../../types/types";
 import { getSupabaseShow, updateSupabaseShowItem, uploadSupabasePhotos } from "../../api";
-import ShowDetailsHeader from "./ShowDetailsHeader";
 import ShowDetailsCarousel from "./ShowDetailsCarousel";
 import ShowNotesSummary from "./show-notes-summary";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -10,7 +9,7 @@ import SpotifyButton from "./spotify-button";
 import MemoryCarousel from "../memories/memory-carousel";
 import EmojiRatingBar from "../utils/emoji-rating-bar";
 import EmptyDetail from "./empty-detail";
-import { useNavigation } from "expo-router";
+import { useNavigation, useRouter } from "expo-router";
 import * as ImagePicker from 'expo-image-picker';
 import { Entypo, Feather, FontAwesome } from "@expo/vector-icons";
 
@@ -34,7 +33,6 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
 
   const setShowInitial = (s: Show) => {
     setShow(s)
-    // setShowRating(s.overallRating)
     setShowUnsavedChanges(false)
     initialLoad.current = false; // Set to false after initial load
   }
@@ -135,6 +133,10 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
       }
     }, [show])
 
+    const handleXPress = () => {
+      navigation.goBack()
+    }
+
 
 
   return (
@@ -153,7 +155,7 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
           <ShowDetailsCarousel show={show} />
           <View className="absolute top-0 left-0 right-0 p-4 flex-row justify-between items-center">
             {/* Left Button with X Icon */}
-            <TouchableOpacity className="p-2 rounded-full">
+            <TouchableOpacity className="p-2 rounded-full" onPress={handleXPress}>
               <Feather size={25} color='white' name="x"/>
             </TouchableOpacity>
 
@@ -163,12 +165,12 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
             </TouchableOpacity>
           </View>
         </View>
-        <View className="px-6">
-          <Text className="text-white font-bold text-lg pb-1">{show.artistName}</Text>
-          <Text className="text-white text-md">{show.date} {'\u00B7'} {show.venue}</Text>
+        <View className="px-6 py-2">
+          <Text className="text-white text-lg pb-1">{show.artistName}</Text>
+          <Text className="text-gray-300 text-md">{show.date} {'\u00B7'} {show.venue}{show.venueLoc ? `, ${show.venueLoc}` : ''}</Text>
         </View>
         <View className="p-2">
-          <View className="p-2">
+          <View className="py-4 px-2">
             { show.notes ? (
               <View className="p-2">
                 <ShowNotesSummary show={show} />
@@ -177,16 +179,27 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
             ) : (
               <></>
             )}
+            {/* Ratings view */}
+            <View className="px-2">
+              <Text className="py-4  items-left text-3xl text-white">Ratings</Text>
+              {/* Show Ratings View */}
+              <View className="py-2">
+                <View>
+                  <Text className='text-white text-lg'>The Show</Text>
+                </View>
+                <EmojiRatingBar rating={show.overallRating} setRating={setOverallShowRatingUpdateShow} />
+              </View>
+              {/* Venue Ratings View  */}
+              <View className="py-2">
+                <View>
+                  <Text className='text-white text-lg'>The Venue</Text>
+                  <Text className='text-gray-400 text-md'>{show.venue}{show.venueLoc ? `, ${show.venueLoc}` : ''}</Text>
+                </View>
+                <EmojiRatingBar rating={show.venueRating} setRating={setVenueRatingUpdateShow} />
+              </View>
+              
+            </View>
             
-            <Text className="py-4 items-left text-2xl text-white">Ratings:</Text>
-            <View>
-              <Text className='text-white text-lg'>The Show</Text>
-            </View>
-            <EmojiRatingBar rating={show.overallRating} setRating={setOverallShowRatingUpdateShow} />
-            <View>
-              <Text className='text-white text-lg'>The Venue</Text>
-            </View>
-            <EmojiRatingBar rating={show.venueRating} setRating={setVenueRatingUpdateShow} />
             { Object.values(show.memories).every(value => value === "") ? (
               <></>
               ):(

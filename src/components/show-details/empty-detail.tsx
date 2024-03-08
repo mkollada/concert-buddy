@@ -40,9 +40,9 @@ export default function EmptyDetail({
               opacity: pressed ? 0.5 : 1
             }
           ]}>
-            <View className='flex-row h-[10vh] p-2 rounded-xl items-center'>
+            <View className='flex-row h-[10vh] rounded-xl items-center'>
                 
-                <View className="px-3 w-[10vh] justify-center items-center">
+                <View className="w-[10vh] justify-center items-center">
                     <Icon name={iconName} color='#9069F4' size={30} />
                 </View>
                 <View className='flex-1'>
@@ -54,7 +54,7 @@ export default function EmptyDetail({
                     
                 </View>
                 
-                    <View className="justify-center">
+                    <View className="justify-center pr-4">
                         <Icon name="plus" color='white' size={20}/>
                     </View>
                 

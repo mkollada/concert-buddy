@@ -53,7 +53,7 @@ export function SelecPastShowDropdown({
       
       <View className='flex-1 pt-3'>
         <View className='items-center'>
-          <Text className='font-bond text-lg'>{artistName}</Text>
+          <Text className='font-bond text-lg text-white'>{artistName}</Text>
         </View>
 
         {isLoading ? (
@@ -86,7 +86,7 @@ export function SelecPastShowDropdown({
               .sort((a, b) => Number(b) - Number(a))  // Sorting in descending order
               .map(year => (
                 <View key={year} className='p-4'>
-                  <Text className='text-xl font-bold'>{year}</Text>
+                  <Text className='text-xl text-white font-bold'>{year}</Text>
                   {events[year].map((event, ix) => (
                     <View className='flex-row px-5 py-2' key={ix}>
                       <TouchableOpacity className='flex-1'

@@ -13,7 +13,6 @@ function EditNotesPage() {
     showId: ensureString(rawParams.showId),
   };
 
-//   router.back(params:{'1':'1'})
   return (
     <View className='flex-1 justify-center'>
         <EditNotes initialNotes={params.initialNotes} showId={params.showId}/>

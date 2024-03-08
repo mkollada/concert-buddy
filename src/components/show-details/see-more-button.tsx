@@ -32,7 +32,7 @@ export default function SeeMoreButton({ show, text, link }: SeeMoreButtonProps) 
           ]}>
             <View className="flex-row items-center">
                 
-                <Text className="text-white">{text}</Text>
+                <Text className="text-white text-sm">{text}</Text>
                 <View className="p-1">
                     <Icon name='arrow-circle-o-right' size={20} color={'#9069F4'} />
                 </View>
