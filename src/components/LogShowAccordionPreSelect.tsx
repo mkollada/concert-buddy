@@ -5,7 +5,9 @@ import {
     SafeAreaView,
     Text,
     View,
-    Image
+    Image,
+    Modal,
+    
   } from 'react-native';
 
 import { addSupabaseShow, uploadSupabasePhotos } from '../api';
@@ -16,18 +18,18 @@ import uuid from 'react-native-uuid';
 import { Memories, Show } from '../types/types';
 
 import { 
-    AccordionWithBodyText, 
-    AccordionWithPhotos,
     AccordionHeaderNoComponent,
-    AccordionEmojiRating
+    AccordionEmojiRating,
+    EditItem,
 } from './AccordionItem';
 
 import { getSupabaseSession } from '../api';
 import { Session } from '@supabase/supabase-js';
 
-import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from 'expo-router';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import ManagePhotos from './show-details/photos/manage-photos';
+import EditNotes from './show-details/notes/edit-notes';
 
 interface LogShowAccordionPreSelectProps {
     artistId: string
@@ -67,7 +69,8 @@ export default function LogShowAccordionPreSelect({
     // const [artistName, setArtistName] = useState('')
     // const [date, setDate] = useState('')
     // const [venue, setVenue] = useState('')
-    const [photos, setPhotos] = useState<ImagePicker.ImagePickerAsset[]>([])
+    // const [photos, setPhotos] = useState<ImagePicker.ImagePickerAsset[]>([])
+    const [photoUrls, setPhotoUrls] = useState<string[]>([])
     const [overallRating, setOverallRating] = useState<number|null>(null)
     const [venueRating, setVenueRating] = useState<number|null>(null)
     const [notes, setNotes] = useState('')
@@ -76,7 +79,9 @@ export default function LogShowAccordionPreSelect({
     const [musicalityRating, setMusicalityRating] = useState(0)
     const [productionRating, setProductionRating] = useState(0)
     const [stagePresenceRating, setStagePresenceRating] = useState(0)
-    
+    const [photoModalVisible, setPhotoModalVisible] = useState(false)
+    const [notesModalVisible, setNotesModalVisible] = useState(false)
+
 
     const {data, error} = getSupabaseSession()
 
@@ -103,7 +108,7 @@ export default function LogShowAccordionPreSelect({
         venue: string,
         overallRating: number|null,
         notes: string,
-        photos: ImagePicker.ImagePickerAsset[],
+        photoUrls: string[],
         artistId: string,
         artistImageUri: string,
         venueId: string,
@@ -127,7 +132,8 @@ export default function LogShowAccordionPreSelect({
             return false
         }
 
-        const photoUrls = await uploadSupabasePhotos(photos)
+        const newPhotoUrls = await uploadSupabasePhotos(photoUrls)
+        setPhotoUrls(newPhotoUrls)
         
         const show: Show = {
             id: id,
@@ -141,7 +147,7 @@ export default function LogShowAccordionPreSelect({
             musicalityRating: musicalityRating,
             productionRating: productionRating,
             notes: notes,
-            photoUrls: photoUrls,
+            photoUrls: newPhotoUrls,
             venueId: venueId,
             venueLoc: venueLoc,
             artistId: artistId,
@@ -175,7 +181,7 @@ export default function LogShowAccordionPreSelect({
             venueName,
             overallRating,
             notes,
-            photos,
+            photoUrls,
             artistId,
             artistImageUri,
             venueId,
@@ -216,27 +222,37 @@ export default function LogShowAccordionPreSelect({
             <AccordionHeaderNoComponent
                     title="Date"
                     subtitle={date} />
-            <AccordionWithPhotos
-                title="Photos"
-                headerIcons={['chevron-down','chevron-up']}
-                setPhotos={setPhotos} 
-            />
+
+            {/* Photos Item */}
+            <EditItem title='Photos' subtitle='' setModalVisible={setPhotoModalVisible}/>
+
             <AccordionEmojiRating title='Show Rating' setRating={setOverallRating} rating={overallRating} />
 
             <AccordionEmojiRating title='Venue Rating' setRating={setVenueRating} rating={venueRating} />
-            {/* <AccordionWithRatings
-                title="Show Rating" 
-                headerIcons={['chevron-down','chevron-up']} 
-                setOverallRating={setOverallRating}
-                setMusicalityRating={setMusicalityRating}
-                setStagePresenceRating={setStagePresenceRating}
-                setProductionRating={setProductionRating}/> */}
-            <AccordionWithBodyText 
-                title="Notes" 
-                headerIcons={['chevron-down','chevron-up']} 
-                placeholderText='Enter other thoughts from the show...'
-                setValue={setNotes} />
+            <EditItem title='Notes' subtitle='' setModalVisible={setNotesModalVisible} />
             <Button title='Save' onPress={handleSubmitPress} />
+            <Modal 
+                animationType="slide"
+                visible={photoModalVisible}
+                onRequestClose={() => {
+                //   Alert.alert('Modal has been closed.')
+                  setPhotoModalVisible(!photoModalVisible)
+                }}
+            >
+                <ManagePhotos photoUrls={photoUrls} setPhotoUrls={setPhotoUrls} setModalVisible={setPhotoModalVisible}/>
+
+            </Modal>
+            <Modal 
+                animationType="slide"
+                visible={notesModalVisible}
+                onRequestClose={() => {
+                //   Alert.alert('Modal has been closed.')
+                  setNotesModalVisible(!notesModalVisible)
+                }}
+            >
+                <EditNotes notes={notes} setNotes={setNotes} setModalVisible={setNotesModalVisible}/>
+
+            </Modal>
 
           </KeyboardAwareScrollView>
         }

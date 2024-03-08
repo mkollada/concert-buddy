@@ -97,15 +97,18 @@ export function getSupabaseSession() {
 }
 
 //TODO photos are all going to be public for now, that probably needs to change
-export async function uploadSupabasePhotos(photos: ImagePicker.ImagePickerAsset[]) {
-  const photoURLs = [];
+export async function uploadSupabasePhotos(uris: string[]) {
+  const supabasePhotoURLs = [];
 
   // Upload each photo to Supabase Storage
-  for (const photo of photos) {
-    const fileExtension = photo.uri.split('.').pop(); // Assuming photos have a fileName property
+  for (const uri of uris) {
+    if(uri.startsWith('https://mbfhsthnuwvtoubyrclp.supabase.co')) {
+      supabasePhotoURLs.push(uri)
+    } else{
+      const fileExtension = uri.split('.').pop(); // Assuming photos have a fileName property
     const path = `${(await supabase.auth.getSession()).data.session?.user.id}/${new Date().getTime()}.${fileExtension}`; // Create a unique path for each photo
     
-    const file = await FileSystem.readAsStringAsync(photo.uri, {
+    const file = await FileSystem.readAsStringAsync(uri, {
       encoding: FileSystem.EncodingType.Base64,
     });
 
@@ -118,11 +121,13 @@ export async function uploadSupabasePhotos(photos: ImagePicker.ImagePickerAsset[
       console.error('Error uploading image:', error);
     } else {
       const url = supabase.storage.from('show_photos').getPublicUrl(path);
-      photoURLs.push(url.data.publicUrl);
+      supabasePhotoURLs.push(url.data.publicUrl);
     }
+    }
+    
   }
 
-  return photoURLs
+  return supabasePhotoURLs
 }
 
 export async function updateSupabaseShow(show: Show) {

@@ -1,22 +1,20 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, TextInput} from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import EditNotesHeader from "./edit-notes-header";
 
 interface EditNotesProps {
-    initialNotes: string
-    showId: string
+    notes: string
+    setNotes: (value: string) => void
+    setModalVisible: (value: boolean) => void
 }
 
 const EditNotes: React.FC<EditNotesProps> = ({
-    initialNotes, showId
+    notes, setNotes, setModalVisible
 }) => {
-    const [notes, setNotes] = useState(initialNotes)
-    const [unsavedChanges, setUnsavedChanges] = useState(false)
 
     const handleTextChange = (text: string) => {
         setNotes(text)
-        setUnsavedChanges(true)
     }
 
     return (
@@ -24,19 +22,16 @@ const EditNotes: React.FC<EditNotesProps> = ({
             enableOnAndroid={true}
             extraHeight={100}
             keyboardShouldPersistTaps='handled'
-            className="flex-1">
-            <View className="flex-1">
-                <EditNotesHeader 
-                    notes={notes} 
-                    showId={showId} 
-                    unsavedChanges={unsavedChanges}
-                    setUnsavedChanges={setUnsavedChanges} />
+            className="flex-1 bg-black">
+            <View className="flex-1 bg-black">
+                <EditNotesHeader setModalVisible={setModalVisible}/>
                 <View className='flex-1 p-4 bg-themeGray'>
                     <TextInput 
                         className='flex-1 text-2xl text-white bg-themeGray' 
                         value={notes} 
                         onChangeText={handleTextChange}
-                        multiline />
+                        multiline
+                        placeholder="Enter notes here..." />
                 </View>
             </View>
         </KeyboardAwareScrollView>

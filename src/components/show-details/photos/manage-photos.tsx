@@ -1,33 +1,35 @@
-import React, { useState } from "react";
-import { View, Text} from "react-native";
+import React, { useEffect, useState } from "react";
+import { View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import ManagePhotosHeader from "./manage-photos-header";
 import { Show } from "../../../types/types";
 import ManagePhotosThumbnailGallery from "./manage-photos-thumbnail-gallery";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 interface ManagePhotosProps {
-    show: Show
+    photoUrls: string[],
+    setPhotoUrls: (value: string[]) => void
+    setModalVisible: (value: boolean) => void
 }
 
 const ManagePhotos: React.FC<ManagePhotosProps> = ({
-    show
+    photoUrls, setPhotoUrls, setModalVisible
 }) => {
-    const [photoUrls, setPhotoUrls] = useState(show.photoUrls)
-    const [unsavedChanges, setUnsavedChanges] = useState(false)
+
+    const handleDone = () => {
+        setModalVisible(false)
+    }
+
 
     return (
         <KeyboardAwareScrollView
             enableOnAndroid={true}
             extraHeight={100}
             keyboardShouldPersistTaps='handled'
-            className="flex-1">
-            <View className="flex-1">
-                <ManagePhotosHeader 
-                    photoUrls={photoUrls} 
-                    showId={show.id} 
-                    unsavedChanges={unsavedChanges}
-                    setUnsavedChanges={setUnsavedChanges} />
-                <ManagePhotosThumbnailGallery show={show} photoUrls={photoUrls} setPhotoUrls={setPhotoUrls}/>
+            className="flex-1 bg-black">
+            <View className="flex-1 bg-black">
+                <ManagePhotosHeader handleDone={handleDone} />
+                <ManagePhotosThumbnailGallery photoUrls={photoUrls} setPhotoUrls={setPhotoUrls}/>
             </View>
         </KeyboardAwareScrollView>
     )

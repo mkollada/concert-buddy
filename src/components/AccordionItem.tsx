@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import { StyleSheet, TouchableOpacity, } from "react-native";
+import { Pressable, StyleSheet, TouchableOpacity, } from "react-native";
 import Icon from '@expo/vector-icons/FontAwesome';
 import Collapsable from 'react-native-collapsible'
 import { Calendar } from "react-native-calendars";
@@ -11,6 +11,11 @@ import { Button } from "react-native-elements";
 import * as ImagePicker from 'expo-image-picker';
 import ThumbnailGallery from "./ThumbnailGallery";
 import EmojiRatingBar from "./utils/emoji-rating-bar";
+import { Link, router } from "expo-router";
+import { useNavigation } from '@react-navigation/native';
+// import { useNavigation, useRoute } from '@react-navigation/native';
+
+import { AntDesign } from "@expo/vector-icons";
 
 function isAirbnbRatingComponent(component: React.ReactNode) {
     return component instanceof AirbnbRating;
@@ -31,6 +36,48 @@ export const AccordionHeaderNoComponent: React.FC<AccordionHeaderNoComponentProp
             <View style={styles.accordSubtitle}>
                 <Text style={styles.textSmall}>{ subtitle }</Text>
             </View>
+        </View>
+            
+    )
+}
+
+interface EditItemProps {
+    title: string
+    subtitle: string
+    setModalVisible: (value: boolean) => void
+}
+
+export const EditItem: React.FC<EditItemProps> = (
+    {title, subtitle, setModalVisible}
+) => {
+
+    const navigation = useNavigation()
+
+    const handlePlusPress = () => {
+        setModalVisible(true)
+    }
+    
+
+    return (
+        <View style={styles.accordHeader}>
+            <Text style={styles.accordTitle}>{ title }</Text>
+            <View style={styles.accordSubtitle}>
+                <Text style={styles.textSmall}>{ subtitle }</Text>
+            </View>
+            <Pressable onPress={handlePlusPress}>
+            {({ pressed }) => (
+                <AntDesign
+                name="plus"
+                size={25}
+                light
+                color="white"
+                style={{ 
+                    marginRight: 15, 
+                    opacity: pressed ? 0.5 : 1
+                    }}
+                />
+            )}
+            </Pressable>
         </View>
             
     )

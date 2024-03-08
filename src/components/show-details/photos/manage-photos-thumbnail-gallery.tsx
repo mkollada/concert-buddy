@@ -1,16 +1,13 @@
 import React, { useState } from 'react';
 import { Image, View, TouchableOpacity, Button, Text, Pressable } from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
-import { updateSupabaseRow, updateSupabaseShowItem, uploadSupabasePhotos } from '../../../api';
-import { Show } from '../../../types/types';
+import * as ImagePicker from 'expo-image-picker'
 
 interface ThumbnailGalleryProps {
-    show: Show
     photoUrls: string[],
-    setPhotoUrls: React.Dispatch<React.SetStateAction<string[]>>
+    setPhotoUrls: (value: string[]) => void
 }
 
-const ThumbnailGallery: React.FC<ThumbnailGalleryProps> = ({ show, photoUrls, setPhotoUrls }) => {
+const ThumbnailGallery: React.FC<ThumbnailGalleryProps> = ({ photoUrls, setPhotoUrls }) => {
     const [selectedImages, setSelectedImages] = useState<number[]>([]);
 
     const pickImage = async () => {
@@ -23,14 +20,18 @@ const ThumbnailGallery: React.FC<ThumbnailGalleryProps> = ({ show, photoUrls, se
 
         if (!result.canceled) {
 
-            const newPhotoUrls = await uploadSupabasePhotos(result.assets)
+            // const newPhotoUrls = await uploadSupabasePhotos(result.assets)
 
-            setPhotoUrls([...photoUrls, ...newPhotoUrls])
+            result.assets.forEach(asset => {
+                setPhotoUrls([...photoUrls, asset.uri])
+            })
+
+            // setPhotoUrls([...photoUrls, ...newPhotoUrls])
 
             // Wait for the next render to complete so that state is updated
-            await new Promise(resolve => setTimeout(resolve, 0));
+            // await new Promise(resolve => setTimeout(resolve, 0));
 
-            const res = await updateSupabaseShowItem(show.id,'photo_urls',photoUrls)
+            // const res = await updateSupabaseShowItem(show.id,'photo_urls',photoUrls)
         }
     };
 
@@ -47,10 +48,10 @@ const ThumbnailGallery: React.FC<ThumbnailGalleryProps> = ({ show, photoUrls, se
         setPhotoUrls(newPhotoUrls);
     
         // Wait for the next render to complete so that state is updated
-        await new Promise(resolve => setTimeout(resolve, 0));
+        // await new Promise(resolve => setTimeout(resolve, 0))
     
         // Now call the API with the updated photo URLs
-        const res = await updateSupabaseShowItem(show.id, 'photo_urls', newPhotoUrls);
+        // const res = await updateSupabaseShowItem(show.id, 'photo_urls', newPhotoUrls);
         setSelectedImages([]);
     };
     
