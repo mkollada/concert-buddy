@@ -14,7 +14,9 @@ module.exports = {
         white: '#FFFFFF',
         themePurpleDark: '#542db8',
         cardGray: '#040D17',
-        background: '#0C1319'
+        background: '#0C1319',
+        themeGrayOpaque: '#1E212980',
+        
       }
     },
     

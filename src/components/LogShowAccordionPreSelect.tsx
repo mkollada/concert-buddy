@@ -253,6 +253,7 @@ export default function LogShowAccordionPreSelect({
                 <EditNotes notes={notes} setNotes={setNotes} setModalVisible={setNotesModalVisible}/>
 
             </Modal>
+            
 
           </KeyboardAwareScrollView>
         }

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { View, Text, Button, TouchableOpacity } from "react-native";
+import { View, Text, Button, TouchableOpacity, Modal, TouchableWithoutFeedback } from "react-native";
 import { Show } from "../../types/types";
 import { getSupabaseShow, updateSupabaseShowItem, uploadSupabasePhotos } from "../../api";
 import ShowDetailsCarousel from "./ShowDetailsCarousel";
@@ -12,6 +12,7 @@ import EmptyDetail from "./empty-detail";
 import { useNavigation, useRouter } from "expo-router";
 import * as ImagePicker from 'expo-image-picker';
 import { Entypo, Feather, FontAwesome } from "@expo/vector-icons";
+import ExtraActionsModal from "./extra-actions-modal";
 
 interface ShowDetailsProps {
     showId: string
@@ -25,6 +26,8 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
 
   const [show, setShow] = useState<Show|null>(null)
   const [showUnsavedChanges, setShowUnsavedChanges] = useState(false)
+  const [actionModalVisible, setActionModalVisible] = useState(false)
+
 
   const setlist = null
   
@@ -85,7 +88,11 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
       });
 
       if (!result.canceled) {
-        const newPhotoUrls = await uploadSupabasePhotos(result.assets)
+        const uris: string[] = []
+        result.assets.forEach(asset => {
+          uris.push(asset.uri)
+        })
+        const newPhotoUrls = await uploadSupabasePhotos(uris)
         const photoUrls = [...show.photoUrls, ...newPhotoUrls]
         await updateSupabaseShowItem(show.id,'photo_urls',photoUrls)
 
@@ -137,6 +144,15 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
       navigation.goBack()
     }
 
+    const handleDotsPress = () => {
+      setActionModalVisible(true)
+    }
+
+    const handleOutsideModalPress = () => {
+      console.log('pressed')
+      setActionModalVisible(false)
+    }
+
 
 
   return (
@@ -160,7 +176,7 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
             </TouchableOpacity>
 
             {/* Right Button with Vertical Dots Icon */}
-            <TouchableOpacity className="p-2 rounded-full">
+            <TouchableOpacity className="p-2 rounded-full" onPress={handleDotsPress}>
               <Entypo size={20} color='white' name="dots-three-vertical" />
             </TouchableOpacity>
           </View>
@@ -277,6 +293,26 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
             )}
           </View>
         </View>
+
+        <Modal
+          animationType="slide"
+          visible={actionModalVisible}
+          transparent={true}
+          className="flex-1"
+          // onRequestClose={() => {
+          // //   Alert.alert('Modal has been closed.')
+          //   setActionModalVisible(!actionModalVisible)
+          // }}
+        >
+          <View className="flex-1 bg-[#00000085]">
+          <TouchableWithoutFeedback className='flex-1' onPress={handleOutsideModalPress}>
+            
+              <ExtraActionsModal setActionModalVisible={setActionModalVisible}/>
+            
+          </TouchableWithoutFeedback>
+          </View>
+          
+        </Modal>
 
         
         </KeyboardAwareScrollView>
