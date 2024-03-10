@@ -209,10 +209,13 @@ async function deleteSupabaseRow(tableName: string, columnName: string, value: s
       console.error('Error deleting row:', error);
   }
 
+
+
   return {data, error}
 }
 
 export async function deleteSupabaseShow(showId: string) {
   const {data, error} = await deleteSupabaseRow('shows','id',showId)
+  console.log(`deleted show: ${showId}`)
   return {data, error}
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { View, Text, Button, TouchableOpacity, Modal, TouchableWithoutFeedback } from "react-native";
 import { Show } from "../../types/types";
-import { getSupabaseShow, updateSupabaseShowItem, uploadSupabasePhotos } from "../../api";
+import { deleteSupabaseShow, getSupabaseShow, updateSupabaseShowItem, uploadSupabasePhotos } from "../../api";
 import ShowDetailsCarousel from "./ShowDetailsCarousel";
 import ShowNotesSummary from "./show-notes-summary";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -13,6 +13,7 @@ import { useNavigation, useRouter } from "expo-router";
 import * as ImagePicker from 'expo-image-picker';
 import { Entypo, Feather, FontAwesome } from "@expo/vector-icons";
 import ExtraActionsModal from "./extra-actions-modal";
+import { router } from "expo-router";
 
 interface ShowDetailsProps {
     showId: string
@@ -148,9 +149,19 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
       setActionModalVisible(true)
     }
 
-    const handleOutsideModalPress = () => {
-      console.log('pressed')
-      setActionModalVisible(false)
+    const handleEdit = () => {
+
+    }
+
+    const onDelete = async (showId: string) => {
+      const {data, error} = await deleteSupabaseShow(showId)
+      if (error) {
+        alert('Error deleting row: error')
+      } else {
+        console.log('Deleted:', data)
+        router.replace('/')
+      }
+      
     }
 
 
@@ -304,13 +315,10 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
           //   setActionModalVisible(!actionModalVisible)
           // }}
         >
-          <View className="flex-1 bg-[#00000085]">
-          <TouchableWithoutFeedback className='flex-1' onPress={handleOutsideModalPress}>
             
-              <ExtraActionsModal setActionModalVisible={setActionModalVisible}/>
-            
-          </TouchableWithoutFeedback>
-          </View>
+              <ExtraActionsModal setActionModalVisible={setActionModalVisible} showId={showId}/>
+
+          
           
         </Modal>
 
