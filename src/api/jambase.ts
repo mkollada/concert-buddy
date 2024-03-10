@@ -29,8 +29,10 @@ export async function searchVenues(venueName: string): Promise<JamBaseApiRespons
 
 // setting to only get concerts not festivals for now re: speed
 export async function getPastEventsForArtist(artistId: string): Promise<JamBaseApiResponse> {
+    const query = `${getJamBaseArtistPrefix()}${artistId}?expandPastEvents=true&apikey=${getLocalJambaseApiKey()}&eventType=concert`
+    console.log(`sending request: ${query}`)
     return fetchData(
-        `${getJamBaseArtistPrefix()}${artistId}?expandPastEvents=true&apikey=${getLocalJambaseApiKey()}&eventType=concert`
+        query
     )
 }
 
