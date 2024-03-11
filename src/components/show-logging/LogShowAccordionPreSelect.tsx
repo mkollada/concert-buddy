@@ -10,12 +10,12 @@ import {
     
   } from 'react-native';
 
-import { addSupabaseShow, updateSupabaseRow, updateSupabaseShow, uploadSupabasePhotos } from '../api';
+import { addSupabaseShow, updateSupabaseRow, updateSupabaseShow, uploadSupabasePhotos } from '../../api';
 
 import { useState } from 'react';
 import uuid from 'react-native-uuid';
 
-import { Memories, Show } from '../types/types';
+import { Memories, Show } from '../../types/types';
 
 import { 
     AccordionHeaderNoComponent,
@@ -23,13 +23,10 @@ import {
     EditItem,
 } from './AccordionItem';
 
-import { getSupabaseSession } from '../api';
-import { Session } from '@supabase/supabase-js';
-
 import { useRouter } from 'expo-router';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import ManagePhotos from './show-details/photos/manage-photos';
-import EditNotes from './show-details/notes/edit-notes';
+import ManagePhotos from '../show-details/photos/manage-photos';
+import EditNotes from '../show-details/notes/edit-notes';
 
 interface LogShowAccordionPreSelectProps {
     show: Show

@@ -10,7 +10,7 @@ import { TextInput } from "react-native";
 import { Button } from "react-native-elements";
 import * as ImagePicker from 'expo-image-picker';
 import ThumbnailGallery from "./ThumbnailGallery";
-import EmojiRatingBar from "./utils/emoji-rating-bar";
+import EmojiRatingBar from "../utils/emoji-rating-bar";
 import { useNavigation } from '@react-navigation/native';
 
 import { AntDesign } from "@expo/vector-icons";

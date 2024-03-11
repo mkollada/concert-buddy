@@ -21,6 +21,7 @@ export default function LoggedShowList({ showReload, setShowReload }: LoggedShow
         if (showReload) {
             const fetchShows = async () => {
                 try {
+                    console.log('reloading shows...')
                     const result = await getSupabaseShows();
                     // Sort shows by date in ascending order
                     const sortedShows = result.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());

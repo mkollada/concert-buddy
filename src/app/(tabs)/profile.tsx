@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 import { Text, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import Account from '../../components/Account';
+import Account from '../../components/account/Account';
 import { supabase } from '../../utils/supabase';
 import { Session } from '@supabase/supabase-js';
 

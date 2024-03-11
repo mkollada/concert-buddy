@@ -1,7 +1,7 @@
 import { View, Text } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { router, useLocalSearchParams } from 'expo-router';
-import LogShowAccordionPreSelect from '../components/LogShowAccordionPreSelect';
+import LogShowAccordionPreSelect from '../components/show-logging/LogShowAccordionPreSelect';
 import { ensureString } from '../utils';
 import uuid from 'react-native-uuid';
 import { Show } from '../types/types';

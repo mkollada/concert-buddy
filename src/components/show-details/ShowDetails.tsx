@@ -14,7 +14,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { Entypo, Feather, FontAwesome } from "@expo/vector-icons";
 import ExtraActionsModal from "./extra-actions-modal";
 import { router } from "expo-router";
-import LogShowAccordionPreSelect from "../LogShowAccordionPreSelect";
+import LogShowAccordionPreSelect from "../show-logging/LogShowAccordionPreSelect";
 import { Session } from "@supabase/supabase-js";
 
 interface ShowDetailsProps {

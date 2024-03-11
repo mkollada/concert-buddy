@@ -5,7 +5,7 @@ import { SplashScreen, Stack } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { Session } from '@supabase/supabase-js'
 import { supabase } from '../utils/supabase';
-import Auth from '../components/Auth';
+import Auth from '../components/account/Auth';
 
 export {
   // Catch any errors thrown by the Layout component.
