@@ -11,9 +11,7 @@ import { Button } from "react-native-elements";
 import * as ImagePicker from 'expo-image-picker';
 import ThumbnailGallery from "./ThumbnailGallery";
 import EmojiRatingBar from "./utils/emoji-rating-bar";
-import { Link, router } from "expo-router";
 import { useNavigation } from '@react-navigation/native';
-// import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { AntDesign } from "@expo/vector-icons";
 

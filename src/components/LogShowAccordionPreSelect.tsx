@@ -10,7 +10,7 @@ import {
     
   } from 'react-native';
 
-import { addSupabaseShow, uploadSupabasePhotos } from '../api';
+import { addSupabaseShow, updateSupabaseRow, updateSupabaseShow, uploadSupabasePhotos } from '../api';
 
 import { useState } from 'react';
 import uuid from 'react-native-uuid';
@@ -32,27 +32,14 @@ import ManagePhotos from './show-details/photos/manage-photos';
 import EditNotes from './show-details/notes/edit-notes';
 
 interface LogShowAccordionPreSelectProps {
-    artistId: string
-    artistName: string
-    artistImageUri: string
-    artistSpotifyUrl: string
-    venueId: string
-    venueName: string
-    venueLoc: string
-    date: string
-    eventId: string
+    show: Show
+    setShow: (value: Show) => void
+    edit: boolean
+    session: Session | null
 }
 
 export default function LogShowAccordionPreSelect({ 
-    artistId, 
-    artistImageUri, 
-    artistName, 
-    artistSpotifyUrl,
-    venueId,
-    venueName,
-    venueLoc,
-    date,
-    eventId
+    show, setShow, edit, session
 }: LogShowAccordionPreSelectProps) {
 
     // console.log(artistImageUri)
@@ -65,100 +52,59 @@ export default function LogShowAccordionPreSelect({
         'I\'ll never forget...':''
     }
 
-    const [session, setSession] = useState<Session | null>(null);
-    // const [artistName, setArtistName] = useState('')
-    // const [date, setDate] = useState('')
-    // const [venue, setVenue] = useState('')
-    // const [photos, setPhotos] = useState<ImagePicker.ImagePickerAsset[]>([])
-    const [photoUrls, setPhotoUrls] = useState<string[]>([])
-    const [overallRating, setOverallRating] = useState<number|null>(null)
-    const [venueRating, setVenueRating] = useState<number|null>(null)
-    const [notes, setNotes] = useState('')
     const [isLoading, setIsLoading] = useState(false)
-    // const navigation = useNavigation()
-    const [musicalityRating, setMusicalityRating] = useState(0)
-    const [productionRating, setProductionRating] = useState(0)
-    const [stagePresenceRating, setStagePresenceRating] = useState(0)
     const [photoModalVisible, setPhotoModalVisible] = useState(false)
     const [notesModalVisible, setNotesModalVisible] = useState(false)
 
 
-    const {data, error} = getSupabaseSession()
+    const [photoUrls, setPhotoUrls] = useState(show.photoUrls)
+    const [overallRating, setOverallRating] = useState(show.overallRating)
+    const [venueRating, setVenueRating] = useState(show.venueRating)
+    const [musicalityRating, setMusicalityRating] = useState(show.musicalityRating)
+    const [productionRating, setProductionRating] = useState(show.stagePresenceRating)
+    const [stagePresenceRating, setStagePresenceRating] = useState(show.stagePresenceRating)
+    const [notes, setNotes] = useState(show.notes)
+    
+    useEffect(() => {
+        setShow({
+            ...show,
+            photoUrls: photoUrls,
+            overallRating: overallRating,
+            venueRating: venueRating,
+            musicalityRating: musicalityRating,
+            productionRating: productionRating,
+            stagePresenceRating: stagePresenceRating,
+            notes: notes
+        })
 
-    if (error) {
-        // handle error here
-        return <View><Text>Error loading session</Text></View>;
-    }
+    }, [photoUrls, overallRating, venueRating, musicalityRating, productionRating,
+    stagePresenceRating, notes])
+    
+    
 
-    useEffect(() => { 
-        if (!data?.session) {
-          setIsLoading(true);
-        } else {
-          setSession(data.session);
-          setIsLoading(false);
-        }
-      }, [data, error]);
-
-    async function submitShowLog( 
-        id: string,
-        createdAt: string,
-        userId: string,
-        artistName: string,
-        date: string,
-        venue: string,
-        overallRating: number|null,
-        notes: string,
-        photoUrls: string[],
-        artistId: string,
-        artistImageUri: string,
-        venueId: string,
-        venueLoc: string,
-        eventId: string,
-        artistSpotifyUrl: string,
-        memories: Memories,
-        venueRating: number|null,
-        stagePresenceRating?: number,
-        musicalityRating?: number,
-        productionRating?: number,
-        
-    ) {
-        if(!overallRating) {
+    async function submitShowLog( submitShow: Show) {
+        if(!submitShow.overallRating) {
             alert('Please select a rating for the show to submit!')
             return false
         }
 
-        if(!venueRating) {
+        if(!submitShow.venueRating) {
             alert('Please select a rating for the venue to submit!')
             return false
         }
 
-        const newPhotoUrls = await uploadSupabasePhotos(photoUrls)
-        setPhotoUrls(newPhotoUrls)
+        const newPhotoUrls = await uploadSupabasePhotos(submitShow.photoUrls)
+        setShow({
+            ...submitShow,
+            photoUrls: newPhotoUrls
+        })
         
-        const show: Show = {
-            id: id,
-            createdAt: createdAt,
-            userId: userId,
-            artistName: artistName,
-            date: date,
-            venue: venue,
-            overallRating: overallRating,
-            stagePresenceRating: stagePresenceRating,
-            musicalityRating: musicalityRating,
-            productionRating: productionRating,
-            notes: notes,
-            photoUrls: newPhotoUrls,
-            venueId: venueId,
-            venueLoc: venueLoc,
-            artistId: artistId,
-            artistImageUri: artistImageUri,
-            eventId: eventId,
-            artistSpotifyUrl: artistSpotifyUrl,
-            memories: memories,
-            venueRating: venueRating,
+        if(edit){
+            updateSupabaseShow(submitShow)
+        } else {
+            addSupabaseShow(submitShow)
         }
 
-        addSupabaseShow(show)
         return true
     }
 
@@ -168,31 +114,15 @@ export default function LogShowAccordionPreSelect({
             return
         }
         
-        const newUuid = uuid.v4().toString()
+        // const newUuid = uuid.v4().toString()
 
-        console.log(Date().toString())
+        setShow({
+            ...show,
+            createdAt: Date().toString()
+        })
 
         const showSubmitted = await submitShowLog(
-            newUuid,
-            Date().toString(),
-            session.user.id,
-            artistName,
-            date,
-            venueName,
-            overallRating,
-            notes,
-            photoUrls,
-            artistId,
-            artistImageUri,
-            venueId,
-            venueLoc,
-            eventId,
-            artistSpotifyUrl,
-            memories,
-            venueRating,
-            stagePresenceRating,
-            musicalityRating,
-            productionRating
+            show
         )
         if (showSubmitted) {
             router.push({ pathname: "/"})
@@ -211,17 +141,17 @@ export default function LogShowAccordionPreSelect({
             keyboardShouldPersistTaps='handled'
             className='flex-1 px-3'>
             <View className='h-[20vh] p-3 pr-10 pl-10 rounded-xl'>
-                <Image className="h-full w-full rounded-xl" source={{ uri: artistImageUri }} />
+                <Image className="h-full w-full rounded-xl" source={{ uri: show.artistImageUri }} />
             </View>
             <AccordionHeaderNoComponent
                     title="Artist Name"
-                    subtitle={artistName} />
+                    subtitle={show.artistName} />
             <AccordionHeaderNoComponent
                     title="Venue Name"
-                    subtitle={venueName} />
+                    subtitle={show.venue} />
             <AccordionHeaderNoComponent
                     title="Date"
-                    subtitle={date} />
+                    subtitle={show.date} />
 
             {/* Photos Item */}
             <EditItem title='Photos' subtitle='' setModalVisible={setPhotoModalVisible}/>
