@@ -9,11 +9,13 @@ import { deleteSupabaseShow } from "../../api";
 
 interface ExtraActionsModalProps {
     setActionModalVisible: (value: boolean) => void
+    setEditShowModalVisible: (value: boolean) => void
     showId: string
+    onEdit: () => void
 }
 
 export default function ExtraActionsModal({ 
-    setActionModalVisible, showId
+    setActionModalVisible, setEditShowModalVisible, showId, onEdit
 }: ExtraActionsModalProps) {
 
     const {height}  = Dimensions.get('screen')
@@ -21,6 +23,8 @@ export default function ExtraActionsModal({
     const handleCancel = () => {
         setActionModalVisible(false)
     }
+
+    
 
     const onDelete = async () => {
         const {data, error} = await deleteSupabaseShow(showId)
@@ -57,7 +61,7 @@ export default function ExtraActionsModal({
             <View className="h-[65%]" />
             </TouchableWithoutFeedback>
             <View className="bg-themeGray mx-4 rounded-2xl">
-                <TouchableOpacity>
+                <TouchableOpacity onPress={onEdit}>
                     <View className="justify-between p-4 flex-row">
                         <Text className='text-white text-lg'>Edit Entry</Text>
                         <Feather name="edit" size={24} color='white' />

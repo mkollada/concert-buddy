@@ -35,11 +35,11 @@ interface LogShowAccordionPreSelectProps {
     show: Show
     setShow: (value: Show) => void
     edit: boolean
-    session: Session | null
+    setSubmitReady: (value: boolean) => void
 }
 
 export default function LogShowAccordionPreSelect({ 
-    show, setShow, edit, session
+    show, setShow, edit, setSubmitReady
 }: LogShowAccordionPreSelectProps) {
 
     // console.log(artistImageUri)
@@ -82,51 +82,31 @@ export default function LogShowAccordionPreSelect({
     
     
 
-    async function submitShowLog( submitShow: Show) {
-        if(!submitShow.overallRating) {
+
+    async function handleSubmitPress() {
+        if(!show.overallRating) {
             alert('Please select a rating for the show to submit!')
             return false
         }
 
-        if(!submitShow.venueRating) {
+        if(!show.venueRating) {
             alert('Please select a rating for the venue to submit!')
             return false
         }
 
-        const newPhotoUrls = await uploadSupabasePhotos(submitShow.photoUrls)
+        const newPhotoUrls = await uploadSupabasePhotos(show.photoUrls)
         setShow({
-            ...submitShow,
+            ...show,
             photoUrls: newPhotoUrls
         })
         
-        if(edit){
-            updateSupabaseShow(submitShow)
-        } else {
-            addSupabaseShow(submitShow)
-        }
-
-        return true
-    }
-
-    async function handleSubmitPress() {
-        if (!session) {
-            setIsLoading(true)
-            return
-        }
-        
-        // const newUuid = uuid.v4().toString()
-
         setShow({
             ...show,
             createdAt: Date().toString()
         })
 
-        const showSubmitted = await submitShowLog(
-            show
-        )
-        if (showSubmitted) {
-            router.push({ pathname: "/"})
-        }
+        setSubmitReady(true)
+
         
     }
 

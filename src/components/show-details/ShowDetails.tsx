@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { View, Text, Button, TouchableOpacity, Modal, TouchableWithoutFeedback } from "react-native";
 import { Show } from "../../types/types";
-import { deleteSupabaseShow, getSupabaseShow, updateSupabaseShowItem, uploadSupabasePhotos } from "../../api";
+import { deleteSupabaseShow, getSupabaseSession, getSupabaseShow, updateSupabaseShow, updateSupabaseShowItem, uploadSupabasePhotos } from "../../api";
 import ShowDetailsCarousel from "./ShowDetailsCarousel";
 import ShowNotesSummary from "./show-notes-summary";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -14,6 +14,8 @@ import * as ImagePicker from 'expo-image-picker';
 import { Entypo, Feather, FontAwesome } from "@expo/vector-icons";
 import ExtraActionsModal from "./extra-actions-modal";
 import { router } from "expo-router";
+import LogShowAccordionPreSelect from "../LogShowAccordionPreSelect";
+import { Session } from "@supabase/supabase-js";
 
 interface ShowDetailsProps {
     showId: string
@@ -26,9 +28,11 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
   const navigation = useNavigation()
 
   const [show, setShow] = useState<Show|null>(null)
+  const [editShow, setEditShow] = useState<Show|null>(null)
   const [showUnsavedChanges, setShowUnsavedChanges] = useState(false)
   const [actionModalVisible, setActionModalVisible] = useState(false)
-
+  const [editShowModalVisible, setEditShowModalVisible] = useState(false)
+  const [submitReady, setSubmitReady] = useState(false)
 
   const setlist = null
   
@@ -37,6 +41,7 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
 
   const setShowInitial = (s: Show) => {
     setShow(s)
+    setEditShow({...s})
     setShowUnsavedChanges(false)
     initialLoad.current = false; // Set to false after initial load
   }
@@ -135,41 +140,60 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
     };
   }, [navigation]);
 
-    useEffect(() => {
-      if (!initialLoad.current) {
-        setShowUnsavedChanges(true)
-      }
-    }, [show])
-
-    const handleXPress = () => {
-      navigation.goBack()
+  useEffect(() => {
+    if (!initialLoad.current) {
+      setShowUnsavedChanges(true)
     }
+  }, [show])
 
-    const handleDotsPress = () => {
-      setActionModalVisible(true)
-    }
 
-    const handleEdit = () => {
 
-    }
-
-    const onDelete = async (showId: string) => {
-      const {data, error} = await deleteSupabaseShow(showId)
-      if (error) {
-        alert('Error deleting row: error')
-      } else {
-        console.log('Deleted:', data)
-        router.replace('/')
+  useEffect(() => {
+    if(submitReady){
+      if(editShow && show){
+        setShow(editShow)
+        updateSupabaseShow(show)
+        setEditShowModalVisible(false)
       }
       
     }
+  }, [submitReady])
 
+  const handleXPress = () => {
+    navigation.goBack()
+  }
+
+  const handleDotsPress = () => {
+    setActionModalVisible(true)
+  }
+
+
+  const onDelete = async (showId: string) => {
+    const {data, error} = await deleteSupabaseShow(showId)
+    if (error) {
+      alert('Error deleting row: error')
+    } else {
+      console.log('Deleted:', data)
+      router.replace('/')
+    }
+    
+  }
+
+  const onEdit = async () => {
+    console.log('editing...')
+    setEditShowModalVisible(true)
+    setActionModalVisible(false)
+}
+
+  const handleEditXPress = () => {
+    setEditShowModalVisible(false)
+  }
 
 
   return (
     
        <View className="flex-1 items-center">
-    { show ? (
+    { (show && editShow) ? (
       <View className="flex-1 items-center">
         
         {/* <ShowDetailsHeader show={show} showUnsavedChanges={showUnsavedChanges} setShowUnsavedChanges={setShowUnsavedChanges} /> */}
@@ -310,16 +334,31 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
           visible={actionModalVisible}
           transparent={true}
           className="flex-1"
-          // onRequestClose={() => {
-          // //   Alert.alert('Modal has been closed.')
-          //   setActionModalVisible(!actionModalVisible)
-          // }}
-        >
-            
-              <ExtraActionsModal setActionModalVisible={setActionModalVisible} showId={showId}/>
 
-          
-          
+        >  
+          <ExtraActionsModal setActionModalVisible={setActionModalVisible} setEditShowModalVisible={setEditShowModalVisible} showId={showId} onEdit={onEdit}/>
+        </Modal>
+        <Modal
+          animationType="slide"
+          visible={editShowModalVisible}
+          transparent={true} >
+            <View className='flex-1 bg-black'>
+            <View className="">
+            {/* Left Button with X Icon */}
+            <TouchableOpacity className=" rounded-full" onPress={handleEditXPress}>
+              <Text className="text-white text-lg pl-6 pt-6">Cancel</Text>
+            </TouchableOpacity>
+
+            
+          </View>
+            <LogShowAccordionPreSelect 
+                show={editShow}
+                setShow={setEditShow}
+                edit={false}
+                setSubmitReady={setSubmitReady}
+              /> 
+            </View>
+                
         </Modal>
 
         

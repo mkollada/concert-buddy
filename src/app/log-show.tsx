@@ -1,11 +1,11 @@
 import { View, Text } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import LogShowAccordionPreSelect from '../components/LogShowAccordionPreSelect';
 import { ensureString } from '../utils';
 import uuid from 'react-native-uuid';
 import { Show } from '../types/types';
-import { getSupabaseSession } from '../api';
+import { addSupabaseShow, getSupabaseSession, updateSupabaseShow } from '../api';
 import { Session } from '@supabase/supabase-js';
 
 
@@ -15,6 +15,7 @@ export default function LogShowScreen() {
   const [session, setSession] = useState<Session | null>(null);
   const [sessErr, setSessErr] = useState(false)
   const [show, setShow] = useState<Show|null>(null)
+  const [submitReady, setSubmitReady] = useState(false               )
 
   const rawParams = useLocalSearchParams();
 
@@ -31,6 +32,16 @@ export default function LogShowScreen() {
     }
   }, [data, error]);
 
+  useEffect(() => {
+    if(submitReady){
+      if( show){
+        addSupabaseShow(show)
+        router.push('/')
+      }
+      
+    }
+  }, [submitReady])
+
   const createNewShow = (session: Session) => {
 
     // Ensuring all parameters are treated as strings
@@ -45,6 +56,8 @@ export default function LogShowScreen() {
       eventId: ensureString(rawParams.eventId),
       date: ensureString(rawParams.date),
     };
+
+    
 
     const newUuid = uuid.v4().toString();
 
@@ -80,12 +93,14 @@ export default function LogShowScreen() {
   };
 
   if (isLoading || !show) { // Checks if still loading or show is null
-    return <View><Text>Loading...</Text></View>;
+    return 
   }
 
   if (sessErr) {
-    <View><Text>Error loading session</Text></View>
+    return <View><Text>Error loading session</Text></View>
   }
+
+
 
   return (
     <View className='flex-1 justify-center'>
@@ -93,7 +108,7 @@ export default function LogShowScreen() {
         show={show}
         setShow={setShow}
         edit={false}
-        session={session}
+        setSubmitReady={setSubmitReady}
       /> 
     </View>
   );
