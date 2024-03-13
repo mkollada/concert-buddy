@@ -33,6 +33,8 @@ export function SelectPastShowDropdown({
   const [isLoading, setIsLoading] = useState(false)
   const [shows, setShows] = useState<{ [year: string]: Show[]; }>({})
 
+  // TODO turn events into shows before rendering here and deal with 
+  // jambase address undefined bug better
   const setVenueLocCheck = (event: JamBaseEvent) => {
     if(event.location.address){
       setVenueLoc(event.location.address.addressLocality)
@@ -65,15 +67,6 @@ export function SelectPastShowDropdown({
         const response = await getPastEventsForArtist(artistId);
         if (response) {
           setEvents(response.artist['x-pastEvents'])
-          
-          // Object.keys(response.artist['x-pastEvents']).forEach(year => {
-          //   response.artist['x-pastEvents'][year].forEach(event =>{
-          //     setShows({
-          //       ...shows,
-          //       year: shows[year]
-          //     })
-          //   })
-          // })
           setIsLoading(false)
         }
       }
