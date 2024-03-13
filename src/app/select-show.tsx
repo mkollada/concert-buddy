@@ -1,6 +1,6 @@
 import { View } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { SelecPastShowDropdown } from '../components/find-show/shows/select-show-dropdown';
+import { SelectPastShowDropdown } from '../components/find-show/shows/select-show-dropdown';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { ensureString } from '../utils';
 
@@ -27,8 +27,13 @@ export default function SelectShowScreen() {
     artistSpotifyUrl: ensureString(rawParams.artistSpotifyUrl)
   }
 
+  
+
   useEffect(() => {
-    
+    console.log(params)
+    console.log(venueId)
+    console.log(venueName)
+    console.log(date)
     if(showSelected) {
       setShowSelected(false)
       router.push({
@@ -58,7 +63,7 @@ export default function SelectShowScreen() {
   
   return (
     <View className='flex-1 justify-center'>
-      <SelecPastShowDropdown 
+      <SelectPastShowDropdown 
       artistId={params.artistId}
       artistName={params.artistName}
       setVenueName={setVenueName}

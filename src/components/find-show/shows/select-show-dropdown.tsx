@@ -5,6 +5,7 @@ import {  ScrollView, TouchableOpacity } from 'react-native';
 import SelectShowBlock from './select-show-block';
 // import { searchArtistName } from '../../../api/jambase';
 import { getPastEventsForArtist } from '../../../api/jambase';
+import { Show } from '../../../types/types';
 
 interface SelectPastShowDropdownProps {
   artistId: string
@@ -17,7 +18,7 @@ interface SelectPastShowDropdownProps {
   setShowSelected: (value: boolean) => void
   setLogOwnShowSelected: (value: boolean) => void
 }
-export function SelecPastShowDropdown({ 
+export function SelectPastShowDropdown({ 
   artistId,
   artistName,
   setVenueName,
@@ -30,6 +31,31 @@ export function SelecPastShowDropdown({
 }: SelectPastShowDropdownProps) {
   const [events, setEvents] = useState<{ [year: string]: JamBaseEvent[]; }>({})
   const [isLoading, setIsLoading] = useState(false)
+  const [shows, setShows] = useState<{ [year: string]: Show[]; }>({})
+
+  const setVenueLocCheck = (event: JamBaseEvent) => {
+    if(event.location.address){
+      setVenueLoc(event.location.address.addressLocality)
+    } else {
+      setVenueLoc('')
+    }
+  }
+
+  const setVenueNameCheck = (event: JamBaseEvent) => {
+    if(event.location.name){
+      setVenueName(event.location.name)
+    } else {
+      setVenueName('Unknown')
+    }
+  }
+
+  const setVenueIdCheck = (event: JamBaseEvent) => {
+    if(event.location.identifier){
+      setVenueId(event.location.identifier)
+    } else {
+      setVenueId('Unknown')
+    }
+  }
 
   useEffect(() => {
 
@@ -39,6 +65,15 @@ export function SelecPastShowDropdown({
         const response = await getPastEventsForArtist(artistId);
         if (response) {
           setEvents(response.artist['x-pastEvents'])
+          
+          // Object.keys(response.artist['x-pastEvents']).forEach(year => {
+          //   response.artist['x-pastEvents'][year].forEach(event =>{
+          //     setShows({
+          //       ...shows,
+          //       year: shows[year]
+          //     })
+          //   })
+          // })
           setIsLoading(false)
         }
       }
@@ -91,9 +126,9 @@ export function SelecPastShowDropdown({
                     <View className='flex-row px-5 py-2' key={ix}>
                       <TouchableOpacity className='flex-1'
                         onPress={() => {
-                          setVenueId(event.location.identifier)
-                          setVenueName(event.location.name)
-                          setVenueLoc(event.location.address.addressLocality)
+                          setVenueIdCheck(event)
+                          setVenueNameCheck(event)
+                          setVenueLocCheck(event)
                           setEventId(event.identifier)
                           setDate(event.startDate.substring(0,10))
                           setShowSelected(true)

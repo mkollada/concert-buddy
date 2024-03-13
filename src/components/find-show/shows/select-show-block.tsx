@@ -1,6 +1,6 @@
 import { JamBaseEvent } from "../../../types/jambase";
 import { View, Text } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 
 interface SelectShowBlockProps {
@@ -8,6 +8,20 @@ interface SelectShowBlockProps {
 }
 
 export default function SelectShowBlock({ event }: SelectShowBlockProps) {
+    const [addressLocality, setAddressLocality] = useState('')
+    const [venueName, setVenueName] = useState('')
+
+    useEffect(() => {
+        if(event.location.address){
+            setAddressLocality(event.location.address.addressLocality)
+        }
+        if(event.location.name){
+            setVenueName(event.location.name)
+        } else {
+            setVenueName('Unknown')
+        }
+    })
+
     return (
         <View className='flex-row h-[10vh] p-2 bg-themeGray rounded-xl'>
             
@@ -17,8 +31,8 @@ export default function SelectShowBlock({ event }: SelectShowBlockProps) {
             <View className='flex-1 justify-items-center px-2 bg-themeGray'>
                 
                 <View className="flex-1 justify-center px-2 bg-themeGray">
-                    <Text className="text-white font-bold overflow-hidden truncate">{event.location.name}</Text>
-                    <Text className="text-white truncate">{event.location.address.addressLocality}</Text>
+                    <Text className="text-white font-bold overflow-hidden truncate">{venueName}</Text>
+                    <Text className="text-white truncate">{addressLocality}</Text>
                 </View>
                 
             </View>
