@@ -27,16 +27,18 @@ import { useRouter } from 'expo-router';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import ManagePhotos from '../show-details/photos/manage-photos';
 import EditNotes from '../show-details/notes/edit-notes';
+import AddShowDetailsHeader from './add-show-details-header';
 
 interface AddShowDetailsProps {
     show: Show
     setShow: (value: Show) => void
     edit: boolean
     setSubmitReady: (value: boolean) => void
+    handleEditCancel: () => void
 }
 
 export default function AddShowDetails({ 
-    show, setShow, edit, setSubmitReady
+    show, setShow, edit, setSubmitReady, handleEditCancel
 }: AddShowDetailsProps) {
 
     // console.log(artistImageUri)
@@ -80,7 +82,7 @@ export default function AddShowDetails({
     
 
 
-    async function handleSubmitPress() {
+    async function handleSavePress() {
         if(!show.overallRating) {
             alert('Please select a rating for the show to submit!')
             return false
@@ -111,6 +113,7 @@ export default function AddShowDetails({
         
 
         <SafeAreaView className='flex-1'>
+            <AddShowDetailsHeader title={'Log Show'} handleSavePress={handleSavePress} handleCancelPress={handleEditCancel}/>
             { isLoading ? <View><Text>Loading... </Text></View> :
           <KeyboardAwareScrollView
             enableOnAndroid={true}
@@ -137,7 +140,6 @@ export default function AddShowDetails({
 
             <AccordionEmojiRating title='Venue Rating' setRating={setVenueRating} rating={venueRating} />
             <EditItem title='Notes' subtitle='' setModalVisible={setNotesModalVisible} />
-            <Button title='Save' onPress={handleSubmitPress} />
             <Modal 
                 animationType="slide"
                 visible={photoModalVisible}

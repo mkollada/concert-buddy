@@ -86,6 +86,7 @@ function RootLayoutNav() {
           name="log-show" 
           options={{ 
             title: 'Log Show',
+            headerShown: false
           }} />
         <Stack.Screen 
           name="show-details/[id]"

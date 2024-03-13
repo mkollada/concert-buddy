@@ -343,20 +343,13 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
           visible={editShowModalVisible}
           transparent={true} >
             <View className='flex-1 bg-black'>
-            <View className="">
-            {/* Left Button with X Icon */}
-            <TouchableOpacity className=" rounded-full" onPress={handleEditXPress}>
-              <Text className="text-white text-lg pl-6 pt-6">Cancel</Text>
-            </TouchableOpacity>
-
-            
-          </View>
-            <AddShowDetails 
-                show={editShow}
-                setShow={setEditShow}
-                edit={false}
-                setSubmitReady={setSubmitReady}
-              /> 
+              <AddShowDetails 
+                  show={editShow}
+                  setShow={setEditShow}
+                  edit={false}
+                  setSubmitReady={setSubmitReady}
+                  handleEditCancel={handleEditXPress}
+                /> 
             </View>
                 
         </Modal>
