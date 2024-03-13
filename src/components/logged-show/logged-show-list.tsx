@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import { Text, View, Button, ScrollView } from 'react-native';
+import { Text, View, Button, ScrollView, RefreshControl } from 'react-native';
 import { Link } from 'expo-router';
 import { getSupabaseShows } from '../../api';
 import { Show } from '../../types/types';
@@ -36,6 +36,10 @@ export default function LoggedShowList({ showReload, setShowReload }: LoggedShow
         
     }, [showReload])
 
+    const onRefresh = () => {
+      setShowReload(true)
+    }
+
 
     // To immediately delete deleted show from logged shows on page
     useEffect(() => {
@@ -58,7 +62,14 @@ export default function LoggedShowList({ showReload, setShowReload }: LoggedShow
           </Link>
         </View>
       ) : (
-        <ScrollView className='flex-1'>     
+        <ScrollView className='flex-1'
+        refreshControl={
+          <RefreshControl
+              refreshing={showReload}
+              onRefresh={onRefresh}
+          />
+      }
+        >     
           <View className='bg-transparent'>
             {shows.map((show: Show) => (
                 <View className='flex-1 justify-center' key={`${show.id}-btn`}>

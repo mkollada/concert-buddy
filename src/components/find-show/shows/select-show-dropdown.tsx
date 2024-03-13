@@ -34,7 +34,7 @@ export function SelectPastShowDropdown({
   const [shows, setShows] = useState<{ [year: string]: Show[]; }>({})
 
   // TODO turn events into shows before rendering here and deal with 
-  // jambase address undefined bug better
+  // jambase address undefined bug betters
   const setVenueLocCheck = (event: JamBaseEvent) => {
     if(event.location.address){
       setVenueLoc(event.location.address.addressLocality)
