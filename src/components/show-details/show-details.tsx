@@ -251,7 +251,7 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
               
             </View>
             
-            { Object.values(show.memories).every(value => value === "") ? (
+            {/* { Object.values(show.memories).every(value => value === "") ? (
               <></>
               ):(
               <View>
@@ -261,7 +261,7 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
                   <MemoryCarousel show={show} setShow={setShow} />
                 </View>
               </View>
-            )}
+            )} */}
             <View>
             { show.photoUrls && show.photoUrls.length > 0 ? (
                <EmptyDetail 
@@ -294,7 +294,7 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
             )}
             </View>
             <View>
-            { Object.values(show.memories).every(value => value === "") ? (
+            {/* { Object.values(show.memories).every(value => value === "") ? (
                
                <EmptyDetail 
                title="Memories" 
@@ -304,7 +304,7 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
                show={show}/>
             ) : (
               <></>
-            )}
+            )} */}
             </View>
             <View>
             { setlist ? (
@@ -349,7 +349,7 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
                   edit={false}
                   setSubmitReady={setSubmitReady}
                   handleEditCancel={handleEditXPress}
-                  title='Edit Show'
+                  title={show.artistName}
                 /> 
             </View>
                 

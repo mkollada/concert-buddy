@@ -10,15 +10,13 @@ import {
     
   } from 'react-native';
 
-import { addSupabaseShow, updateSupabaseRow, updateSupabaseShow, uploadSupabasePhotos } from '../../api';
+import { uploadSupabasePhotos } from '../../api';
 
 import { useState } from 'react';
-import uuid from 'react-native-uuid';
 
 import { Memories, Show } from '../../types/types';
 
 import { 
-    AccordionHeaderNoComponent,
     AccordionEmojiRating,
     EditItem,
 } from './add-show-details-components';
@@ -64,6 +62,9 @@ export default function AddShowDetails({
     const [productionRating, setProductionRating] = useState(show.stagePresenceRating)
     const [stagePresenceRating, setStagePresenceRating] = useState(show.stagePresenceRating)
     const [notes, setNotes] = useState(show.notes)
+
+    const [photosSubtitle, setPhotosSubtitle] = useState('')
+    const [notesSubtitle, setNotesSubtitle] = useState('')
     
     useEffect(() => {
         setShow({
@@ -76,6 +77,20 @@ export default function AddShowDetails({
             stagePresenceRating: stagePresenceRating,
             notes: notes
         })
+
+        if(photoUrls.length == 0){
+            setPhotosSubtitle('')
+        } else if (photoUrls.length == 1){
+            setPhotosSubtitle('1 Photo')
+        } else {
+            setPhotosSubtitle(`${photoUrls.length} Photos`)
+        }
+
+        if(notes != ''){
+            setNotesSubtitle('Saved')
+        } else {
+            setNotesSubtitle('')
+        }
 
     }, [photoUrls, overallRating, venueRating, musicalityRating, productionRating,
     stagePresenceRating, notes])
@@ -121,26 +136,23 @@ export default function AddShowDetails({
             extraHeight={100}
             keyboardShouldPersistTaps='handled'
             className='flex-1 px-3'>
-            <View className='h-[20vh] p-3 pr-10 pl-10 rounded-xl'>
+            <View className='h-[30vh] p-3 rounded-xl'>
                 <Image className="h-full w-full rounded-xl" source={{ uri: show.artistImageUri }} />
             </View>
-            <AccordionHeaderNoComponent
-                    title="Artist Name"
-                    subtitle={show.artistName} />
-            <AccordionHeaderNoComponent
-                    title="Venue Name"
-                    subtitle={show.venue} />
-            <AccordionHeaderNoComponent
-                    title="Date"
-                    subtitle={show.date} />
+
+            <EditItem title="Artist" subtitle={show.artistName} setModalVisible={null}/>
+            <EditItem title="Venue" subtitle={show.venue} setModalVisible={null}/>
+            <EditItem title="Date" subtitle={show.date} setModalVisible={null}/>
+
+
 
             {/* Photos Item */}
-            <EditItem title='Photos' subtitle='' setModalVisible={setPhotoModalVisible}/>
+            <EditItem title='Photos' subtitle={photosSubtitle} setModalVisible={setPhotoModalVisible} />
 
             <AccordionEmojiRating title='Show Rating' setRating={setOverallRating} rating={overallRating} />
 
             <AccordionEmojiRating title='Venue Rating' setRating={setVenueRating} rating={venueRating} />
-            <EditItem title='Notes' subtitle='' setModalVisible={setNotesModalVisible} />
+            <EditItem title='Notes' subtitle={notesSubtitle} setModalVisible={setNotesModalVisible} />
             <Modal 
                 animationType="slide"
                 visible={photoModalVisible}

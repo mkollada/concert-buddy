@@ -18,7 +18,7 @@ const AddShowDetailsHeader: React.FC<AddShowDetailsHeaderProps> = ({
     return (
         <View className="flex-row items-center justify-between p-2">
             <TouchableOpacity onPress={handleCancelPress} style={{ padding: 10 }}>
-                <Ionicons size={24} name='chevron-back'color='white' />
+                <Ionicons size={24} name='arrow-back'color='white' />
             </TouchableOpacity>
             
             <Text className="text-white font-bold text-lg">{title}</Text>
