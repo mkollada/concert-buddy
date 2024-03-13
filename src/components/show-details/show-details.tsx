@@ -349,6 +349,7 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
                   edit={false}
                   setSubmitReady={setSubmitReady}
                   handleEditCancel={handleEditXPress}
+                  title='Edit Show'
                 /> 
             </View>
                 

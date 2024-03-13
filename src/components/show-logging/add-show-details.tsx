@@ -30,6 +30,7 @@ import EditNotes from '../show-details/notes/edit-notes';
 import AddShowDetailsHeader from './add-show-details-header';
 
 interface AddShowDetailsProps {
+    title: string
     show: Show
     setShow: (value: Show) => void
     edit: boolean
@@ -38,7 +39,7 @@ interface AddShowDetailsProps {
 }
 
 export default function AddShowDetails({ 
-    show, setShow, edit, setSubmitReady, handleEditCancel
+    title, show, setShow, edit, setSubmitReady, handleEditCancel
 }: AddShowDetailsProps) {
 
     // console.log(artistImageUri)
@@ -113,7 +114,7 @@ export default function AddShowDetails({
         
 
         <SafeAreaView className='flex-1'>
-            <AddShowDetailsHeader title={'Log Show'} handleSavePress={handleSavePress} handleCancelPress={handleEditCancel}/>
+            <AddShowDetailsHeader title={title} handleSavePress={handleSavePress} handleCancelPress={handleEditCancel}/>
             { isLoading ? <View><Text>Loading... </Text></View> :
           <KeyboardAwareScrollView
             enableOnAndroid={true}

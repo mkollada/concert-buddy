@@ -105,10 +105,12 @@ export default function LogShowScreen() {
   return (
     <View className='flex-1 justify-center'>
       <AddShowDetails 
+        title='Log Show'
         show={show}
         setShow={setShow}
         edit={false}
         setSubmitReady={setSubmitReady}
+        handleEditCancel={router.back}
       /> 
     </View>
   );
