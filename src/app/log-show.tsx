@@ -1,7 +1,7 @@
 import { View, Text } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { router, useLocalSearchParams } from 'expo-router';
-import LogShowAccordionPreSelect from '../components/show-logging/LogShowAccordionPreSelect';
+import AddShowDetails from '../components/show-logging/add-show-details';
 import { ensureString } from '../utils';
 import uuid from 'react-native-uuid';
 import { Show } from '../types/types';
@@ -104,7 +104,7 @@ export default function LogShowScreen() {
 
   return (
     <View className='flex-1 justify-center'>
-      <LogShowAccordionPreSelect 
+      <AddShowDetails 
         show={show}
         setShow={setShow}
         edit={false}

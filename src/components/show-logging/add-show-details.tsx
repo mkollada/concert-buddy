@@ -21,23 +21,23 @@ import {
     AccordionHeaderNoComponent,
     AccordionEmojiRating,
     EditItem,
-} from './AccordionItem';
+} from './add-show-details-components';
 
 import { useRouter } from 'expo-router';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import ManagePhotos from '../show-details/photos/manage-photos';
 import EditNotes from '../show-details/notes/edit-notes';
 
-interface LogShowAccordionPreSelectProps {
+interface AddShowDetailsProps {
     show: Show
     setShow: (value: Show) => void
     edit: boolean
     setSubmitReady: (value: boolean) => void
 }
 
-export default function LogShowAccordionPreSelect({ 
+export default function AddShowDetails({ 
     show, setShow, edit, setSubmitReady
-}: LogShowAccordionPreSelectProps) {
+}: AddShowDetailsProps) {
 
     // console.log(artistImageUri)
     const router = useRouter(); // Initialize the navigation hook

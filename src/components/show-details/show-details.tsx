@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { View, Text, Button, TouchableOpacity, Modal, TouchableWithoutFeedback } from "react-native";
 import { Show } from "../../types/types";
 import { deleteSupabaseShow, getSupabaseSession, getSupabaseShow, updateSupabaseShow, updateSupabaseShowItem, uploadSupabasePhotos } from "../../api";
-import ShowDetailsCarousel from "./ShowDetailsCarousel";
+import ShowDetailsCarousel from "./show-details-carousel";
 import ShowNotesSummary from "./show-notes-summary";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import SpotifyButton from "./spotify-button";
@@ -14,7 +14,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { Entypo, Feather, FontAwesome } from "@expo/vector-icons";
 import ExtraActionsModal from "./extra-actions-modal";
 import { router } from "expo-router";
-import LogShowAccordionPreSelect from "../show-logging/LogShowAccordionPreSelect";
+import AddShowDetails from "../show-logging/add-show-details";
 import { Session } from "@supabase/supabase-js";
 
 interface ShowDetailsProps {
@@ -351,7 +351,7 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
 
             
           </View>
-            <LogShowAccordionPreSelect 
+            <AddShowDetails 
                 show={editShow}
                 setShow={setEditShow}
                 edit={false}

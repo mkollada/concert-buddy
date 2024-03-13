@@ -1,5 +1,5 @@
 import { View } from 'react-native';
-import ShowDetails from '../../components/show-details/ShowDetails';
+import ShowDetails from '../../components/show-details/show-details';
 import React from 'react';
 import { useLocalSearchParams } from 'expo-router';
 
