@@ -102,27 +102,26 @@ export async function uploadSupabasePhotos(uris: string[]) {
 
   // Upload each photo to Supabase Storage
   for (const uri of uris) {
-    if(uri.startsWith('https://mbfhsthnuwvtoubyrclp.supabase.co')) {
-      supabasePhotoURLs.push(uri)
-    } else{
+    if(!uri.startsWith('https://mbfhsthnuwvtoubyrclp.supabase.co')) {
+      
       const fileExtension = uri.split('.').pop(); // Assuming photos have a fileName property
-    const path = `${(await supabase.auth.getSession()).data.session?.user.id}/${new Date().getTime()}.${fileExtension}`; // Create a unique path for each photo
-    
-    const file = await FileSystem.readAsStringAsync(uri, {
-      encoding: FileSystem.EncodingType.Base64,
-    });
+      const path = `${(await supabase.auth.getSession()).data.session?.user.id}/${new Date().getTime()}.${fileExtension}`; // Create a unique path for each photo
+      
+      const file = await FileSystem.readAsStringAsync(uri, {
+        encoding: FileSystem.EncodingType.Base64,
+      });
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { error, data } = await supabase.storage.from('show_photos').upload(path, decode(file),{
-      contentType: 'image/jpeg'
-    })
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { error, data } = await supabase.storage.from('show_photos').upload(path, decode(file),{
+        contentType: 'image/jpeg'
+      })
 
-    if (error) {
-      console.error('Error uploading image:', error);
-    } else {
-      const url = supabase.storage.from('show_photos').getPublicUrl(path);
-      supabasePhotoURLs.push(url.data.publicUrl);
-    }
+      if (error) {
+        console.error('Error uploading image:', error);
+      } else {
+        const url = supabase.storage.from('show_photos').getPublicUrl(path);
+        supabasePhotoURLs.push(url.data.publicUrl);
+      }
     }
     
   }
