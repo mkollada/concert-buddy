@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { Session } from '@supabase/supabase-js'
 import { supabase } from '../utils/supabase';
 import Auth from '../components/account/Auth';
+import { SafeAreaContext, SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -73,41 +74,44 @@ function RootLayoutNav() {
   }
 
   return (
-    <ThemeProvider value={theme}>
-      
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false, presentation: 'modal' }} />
-        <Stack.Screen name="find-artist" options={{  title: 'Artist' }} />
-        <Stack.Screen name="find-venue" options={{ title: 'Venue' }} />
-        <Stack.Screen name="select-date" options={{ title: 'Date' }} />
-        <Stack.Screen name="select-show" options={{ title: 'Show' }} />
-        
-        <Stack.Screen 
-          name="log-show" 
-          options={{ 
-            title: 'Log Show',
-            headerShown: false
-          }} />
-        <Stack.Screen 
-          name="show-details/[id]"
-          options={{
-            presentation: 'modal',
-            headerShown: false
-          }}
-        />
-        <Stack.Screen 
-          name="show-details/edit-notes" 
-          options={{ 
-            presentation: 'modal',
-            headerShown: false    
-         }} />
-         <Stack.Screen 
-          name="show-details/manage-photos-page" 
-          options={{ 
-            presentation: 'modal',
-            headerShown: false    
-         }} />
-      </Stack>
-    </ThemeProvider>
+    <SafeAreaProvider>
+      <SafeAreaView className='flex-1'>
+        <ThemeProvider value={theme}>
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false, presentation: 'modal' }} />
+            <Stack.Screen name="find-artist" options={{  title: 'Artist' }} />
+            <Stack.Screen name="find-venue" options={{ title: 'Venue' }} />
+            <Stack.Screen name="select-date" options={{ title: 'Date' }} />
+            <Stack.Screen name="select-show" options={{ title: 'Show' }} />
+            
+            <Stack.Screen 
+              name="log-show" 
+              options={{ 
+                title: 'Log Show',
+                headerShown: false
+              }} />
+            <Stack.Screen 
+              name="show-details/[id]"
+              options={{
+                presentation: 'modal',
+                headerShown: false
+              }}
+            />
+            <Stack.Screen 
+              name="show-details/edit-notes" 
+              options={{ 
+                presentation: 'modal',
+                headerShown: false    
+            }} />
+            <Stack.Screen 
+              name="show-details/manage-photos-page" 
+              options={{ 
+                presentation: 'modal',
+                headerShown: false    
+            }} />
+          </Stack>
+        </ThemeProvider>
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
