@@ -1,0 +1,34 @@
+{
+  "cli": {
+    "version": ">= 5.5.0",
+    "promptToConfigurePushNotifications": false
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "preview": {
+      "distribution": "internal"
+    },
+    "production": {
+      "env": {
+        "EXPO_PUBLIC_JAMBASE_API_KEY": "6f60db48-00f8-46d3-88b1-a1433cbb496c"
+      }
+    },
+    "test": {
+      "env": {
+        "EXPO_PUBLIC_JAMBASE_API_KEY": "6f60db48-00f8-46d3-88b1-a1433cbb496c"
+      }
+    }
+  },
+  "submit": {
+    "production": {
+      "android": {
+        "serviceAccountKeyPath": "/Users/mattkollada/Desktop/shows-410219-2fa800452357.json",
+        "track": "internal",
+        "releaseStatus":"draft"
+      }
+    }
+  }
+}
