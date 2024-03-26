@@ -74,8 +74,8 @@ function RootLayoutNav() {
   }
 
   return (
-    <SafeAreaProvider>
-      <SafeAreaView className='flex-1'>
+    // <SafeAreaProvider>
+    //   <SafeAreaView className='flex-1'>
         <ThemeProvider value={theme}>
           <Stack>
             <Stack.Screen name="(tabs)" options={{ headerShown: false, presentation: 'modal' }} />
@@ -111,7 +111,7 @@ function RootLayoutNav() {
             }} />
           </Stack>
         </ThemeProvider>
-      </SafeAreaView>
-    </SafeAreaProvider>
+    //   </SafeAreaView>
+    // </SafeAreaProvider>
   );
 }

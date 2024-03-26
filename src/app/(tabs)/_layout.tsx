@@ -39,7 +39,7 @@ export default function TabLayout() {
           }}
         />
       </Tabs>
-    </SafeAreaView>
-  </SafeAreaProvider>
+   </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
