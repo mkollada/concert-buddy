@@ -3,7 +3,6 @@ import { Show } from '../types/types';
 import { Session } from '@supabase/supabase-js';
 import { useEffect, useState } from 'react';
 import { showArrayFromSupabase, showFromSupabase, showToSupabaseShow } from '../utils';
-import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
 import { decode } from 'base64-arraybuffer'
 
