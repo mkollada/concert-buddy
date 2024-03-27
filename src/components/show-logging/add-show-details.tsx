@@ -7,6 +7,7 @@ import {
     View,
     Image,
     Modal,
+    ActivityIndicator,
     
   } from 'react-native';
 
@@ -32,12 +33,13 @@ interface AddShowDetailsProps {
     show: Show
     setShow: (value: Show) => void
     edit: boolean
+    submitReady: boolean
     setSubmitReady: (value: boolean) => void
     handleEditCancel: () => void
 }
 
 export default function AddShowDetails({ 
-    title, show, setShow, edit, setSubmitReady, handleEditCancel
+    title, show, setShow, edit, submitReady, setSubmitReady, handleEditCancel
 }: AddShowDetailsProps) {
 
     // console.log(artistImageUri)
@@ -65,6 +67,8 @@ export default function AddShowDetails({
 
     const [photosSubtitle, setPhotosSubtitle] = useState('')
     const [notesSubtitle, setNotesSubtitle] = useState('')
+
+    console.log('submitReady', submitReady)
     
     useEffect(() => {
         setShow({
@@ -109,6 +113,8 @@ export default function AddShowDetails({
             return false
         }
 
+        setSubmitReady(true)
+
         const newPhotoUrls = await uploadSupabasePhotos(show.photoUrls)
         setShow({
             ...show,
@@ -120,7 +126,7 @@ export default function AddShowDetails({
             createdAt: Date().toString()
         })
 
-        setSubmitReady(true)
+        
 
         
     }
@@ -156,6 +162,7 @@ export default function AddShowDetails({
             <Modal 
                 animationType="slide"
                 visible={photoModalVisible}
+                transparent={true}
                 onRequestClose={() => {
                 //   Alert.alert('Modal has been closed.')
                   setPhotoModalVisible(!photoModalVisible)
@@ -167,13 +174,31 @@ export default function AddShowDetails({
             <Modal 
                 animationType="slide"
                 visible={notesModalVisible}
+                transparent={true}
                 onRequestClose={() => {
                 //   Alert.alert('Modal has been closed.')
                   setNotesModalVisible(!notesModalVisible)
                 }}
-            >
+            >   
+                <View className='h-[8%]'/>
                 <EditNotes notes={notes} setNotes={setNotes} setModalVisible={setNotesModalVisible}/>
-
+            </Modal>
+            {/* Saving Indicator Modal */}
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={submitReady} 
+                onRequestClose={() => {
+                    // Handle the case when the modal is requested to be closed
+                    setSubmitReady(false);
+                }}
+            >
+                <View  className='flex-1 justify-center items-center'>
+                    <View className='flex-row p-4 rounded-xl items-center bg-themeGray' >
+                        <ActivityIndicator size="large" color="white" />
+                        <Text className='pl-2 text-white'>Saving...</Text>
+                    </View>
+                </View>
             </Modal>
             
 

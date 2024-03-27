@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import ManagePhotosHeader from "./manage-photos-header";
-import { Show } from "../../../types/types";
 import ManagePhotosThumbnailGallery from "./manage-photos-thumbnail-gallery";
-import { useNavigation, useRoute } from "@react-navigation/native";
 
 interface ManagePhotosProps {
     photoUrls: string[],

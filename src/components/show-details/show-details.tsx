@@ -262,7 +262,7 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
                 </View>
               </View>
             )} */}
-            <View>
+            {/* <View>
             { show.photoUrls && show.photoUrls.length > 0 ? (
                <EmptyDetail 
                title="Photos" 
@@ -279,8 +279,8 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
                 link={pickImageAsync}
                 show={show}/>
             )}
-            </View>
-            <View>
+            </View> */}
+            {/* <View>
             { show.notes ? (
                <></>
               
@@ -292,9 +292,9 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
                 link="show-details/edit-notes"
                 show={show}/>
             )}
-            </View>
-            <View>
-            {/* { Object.values(show.memories).every(value => value === "") ? (
+            </View> */}
+            {/* <View>
+            { Object.values(show.memories).every(value => value === "") ? (
                
                <EmptyDetail 
                title="Memories" 
@@ -304,9 +304,9 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
                show={show}/>
             ) : (
               <></>
-            )} */}
-            </View>
-            <View>
+            )}
+            </View> */}
+            {/* <View>
             { setlist ? (
                <></>
               
@@ -318,7 +318,7 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
                 link="show-details/edit-notes"
                 show={show}/>
             )}
-            </View>
+            </View> */}
             { show.artistSpotifyUrl ? (
               <View>
                 <SpotifyButton spotifyUrl={show.artistSpotifyUrl} />
@@ -347,6 +347,7 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
                   show={editShow}
                   setShow={setEditShow}
                   edit={false}
+                  submitReady={submitReady}
                   setSubmitReady={setSubmitReady}
                   handleEditCancel={handleEditXPress}
                   title={show.artistName}

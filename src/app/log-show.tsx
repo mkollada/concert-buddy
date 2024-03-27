@@ -7,6 +7,7 @@ import uuid from 'react-native-uuid';
 import { Show } from '../types/types';
 import { addSupabaseShow, getSupabaseSession, updateSupabaseShow } from '../api';
 import { Session } from '@supabase/supabase-js';
+import { Alert } from 'react-native';
 
 
 export default function LogShowScreen() { 
@@ -15,7 +16,7 @@ export default function LogShowScreen() {
   const [session, setSession] = useState<Session | null>(null);
   const [sessErr, setSessErr] = useState(false)
   const [show, setShow] = useState<Show|null>(null)
-  const [submitReady, setSubmitReady] = useState(false               )
+  const [submitReady, setSubmitReady] = useState(false)
 
   const rawParams = useLocalSearchParams();
 
@@ -32,11 +33,27 @@ export default function LogShowScreen() {
     }
   }, [data, error]);
 
+  
+
   useEffect(() => {
+    const handleSubmitReady = async (show: Show) => {
+      try {
+        await addSupabaseShow(show)
+      } catch (error) {
+        Alert.alert('Error uploading show')
+        console.error('error uploading to supabase')
+      }
+      
+      setSubmitReady(false)
+      router.push('/')
+    }
+    
     if(submitReady){
-      if( show){
-        addSupabaseShow(show)
-        router.push('/')
+      if(show){
+        handleSubmitReady(show)
+      } else {
+        Alert.alert('Error submitting show')
+        console.error('show was null, could not log show')
       }
       
     }
@@ -100,8 +117,6 @@ export default function LogShowScreen() {
     return <View><Text>Error loading session</Text></View>
   }
 
-
-
   return (
     <View className='flex-1 justify-center'>
       <AddShowDetails 
@@ -109,6 +124,7 @@ export default function LogShowScreen() {
         show={show}
         setShow={setShow}
         edit={false}
+        submitReady={submitReady}
         setSubmitReady={setSubmitReady}
         handleEditCancel={router.back}
       /> 
