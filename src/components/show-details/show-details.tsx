@@ -319,7 +319,7 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
             )}
             </View> */}
             { show.artistSpotifyUrl ? (
-              <View>
+              <View className="p-2">
                 <SpotifyButton spotifyUrl={show.artistSpotifyUrl} />
               </View>
             ) : (
