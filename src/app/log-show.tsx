@@ -21,6 +21,7 @@ export default function LogShowScreen() {
   const rawParams = useLocalSearchParams();
 
 
+
   const {data, error} = getSupabaseSession()
   useEffect(() => { 
     
@@ -79,9 +80,18 @@ export default function LogShowScreen() {
     const newUuid = uuid.v4().toString();
 
     const initialMemories = {
-      'Tonight I met the band and...': '',
-      'My favorite part of the show was...': '',
-      'I’ll never forget...': '',
+      "Tonight I met the band and...": {
+        color: "#928CD7", response: ""
+      },
+      "Before the show I...": {
+        color: "#EA7876", response: ""
+      },
+      "The best moment of the show was...":{
+        color: "#48769E", response: ""
+      },
+      "After the show I...":{
+        color: "#6AB99B", response: ""
+      }
     };
 
     const newShow: Show = {

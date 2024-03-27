@@ -45,7 +45,10 @@ export type SupabaseShow = {
 }
 
 export type Memories = {
-    [key: string]: string
+    [prompt: string]: {
+        color: string,
+        response: string
+    }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -27,6 +27,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import ManagePhotos from '../show-details/photos/manage-photos';
 import EditNotes from '../show-details/notes/edit-notes';
 import AddShowDetailsHeader from './add-show-details-header';
+import ManageMemories from '../memories/manage-memories';
 
 interface AddShowDetailsProps {
     title: string
@@ -45,16 +46,10 @@ export default function AddShowDetails({
     // console.log(artistImageUri)
     const router = useRouter(); // Initialize the navigation hook
 
-    // Setting initial memories
-    const memories = {
-        'Tonight I met the band and...':'',
-        'My favorite part of the show was...':'',
-        'I\'ll never forget...':''
-    }
-
     const [isLoading, setIsLoading] = useState(false)
     const [photoModalVisible, setPhotoModalVisible] = useState(false)
     const [notesModalVisible, setNotesModalVisible] = useState(false)
+    const [memoriesModalVisible, setMemoriesModalVisible] = useState(false)
 
 
     const [photoUrls, setPhotoUrls] = useState(show.photoUrls)
@@ -64,11 +59,10 @@ export default function AddShowDetails({
     const [productionRating, setProductionRating] = useState(show.stagePresenceRating)
     const [stagePresenceRating, setStagePresenceRating] = useState(show.stagePresenceRating)
     const [notes, setNotes] = useState(show.notes)
+    const [memories, setMemories] = useState(show.memories)
 
     const [photosSubtitle, setPhotosSubtitle] = useState('')
     const [notesSubtitle, setNotesSubtitle] = useState('')
-
-    console.log('submitReady', submitReady)
     
     useEffect(() => {
         setShow({
@@ -79,7 +73,8 @@ export default function AddShowDetails({
             musicalityRating: musicalityRating,
             productionRating: productionRating,
             stagePresenceRating: stagePresenceRating,
-            notes: notes
+            notes: notes,
+            memories: memories
         })
 
         if(photoUrls.length == 0){
@@ -97,7 +92,7 @@ export default function AddShowDetails({
         }
 
     }, [photoUrls, overallRating, venueRating, musicalityRating, productionRating,
-    stagePresenceRating, notes])
+    stagePresenceRating, notes, memories])
     
     
 
@@ -158,6 +153,7 @@ export default function AddShowDetails({
             <AccordionEmojiRating title='Show Rating' setRating={setOverallRating} rating={overallRating} />
 
             <AccordionEmojiRating title='Venue Rating' setRating={setVenueRating} rating={venueRating} />
+            <EditItem title='Memories' subtitle='' setModalVisible={setMemoriesModalVisible} />
             <EditItem title='Notes' subtitle={notesSubtitle} setModalVisible={setNotesModalVisible} />
             <Modal 
                 animationType="slide"
@@ -165,23 +161,38 @@ export default function AddShowDetails({
                 transparent={true}
                 onRequestClose={() => {
                 //   Alert.alert('Modal has been closed.')
-                  setPhotoModalVisible(!photoModalVisible)
+                  setPhotoModalVisible(false)
                 }}
             >
                 <ManagePhotos photoUrls={photoUrls} setPhotoUrls={setPhotoUrls} setModalVisible={setPhotoModalVisible}/>
 
             </Modal>
+            {/* Notes Modal */}
             <Modal 
                 animationType="slide"
                 visible={notesModalVisible}
                 transparent={true}
                 onRequestClose={() => {
                 //   Alert.alert('Modal has been closed.')
-                  setNotesModalVisible(!notesModalVisible)
+                  setNotesModalVisible(false)
                 }}
             >   
                 <View className='h-[8%]'/>
                 <EditNotes notes={notes} setNotes={setNotes} setModalVisible={setNotesModalVisible}/>
+            </Modal>
+            {/* Memories Modal */}
+            <Modal
+                animationType="slide"
+                visible={memoriesModalVisible}
+                transparent={true}
+                onRequestClose={() => {
+                //   Alert.alert('Modal has been closed.')
+                setMemoriesModalVisible(false)
+                }}>
+                    <ManageMemories     
+                        memories={memories} 
+                        setMemories={setMemories} 
+                        setModalVisible={setMemoriesModalVisible} />
             </Modal>
             {/* Saving Indicator Modal */}
             <Modal

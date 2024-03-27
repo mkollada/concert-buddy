@@ -14,6 +14,7 @@ import ExtraActionsModal from "./extra-actions-modal";
 import { router } from "expo-router";
 import AddShowDetails from "../show-logging/add-show-details";
 import ViewAllNotes from "./notes/view-all-notes";
+import MemoryCarousel from "../memories/memory-carousel";
 
 interface ShowDetailsProps {
     showId: string
@@ -145,14 +146,17 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
     }
   }, [show])
 
-
+  const handleSubmit = async (show: Show) => {
+    setShow(editShow)
+    await updateSupabaseShow(show)
+    setSubmitReady(false)
+    setEditShowModalVisible(false)
+  }
 
   useEffect(() => {
     if(submitReady){
       if(editShow && show){
-        setShow(editShow)
-        updateSupabaseShow(show)
-        setEditShowModalVisible(false)
+        handleSubmit(show)
       }
       
     }
@@ -165,6 +169,8 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
   const handleDotsPress = () => {
     setActionModalVisible(true)
   }
+
+  console.log(show?.memories)
 
 
   const onDelete = async (showId: string) => {
@@ -250,17 +256,17 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
               
             </View>
             
-            {/* { Object.values(show.memories).every(value => value === "") ? (
-              <></>
-              ):(
-              <View>
-                <Text className="py-4 items-left text-2xl text-white">Memories:</Text>
+            {
+  Object.entries(show.memories).some(([_, { response }]) => response.trim() !== "") ? (
+    <View>
+      <Text style={{ paddingVertical: 16, textAlign: 'left', fontSize: 24, color: 'white' }}>Memories:</Text>
+      <View style={{ alignItems: 'center' }}>
+        <MemoryCarousel show={show} />
+      </View>
+    </View>
+  ) : null
+}
 
-                <View className="items-center">
-                  <MemoryCarousel show={show} setShow={setShow} />
-                </View>
-              </View>
-            )} */}
             {/* <View>
             { show.photoUrls && show.photoUrls.length > 0 ? (
                <EmptyDetail 
