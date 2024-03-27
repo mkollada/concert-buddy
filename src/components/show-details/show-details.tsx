@@ -1,21 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
-import { View, Text, Button, TouchableOpacity, Modal, TouchableWithoutFeedback } from "react-native";
+import { View, Text, TouchableOpacity, Modal} from "react-native";
 import { Show } from "../../types/types";
-import { deleteSupabaseShow, getSupabaseSession, getSupabaseShow, updateSupabaseShow, updateSupabaseShowItem, uploadSupabasePhotos } from "../../api";
+import { deleteSupabaseShow, getSupabaseShow, updateSupabaseShow, updateSupabaseShowItem, uploadSupabasePhotos } from "../../api";
 import ShowDetailsCarousel from "./show-details-carousel";
-import ShowNotesSummary from "./show-notes-summary";
+import ShowNotesSummary from "./notes/show-notes-summary";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import SpotifyButton from "./spotify-button";
-import MemoryCarousel from "../memories/memory-carousel";
 import EmojiRatingBar from "../utils/emoji-rating-bar";
-import EmptyDetail from "./empty-detail";
 import { useNavigation, useRouter } from "expo-router";
 import * as ImagePicker from 'expo-image-picker';
 import { Entypo, Feather, FontAwesome } from "@expo/vector-icons";
 import ExtraActionsModal from "./extra-actions-modal";
 import { router } from "expo-router";
 import AddShowDetails from "../show-logging/add-show-details";
-import { Session } from "@supabase/supabase-js";
+import ViewAllNotes from "./notes/view-all-notes";
 
 interface ShowDetailsProps {
     showId: string
@@ -32,6 +30,7 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
   const [showUnsavedChanges, setShowUnsavedChanges] = useState(false)
   const [actionModalVisible, setActionModalVisible] = useState(false)
   const [editShowModalVisible, setEditShowModalVisible] = useState(false)
+  const [notesModalVisible, setNotesModalVisible] = useState(false)
   const [submitReady, setSubmitReady] = useState(false)
 
   const setlist = null
@@ -224,7 +223,7 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
           <View className="py-4 px-2">
             { show.notes ? (
               <View className="p-2">
-                <ShowNotesSummary show={show} />
+                <ShowNotesSummary show={show} setModalVisible={setNotesModalVisible}/>
               </View>
               
             ) : (
@@ -328,7 +327,7 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
             )}
           </View>
         </View>
-
+        {/* Extra Actions Modal */}
         <Modal
           animationType="slide"
           visible={actionModalVisible}
@@ -338,6 +337,7 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
         >  
           <ExtraActionsModal setActionModalVisible={setActionModalVisible} setEditShowModalVisible={setEditShowModalVisible} showId={showId} onEdit={onEdit}/>
         </Modal>
+        {/* Edit show modal */}
         <Modal
           animationType="slide"
           visible={editShowModalVisible}
@@ -353,7 +353,15 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
                   title={show.artistName}
                 /> 
             </View>
-                
+        </Modal>
+        {/* View All Notes Modal */}
+        <Modal
+          animationType="slide"
+          visible={notesModalVisible}
+          transparent={true}>
+          <View className="flex-1 mt-[5%]">
+            <ViewAllNotes notes={show.notes} setModalVisible={setNotesModalVisible} />
+          </View>
         </Modal>
 
         

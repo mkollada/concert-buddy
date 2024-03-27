@@ -7,21 +7,15 @@ import { Show } from "../../types/types";
 interface SeeMoreButtonProps {
     show: Show
     text: string
-    link: string
+    setModalVisible: (value: boolean) => void
 }
 
-export default function SeeMoreButton({ show, text, link }: SeeMoreButtonProps) {
+export default function SeeMoreButton({ show, text, setModalVisible }: SeeMoreButtonProps) {
     
     const router = useRouter()
 
     const handlePress = () => {
-        router.push({
-            pathname: `/${link}`,
-            params: {
-                initialNotes: show.notes,
-                showId: show.id
-            }
-        })
+        setModalVisible(true)
     }
     
     return (
