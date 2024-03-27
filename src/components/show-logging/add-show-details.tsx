@@ -164,6 +164,7 @@ export default function AddShowDetails({
                   setPhotoModalVisible(false)
                 }}
             >
+                <View className='h-[3%]'/>
                 <ManagePhotos photoUrls={photoUrls} setPhotoUrls={setPhotoUrls} setModalVisible={setPhotoModalVisible}/>
 
             </Modal>
@@ -177,7 +178,7 @@ export default function AddShowDetails({
                   setNotesModalVisible(false)
                 }}
             >   
-                <View className='h-[8%]'/>
+                <View className='h-[3%]'/>
                 <EditNotes notes={notes} setNotes={setNotes} setModalVisible={setNotesModalVisible}/>
             </Modal>
             {/* Memories Modal */}
@@ -189,6 +190,7 @@ export default function AddShowDetails({
                 //   Alert.alert('Modal has been closed.')
                 setMemoriesModalVisible(false)
                 }}>
+                    <View className='h-[3%]'/>
                     <ManageMemories     
                         memories={memories} 
                         setMemories={setMemories} 

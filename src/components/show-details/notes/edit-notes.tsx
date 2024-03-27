@@ -18,23 +18,27 @@ const EditNotes: React.FC<EditNotesProps> = ({
     }
 
     return (
-        <KeyboardAwareScrollView
-            enableOnAndroid={true}
-            extraHeight={100}
-            keyboardShouldPersistTaps='handled'
-            className="flex-1 bg-black">
-            <View className="flex-1 bg-black">
+        
+            <View className="flex-1 bg-black rounded-t2xl">
+                {/* <View className="flex-1 bg-black"> */}
                 <EditNotesHeader setModalVisible={setModalVisible}/>
-                <View className='flex-1 p-4 bg-themeGray'>
-                    <TextInput 
-                        className='flex-1 text-2xl text-white bg-themeGray' 
-                        value={notes} 
-                        onChangeText={handleTextChange}
-                        multiline
-                        placeholder="Enter notes here..." />
-                </View>
+                <KeyboardAwareScrollView
+                    enableOnAndroid={true}
+                    extraHeight={300}
+                    keyboardShouldPersistTaps='handled'
+                    className="flex-1 bg-black">
+                    <View className='bg-themeGray flex-1 p-4'>
+                        <TextInput 
+                            className='flex-1 text-2xl text-white' 
+                            value={notes} 
+                            onChangeText={handleTextChange}
+                            multiline
+                            placeholder="Enter notes here..." />
+                    </View>
+                </KeyboardAwareScrollView>
+                {/* </View> */}
             </View>
-        </KeyboardAwareScrollView>
+        
     )
 }
 
