@@ -14,7 +14,6 @@ const ManagePhotosHeader: React.FC<ManagePhotosHeaderProps> = ({
     const router = useRouter()
 
     const handleCancel = () => {
-        console.log('handled')
         router.back()
     }
 

@@ -18,8 +18,6 @@ const ThumbnailGallery: React.FC<ThumbnailGalleryProps> = ({ photoUrls, setPhoto
             allowsMultipleSelection: true
         });
 
-        console.log('uup')
-
         if (!result.canceled) {
 
             // const newPhotoUrls = await uploadSupabasePhotos(result.assets)
