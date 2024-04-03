@@ -64,6 +64,7 @@ export default function AddShowDetails({
 
     const [photosSubtitle, setPhotosSubtitle] = useState('')
     const [notesSubtitle, setNotesSubtitle] = useState('')
+    const [saving, setSaving] = useState(false)
     
     useEffect(() => {
         setShow({
@@ -109,7 +110,7 @@ export default function AddShowDetails({
             return false
         }
 
-        setSubmitReady(true)
+        setSaving(true)
 
         const newPhotoUrls = await uploadSupabasePhotos(show.photoUrls)
         setShow({
@@ -117,14 +118,15 @@ export default function AddShowDetails({
             photoUrls: newPhotoUrls
         })
         
-        setShow({
-            ...show,
-            createdAt: Date().toString()
-        })
+        if(!edit) {
+            setShow({
+                ...show,
+                createdAt: Date().toString()
+            })
+        }
 
-        
-
-        
+        setSubmitReady(true)
+        setSaving(false)        
     }
 
     return (
@@ -201,7 +203,7 @@ export default function AddShowDetails({
             <Modal
                 animationType="fade"
                 transparent={true}
-                visible={submitReady} 
+                visible={submitReady || saving} 
                 onRequestClose={() => {
                     // Handle the case when the modal is requested to be closed
                     setSubmitReady(false);

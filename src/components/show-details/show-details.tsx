@@ -86,32 +86,6 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
     
   }
 
-  const pickImageAsync = async () => {
-    if(show){
-      const result = await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.Images,
-          quality: 1,
-          allowsMultipleSelection: true
-      });
-
-      if (!result.canceled) {
-        const uris: string[] = []
-        result.assets.forEach(asset => {
-          uris.push(asset.uri)
-        })
-        const newPhotoUrls = await uploadSupabasePhotos(uris)
-        const photoUrls = [...show.photoUrls, ...newPhotoUrls]
-        await updateSupabaseShowItem(show.id,'photo_urls',photoUrls)
-
-        setPhotosUpdateShow(photoUrls)
-      } else {
-        alert('You did not select any image.');
-      }
-    } else {
-      console.error('cannot add photos if show is null')
-    }
-  };
-
   useEffect(() => {
     const unsubscribeFocus = navigation.addListener('focus', () => {
       // Do something when the screen is focused
@@ -157,7 +131,7 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
   useEffect(() => {
     if(submitReady){
       if(editShow && show){
-        handleSubmit(show)
+        handleSubmit(editShow)
       }
       
     }
@@ -170,17 +144,6 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
   const handleDotsPress = () => {
     setActionModalVisible(true)
   }                                                                  
-
-  const onDelete = async (showId: string) => {
-    const {data, error} = await deleteSupabaseShow(showId)
-    if (error) {
-      alert('Error deleting row: error')
-    } else {
-      console.log('Deleted:', data)
-      router.replace('/')
-    }
-    
-  }
 
   const onEdit = async () => {
     console.log('editing...')

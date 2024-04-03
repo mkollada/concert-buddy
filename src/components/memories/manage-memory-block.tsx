@@ -14,7 +14,6 @@ const ManageMemoryBlock = ({prompt, initialResponse, handleMemoryUpdate, color}:
   const [response, setResponse] = useState(initialResponse)
 
   const handleTextChange = (text: string) => {
-    console.log('h')
     setResponse(text)
     handleMemoryUpdate(prompt,text)
   }

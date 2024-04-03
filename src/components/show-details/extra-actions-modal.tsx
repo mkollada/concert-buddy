@@ -1,7 +1,6 @@
 import { View, Text, Pressable, Dimensions, TouchableWithoutFeedback, Alert } from "react-native";
 import React from "react";
 import { router } from "expo-router";
-import { Show } from "../../types/types";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Feather } from "@expo/vector-icons";
 import { Divider } from "react-native-elements";
