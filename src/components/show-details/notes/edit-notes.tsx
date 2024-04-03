@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { View, TextInput} from "react-native";
+import { View, TextInput, Alert} from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import EditNotesHeader from "./edit-notes-header";
+import PageHeader from "../../utils/page-header";
 
 interface EditNotesProps {
     notes: string
@@ -29,7 +30,22 @@ const EditNotes: React.FC<EditNotesProps> = ({
 
     const handleCancel = () => {
         if(unsavedChanges){
-
+            Alert.alert(
+                "Unsaved Changes", // Title
+                "You have unsaved changes. Are you sure you want to go back without saving?", // Message
+                [
+                    {
+                    text: "Cancel",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel",
+                    },
+                    { text: "Confirm", style: "destructive", onPress: () => setModalVisible(false) },
+                ],
+                {
+                    cancelable: true, // Whether to close the dialog on outside touch or not
+                    onDismiss: () => console.log("Dialog dismissed"), // Callback when the alert is dismissed
+                }
+                );
         } else {
             setModalVisible(false)
         }
@@ -38,11 +54,12 @@ const EditNotes: React.FC<EditNotesProps> = ({
     return (
         
             <View className="flex-1 bg-black rounded-t2xl">
-                {/* <View className="flex-1 bg-black"> */}
-                <EditNotesHeader 
-                    handleCancel={handleCancel}
-                    handleSave={handleSave} 
-                    unsavedChanges={unsavedChanges}/>
+                <PageHeader
+                    title="Notes" 
+                    handleDonePress={handleSave}
+                    doneText="Save"
+                    handleCancelPress={handleCancel}
+                    doneEnabled={unsavedChanges}/>
                 <KeyboardAwareScrollView
                     enableOnAndroid={true}
                     extraHeight={300}

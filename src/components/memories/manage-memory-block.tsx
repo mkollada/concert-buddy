@@ -11,6 +11,14 @@ interface ManageMemoryBlockProps {
 }
 
 const ManageMemoryBlock = ({prompt, initialResponse, handleMemoryUpdate, color}: ManageMemoryBlockProps) => {
+  const [response, setResponse] = useState(initialResponse)
+
+  const handleTextChange = (text: string) => {
+    console.log('h')
+    setResponse(text)
+    handleMemoryUpdate(prompt,text)
+  }
+  
   return (
     <View className={`flex-1 rounded-2xl py-4 px-8`} style={{backgroundColor: color}}>
         <View className='flex-1 pb-4'>
@@ -19,11 +27,11 @@ const ManageMemoryBlock = ({prompt, initialResponse, handleMemoryUpdate, color}:
         <View className={`bg-black p-3 justify-center flex-1 rounded-xl opacity-75`}>
             <TextInput 
                 multiline={true} 
-                value={initialResponse}
+                value={response}
                 placeholder='Type your memory...'
                 placeholderTextColor='white' 
                 className='flex-1 break-normal truncate text-white' 
-                onChangeText={text => handleMemoryUpdate(prompt,text)}/>
+                onChangeText={text => handleTextChange(text)}/>
         </View>
     </View>
   )

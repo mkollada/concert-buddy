@@ -8,10 +8,11 @@ interface PageHeaderProps {
     handleDonePress: () => void
     doneText: string
     handleCancelPress: () => void
+    doneEnabled: boolean
 }
 
 const PageHeader: React.FC<PageHeaderProps> = ({
-    title, handleDonePress, doneText, handleCancelPress
+    title, handleDonePress, doneText, handleCancelPress, doneEnabled
 }) => {  
 
     const router = useRouter()
@@ -27,8 +28,9 @@ const PageHeader: React.FC<PageHeaderProps> = ({
             <TouchableOpacity 
                 onPress={handleDonePress}
                 style={{ padding: 10 }}
+                disabled={!doneEnabled}
             >
-                <Text className="text-themePurple text-lg">{doneText}</Text>
+                <Text style={{ color: doneEnabled ? '#9069F4' : '#A9A9A9'}} className="text-lg">{doneText}</Text>
             </TouchableOpacity>
         </View>
     )

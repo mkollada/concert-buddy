@@ -19,19 +19,9 @@ const ThumbnailGallery: React.FC<ThumbnailGalleryProps> = ({ photoUrls, setPhoto
         });
 
         if (!result.canceled) {
-
-            // const newPhotoUrls = await uploadSupabasePhotos(result.assets)
-
             result.assets.forEach(asset => {
                 setPhotoUrls([...photoUrls, asset.uri])
-            })
-
-            // setPhotoUrls([...photoUrls, ...newPhotoUrls])
-
-            // Wait for the next render to complete so that state is updated
-            // await new Promise(resolve => setTimeout(resolve, 0));
-
-            // const res = await updateSupabaseShowItem(show.id,'photo_urls',photoUrls)
+            })          
         }
     };
 

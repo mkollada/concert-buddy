@@ -20,7 +20,8 @@ const ViewAllNotes: React.FC<ViewAllNotesProps> = ({
                     title="Notes" 
                     handleDonePress={() => {}} 
                     doneText=""
-                    handleCancelPress={() => setModalVisible(false)} />
+                    handleCancelPress={() => setModalVisible(false)} 
+                    doneEnabled={false}/>
                 <KeyboardAwareScrollView
                     enableOnAndroid={true}
                     extraHeight={300}
