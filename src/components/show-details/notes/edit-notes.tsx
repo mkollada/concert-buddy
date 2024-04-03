@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { View, TextInput, Alert} from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import EditNotesHeader from "./edit-notes-header";
 import PageHeader from "../../utils/page-header";
 
 interface EditNotesProps {

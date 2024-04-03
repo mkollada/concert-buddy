@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Alert, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import ManagePhotosHeader from "./manage-photos-header";
 import ManagePhotosThumbnailGallery from "./manage-photos-thumbnail-gallery";
 import PageHeader from "../../utils/page-header";
 
