@@ -20,13 +20,13 @@ export default function EmojiRatingBar({ rating, setRating, editEnabled }: Emoji
 
   return (
     <View style={{ padding: 8, flexDirection: 'row', justifyContent: 'space-around' }}>
-        <EmojiButton emoji={0} selected={rating === 0} onPress={() => handlePress(0)} />
+        <EmojiButton emoji={0} selected={rating === 0} onPress={() => handlePress(0)} editEnabled={editEnabled}/>
         <Separator />
-        <EmojiButton emoji={1} selected={rating === 1} onPress={() => handlePress(1)} />
+        <EmojiButton emoji={1} selected={rating === 1} onPress={() => handlePress(1)} editEnabled={editEnabled}/>
         <Separator />
-        <EmojiButton emoji={2} selected={rating === 2} onPress={() => handlePress(2)} />
+        <EmojiButton emoji={2} selected={rating === 2} onPress={() => handlePress(2)} editEnabled={editEnabled}/>
         <Separator />
-        <EmojiButton emoji={3} selected={rating === 3} onPress={() => handlePress(3)} />
+        <EmojiButton emoji={3} selected={rating === 3} onPress={() => handlePress(3)} editEnabled={editEnabled}/>
     </View>
   );
 }
