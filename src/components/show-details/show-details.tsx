@@ -15,6 +15,7 @@ import { router } from "expo-router";
 import AddShowDetails from "../show-logging/add-show-details";
 import ViewAllNotes from "./notes/view-all-notes";
 import MemoryCarousel from "../memories/memory-carousel";
+import StarRatingBar from "../utils/star-rating-bar";
 
 interface ShowDetailsProps {
     showId: string
@@ -168,10 +169,7 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
 
   const handleDotsPress = () => {
     setActionModalVisible(true)
-  }
-
-  console.log(show?.memories)
-
+  }                                                                  
 
   const onDelete = async (showId: string) => {
     const {data, error} = await deleteSupabaseShow(showId)
@@ -251,7 +249,7 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
                   <Text className='text-white text-lg'>The Venue</Text>
                   <Text className='text-gray-400 text-md'>{show.venue}{show.venueLoc ? `, ${show.venueLoc}` : ''}</Text>
                 </View>
-                <EmojiRatingBar rating={show.venueRating} setRating={setVenueRatingUpdateShow} editEnabled={false}/>
+                <StarRatingBar rating={show.venueRating} setRating={setVenueRatingUpdateShow} editEnabled={false}/>
               </View>
               
             </View>

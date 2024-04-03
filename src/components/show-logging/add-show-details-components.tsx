@@ -7,6 +7,7 @@ import EmojiRatingBar from "../utils/emoji-rating-bar";
 import { useNavigation } from '@react-navigation/native';
 
 import { AntDesign } from "@expo/vector-icons";
+import StarRatingBar from "../utils/star-rating-bar";
 
 function isAirbnbRatingComponent(component: React.ReactNode) {
     return component instanceof AirbnbRating;
@@ -89,6 +90,29 @@ export const AccordionEmojiRating: React.FC<AccordionEmojiRatingProps> = (
             </View>
             <View>
                 <EmojiRatingBar rating={rating} setRating={setRating} editEnabled={editEnabled}/>
+            </View>
+        </View>
+       
+    )
+}
+
+interface AccordionStarRatingProps {
+    title: string
+    setRating: (value: number) => void
+    rating: number
+    editEnabled: boolean
+}
+
+export const AccordionStarRating: React.FC<AccordionStarRatingProps> = (
+    {title, setRating, rating, editEnabled}
+) => {
+    return (
+        <View >
+             <View className='flex-row justify-between p-3'>
+                <Text className="text-white text-lg">{ title }</Text>
+            </View>
+            <View>
+                <StarRatingBar rating={rating} setRating={setRating} editEnabled={editEnabled}/>
             </View>
         </View>
        
