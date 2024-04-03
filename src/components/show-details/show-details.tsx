@@ -34,6 +34,7 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
   const [editShowModalVisible, setEditShowModalVisible] = useState(false)
   const [notesModalVisible, setNotesModalVisible] = useState(false)
   const [submitReady, setSubmitReady] = useState(false)
+  const [unsavedChanges, setUnsavedChanges] = useState(false)
 
   const setlist = null
   
@@ -125,6 +126,7 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
     setShow(editShow)
     await updateSupabaseShow(show)
     setSubmitReady(false)
+    setUnsavedChanges(false)
     setEditShowModalVisible(false)
   }
 
@@ -318,6 +320,8 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
                   setSubmitReady={setSubmitReady}
                   handleEditCancel={handleEditXPress}
                   title={show.artistName}
+                  unsavedChanges={unsavedChanges}
+                  setUnsavedChanges={setUnsavedChanges}
                 /> 
             </View>
         </Modal>

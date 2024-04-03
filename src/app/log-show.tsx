@@ -17,6 +17,7 @@ export default function LogShowScreen() {
   const [sessErr, setSessErr] = useState(false)
   const [show, setShow] = useState<Show|null>(null)
   const [submitReady, setSubmitReady] = useState(false)
+  const [unsavedChanges, setUnsavedChanges] = useState(false)
 
   const rawParams = useLocalSearchParams();
 
@@ -46,6 +47,7 @@ export default function LogShowScreen() {
       }
       
       setSubmitReady(false)
+      setUnsavedChanges(false)
       router.push('/')
     }
     
@@ -137,6 +139,8 @@ export default function LogShowScreen() {
         submitReady={submitReady}
         setSubmitReady={setSubmitReady}
         handleEditCancel={router.back}
+        unsavedChanges={unsavedChanges}
+        setUnsavedChanges={setUnsavedChanges}
       /> 
     </View>
   );

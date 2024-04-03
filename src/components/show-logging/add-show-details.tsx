@@ -8,6 +8,7 @@ import {
     Image,
     Modal,
     ActivityIndicator,
+    Alert,
     
   } from 'react-native';
 
@@ -29,6 +30,7 @@ import ManagePhotos from '../show-details/photos/manage-photos';
 import EditNotes from '../show-details/notes/edit-notes';
 import AddShowDetailsHeader from './add-show-details-header';
 import ManageMemories from '../memories/manage-memories';
+import PageHeader from '../utils/page-header';
 
 interface AddShowDetailsProps {
     title: string
@@ -38,10 +40,12 @@ interface AddShowDetailsProps {
     submitReady: boolean
     setSubmitReady: (value: boolean) => void
     handleEditCancel: () => void
+    unsavedChanges: boolean
+    setUnsavedChanges: (value: boolean) => void
 }
 
 export default function AddShowDetails({ 
-    title, show, setShow, edit, submitReady, setSubmitReady, handleEditCancel
+    title, show, setShow, edit, submitReady, setSubmitReady, handleEditCancel, unsavedChanges, setUnsavedChanges
 }: AddShowDetailsProps) {
 
     // console.log(artistImageUri)
@@ -62,23 +66,44 @@ export default function AddShowDetails({
     const [notes, setNotes] = useState(show.notes)
     const [memories, setMemories] = useState(show.memories)
 
+
     const [photosSubtitle, setPhotosSubtitle] = useState('')
     const [notesSubtitle, setNotesSubtitle] = useState('')
     const [saving, setSaving] = useState(false)
+
+    // const [unsavedChanges, setUnsavedChanges] = useState(false)
     
     useEffect(() => {
-        setShow({
-            ...show,
-            photoUrls: photoUrls,
-            overallRating: overallRating,
-            venueRating: venueRating,
-            musicalityRating: musicalityRating,
-            productionRating: productionRating,
-            stagePresenceRating: stagePresenceRating,
-            notes: notes,
-            memories: memories
-        })
 
+        // if(photoUrls.length == 0){
+        //     setPhotosSubtitle('')
+        // } else if (photoUrls.length == 1){
+        //     setPhotosSubtitle('1 Photo')
+        // } else {
+        //     setPhotosSubtitle(`${photoUrls.length} Photos`)
+        // }
+
+        // if(notes != ''){
+        //     setNotesSubtitle('Saved')
+        // } else {
+        //     setNotesSubtitle('')
+        // }
+
+    }, [photoUrls, overallRating, venueRating, musicalityRating, productionRating,
+    stagePresenceRating, notes, memories])
+
+    const handleSetNotes = (notes: string) => {
+        if(notes != ''){
+            setNotesSubtitle('Saved')
+        } else {
+            setNotesSubtitle('')
+        }
+
+        setNotes(notes)
+        setUnsavedChanges(true)
+    }
+
+    const handleSetPhotoUrls = (photoUrls: string[]) => {
         if(photoUrls.length == 0){
             setPhotosSubtitle('')
         } else if (photoUrls.length == 1){
@@ -87,17 +112,64 @@ export default function AddShowDetails({
             setPhotosSubtitle(`${photoUrls.length} Photos`)
         }
 
-        if(notes != ''){
-            setNotesSubtitle('Saved')
+        setPhotoUrls(photoUrls)
+        setUnsavedChanges(true)
+    }
+
+    const handleSetMemories = (memories: Memories) => {
+        setMemories(memories)
+        setUnsavedChanges(true)
+    }
+
+    const handleSetOverallRating = (overallRating: number) => {
+        setOverallRating(overallRating)
+        setUnsavedChanges(true)
+    }
+
+    const handleSetVenueRating = (venueRating: number) => {
+        setVenueRating(overallRating)
+        setUnsavedChanges(true)
+    }
+
+    const handleSetMusicalityRating = (musicalityRating: number) => {
+        setMusicalityRating(musicalityRating)
+        setUnsavedChanges(true)
+    }
+
+    const handleSetStagePresenceRating = (stagePresenceRating: number) => {
+        setStagePresenceRating(stagePresenceRating)
+        setUnsavedChanges(true)
+    }
+
+    const handleSetProductionRating = (productionRating: number) => {
+        setProductionRating(productionRating)
+        setUnsavedChanges(true)
+    }
+    
+    
+    const handleCancelPress = () => {
+        if(unsavedChanges){
+            Alert.alert(
+                "Unsaved Changes", // Title
+                "You have unsaved changes. Are you sure you want to go back without saving?", // Message
+                [
+                    {
+                    text: "Cancel",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel",
+                    },
+                    { text: "Confirm", style: "destructive", onPress: () => handleEditCancel() },
+                ],
+                {
+                    cancelable: true, // Whether to close the dialog on outside touch or not
+                    onDismiss: () => console.log("Dialog dismissed"), // Callback when the alert is dismissed
+                }
+                );
         } else {
-            setNotesSubtitle('')
+            handleEditCancel()
         }
 
-    }, [photoUrls, overallRating, venueRating, musicalityRating, productionRating,
-    stagePresenceRating, notes, memories])
-    
-    
-
+    }
 
     async function handleSavePress() {
         if(!show.overallRating) {
@@ -111,6 +183,18 @@ export default function AddShowDetails({
         }
 
         setSaving(true)
+
+        setShow({
+            ...show,
+            photoUrls: photoUrls,
+            overallRating: overallRating,
+            venueRating: venueRating,
+            musicalityRating: musicalityRating,
+            productionRating: productionRating,
+            stagePresenceRating: stagePresenceRating,
+            notes: notes,
+            memories: memories
+        })
 
         const newPhotoUrls = await uploadSupabasePhotos(show.photoUrls)
         setShow({
@@ -133,7 +217,12 @@ export default function AddShowDetails({
         
 
         <SafeAreaView className='flex-1'>
-            <AddShowDetailsHeader title={title} handleSavePress={handleSavePress} handleCancelPress={handleEditCancel}/>
+            {/* <AddShowDetailsHeader title={title} handleSavePress={handleSavePress} handleCancelPress={handleEditCancel}/> */}
+            <PageHeader title={title} 
+                handleDonePress={handleSavePress} 
+                doneText='Save' 
+                handleCancelPress={handleCancelPress} 
+                doneEnabled={unsavedChanges}/>
             { isLoading ? <View><Text>Loading... </Text></View> :
           <KeyboardAwareScrollView
             enableOnAndroid={true}
@@ -153,9 +242,9 @@ export default function AddShowDetails({
             {/* Photos Item */}
             <EditItem title='Photos' subtitle={photosSubtitle} setModalVisible={setPhotoModalVisible} />
 
-            <AccordionEmojiRating title='Show Rating' setRating={setOverallRating} rating={overallRating} editEnabled={true}/>
+            <AccordionEmojiRating title='Show Rating' setRating={handleSetOverallRating} rating={overallRating} editEnabled={true}/>
 
-            <AccordionStarRating title='Venue Rating' setRating={setVenueRating} rating={venueRating} editEnabled={true}/>
+            <AccordionStarRating title='Venue Rating' setRating={handleSetVenueRating} rating={venueRating} editEnabled={true}/>
             <EditItem title='Memories' subtitle='' setModalVisible={setMemoriesModalVisible} />
             <EditItem title='Notes' subtitle={notesSubtitle} setModalVisible={setNotesModalVisible} />
             <Modal 
@@ -168,7 +257,7 @@ export default function AddShowDetails({
                 }}
             >
                 <View className='h-[3%]'/>
-                <ManagePhotos photoUrls={photoUrls} setPhotoUrls={setPhotoUrls} setModalVisible={setPhotoModalVisible}/>
+                <ManagePhotos photoUrls={photoUrls} setPhotoUrls={handleSetPhotoUrls} setModalVisible={setPhotoModalVisible}/>
 
             </Modal>
             {/* Notes Modal */}
@@ -182,7 +271,7 @@ export default function AddShowDetails({
                 }}
             >   
                 <View className='h-[3%]'/>
-                <EditNotes notes={notes} setNotes={setNotes} setModalVisible={setNotesModalVisible}/>
+                <EditNotes notes={notes} setNotes={handleSetNotes} setModalVisible={setNotesModalVisible}/>
             </Modal>
             {/* Memories Modal */}
             <Modal
@@ -196,7 +285,7 @@ export default function AddShowDetails({
                     <View className='h-[3%]'/>
                     <ManageMemories     
                         memories={memories} 
-                        setMemories={setMemories} 
+                        setMemories={handleSetMemories} 
                         setModalVisible={setMemoriesModalVisible} />
             </Modal>
             {/* Saving Indicator Modal */}
