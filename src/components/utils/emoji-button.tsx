@@ -5,9 +5,10 @@ interface EmojiButtonProps {
     emoji: 0 | 1 | 2 | 3;
     selected: boolean;
     onPress: () => void;
+    editEnabled: boolean
   }
 
-const EmojiButton: React.FC<EmojiButtonProps> = ({ emoji, selected, onPress }) => {
+const EmojiButton: React.FC<EmojiButtonProps> = ({ emoji, selected, onPress, editEnabled }) => {
   const getEmojiName = (emojiKey: number) => {
     switch (emojiKey) {
       case 0:
@@ -30,9 +31,9 @@ const EmojiButton: React.FC<EmojiButtonProps> = ({ emoji, selected, onPress }) =
   });
 
   return (
-    <TouchableOpacity className='py-2.5 pl-2.5 pr-1 rounded-3xl items-center' style={styles.button} onPress={onPress}>
+      <TouchableOpacity className='py-2.5 pl-2.5 pr-1 rounded-3xl items-center' style={styles.button} onPress={onPress} activeOpacity={editEnabled ? 0.5 : 1}>
         <Text className='text-3xl items-center'>{getEmojiName(emoji)} </Text>
-    </TouchableOpacity>
+      </TouchableOpacity>
   );
 };
 

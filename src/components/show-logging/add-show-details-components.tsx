@@ -76,10 +76,11 @@ interface AccordionEmojiRatingProps {
     title: string
     setRating: (value: number) => void
     rating: number | null
+    editEnabled: boolean
 }
 
 export const AccordionEmojiRating: React.FC<AccordionEmojiRatingProps> = (
-    {title, setRating, rating}
+    {title, setRating, rating, editEnabled}
 ) => {
     return (
         <View >
@@ -87,7 +88,7 @@ export const AccordionEmojiRating: React.FC<AccordionEmojiRatingProps> = (
                 <Text className="text-white text-lg">{ title }</Text>
             </View>
             <View>
-                <EmojiRatingBar rating={rating} setRating={setRating} />
+                <EmojiRatingBar rating={rating} setRating={setRating} editEnabled={editEnabled}/>
             </View>
         </View>
        

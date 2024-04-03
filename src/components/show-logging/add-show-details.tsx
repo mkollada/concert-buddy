@@ -150,9 +150,9 @@ export default function AddShowDetails({
             {/* Photos Item */}
             <EditItem title='Photos' subtitle={photosSubtitle} setModalVisible={setPhotoModalVisible} />
 
-            <AccordionEmojiRating title='Show Rating' setRating={setOverallRating} rating={overallRating} />
+            <AccordionEmojiRating title='Show Rating' setRating={setOverallRating} rating={overallRating} editEnabled={true}/>
 
-            <AccordionEmojiRating title='Venue Rating' setRating={setVenueRating} rating={venueRating} />
+            <AccordionEmojiRating title='Venue Rating' setRating={setVenueRating} rating={venueRating} editEnabled={true}/>
             <EditItem title='Memories' subtitle='' setModalVisible={setMemoriesModalVisible} />
             <EditItem title='Notes' subtitle={notesSubtitle} setModalVisible={setNotesModalVisible} />
             <Modal 

@@ -243,7 +243,7 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
                 <View>
                   <Text className='text-white text-lg'>The Show</Text>
                 </View>
-                <EmojiRatingBar rating={show.overallRating} setRating={setOverallShowRatingUpdateShow} />
+                <EmojiRatingBar rating={show.overallRating} setRating={setOverallShowRatingUpdateShow} editEnabled={false}/>
               </View>
               {/* Venue Ratings View  */}
               <View className="py-2">
@@ -251,7 +251,7 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
                   <Text className='text-white text-lg'>The Venue</Text>
                   <Text className='text-gray-400 text-md'>{show.venue}{show.venueLoc ? `, ${show.venueLoc}` : ''}</Text>
                 </View>
-                <EmojiRatingBar rating={show.venueRating} setRating={setVenueRatingUpdateShow} />
+                <EmojiRatingBar rating={show.venueRating} setRating={setVenueRatingUpdateShow} editEnabled={false}/>
               </View>
               
             </View>

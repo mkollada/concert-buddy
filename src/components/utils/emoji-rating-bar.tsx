@@ -6,19 +6,23 @@ import Separator from './separator';
 interface EmojiRatingBarProps {
     rating: number | null
     setRating: (value: number) => void
+    editEnabled: boolean
 }
 
-export default function EmojiRatingBar({ rating, setRating }: EmojiRatingBarProps) {
+export default function EmojiRatingBar({ rating, setRating, editEnabled }: EmojiRatingBarProps) {
 
   const handlePress = (newRating: number) => {
-    setRating(newRating)
+    if(editEnabled){
+      setRating(newRating)
+    }
+    
   }
 
   return (
     <View style={{ padding: 8, flexDirection: 'row', justifyContent: 'space-around' }}>
-        <EmojiButton emoji={1} selected={rating === 1} onPress={() => handlePress(1)} />
-        <Separator />
         <EmojiButton emoji={0} selected={rating === 0} onPress={() => handlePress(0)} />
+        <Separator />
+        <EmojiButton emoji={1} selected={rating === 1} onPress={() => handlePress(1)} />
         <Separator />
         <EmojiButton emoji={2} selected={rating === 2} onPress={() => handlePress(2)} />
         <Separator />
