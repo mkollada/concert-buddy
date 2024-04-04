@@ -18,7 +18,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.mattkollada.shows-live-music-diary",
-      "buildNumber":"12"
+      "buildNumber": "12"
     },
     "android": {
       "adaptiveIcon": {
@@ -55,6 +55,12 @@
       "eas": {
         "projectId": "760fa3c2-f853-40c6-a340-58d7d94cff1e"
       }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/760fa3c2-f853-40c6-a340-58d7d94cff1e"
     }
   }
 }
