@@ -14,7 +14,7 @@ import ExtraActionsModal from "./extra-actions-modal";
 import { router } from "expo-router";
 import AddShowDetails from "../show-logging/add-show-details";
 import ViewAllNotes from "./notes/view-all-notes";
-import MemoryCarousel from "../memories/memory-carousel";
+import MemoryCarousel from "../show-details/memories/memory-carousel";
 import StarRatingBar from "../utils/star-rating-bar";
 
 interface ShowDetailsProps {

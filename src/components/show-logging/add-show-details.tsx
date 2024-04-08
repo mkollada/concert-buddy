@@ -28,8 +28,7 @@ import { useRouter } from 'expo-router';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import ManagePhotos from '../show-details/photos/manage-photos';
 import EditNotes from '../show-details/notes/edit-notes';
-import AddShowDetailsHeader from './add-show-details-header';
-import ManageMemories from '../memories/manage-memories';
+import ManageMemories from '../show-details/memories/manage-memories';
 import PageHeader from '../utils/page-header';
 
 interface AddShowDetailsProps {
