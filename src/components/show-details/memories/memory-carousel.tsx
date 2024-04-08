@@ -2,7 +2,7 @@ import React from "react";
 import Carousel from 'react-native-reanimated-carousel';
 import { View, Dimensions } from "react-native";
 import DisplayMemoryBlock from "./display-memory-block";
-import { Show } from "../../types/types";
+import { Show } from "../../../types/types";
 
 interface MemoryCarouselProps {
     show: Show;

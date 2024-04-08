@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, TextInput } from 'react-native';
-import { Show } from '../../types/types';
+import { Show } from '../../../types/types';
 
 interface ManageMemoryBlockProps {
     prompt: string

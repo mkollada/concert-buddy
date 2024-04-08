@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Alert, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import PageHeader from "../utils/page-header";
+import PageHeader from "../../utils/page-header";
 import ManageMemoryBlock from "./manage-memory-block";
-import { Memories } from "../../types/types";
+import { Memories } from "../../../types/types";
 
 interface ManageMemoriesProps {
     memories: Memories
