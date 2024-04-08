@@ -19,9 +19,11 @@ const ThumbnailGallery: React.FC<ThumbnailGalleryProps> = ({ photoUrls, setPhoto
         });
 
         if (!result.canceled) {
+            let newPhotoUrls: string[] = []
             result.assets.forEach(asset => {
-                setPhotoUrls([...photoUrls, asset.uri])
-            })          
+                newPhotoUrls = [...newPhotoUrls, asset.uri]
+            })
+            setPhotoUrls([...photoUrls, ...newPhotoUrls])          
         }
     };
 
@@ -36,12 +38,7 @@ const ThumbnailGallery: React.FC<ThumbnailGalleryProps> = ({ photoUrls, setPhoto
     const deleteSelectedImages = async () => {
         const newPhotoUrls = photoUrls.filter((_, idx) => !selectedImages.includes(idx));
         setPhotoUrls(newPhotoUrls);
-    
-        // Wait for the next render to complete so that state is updated
-        // await new Promise(resolve => setTimeout(resolve, 0))
-    
-        // Now call the API with the updated photo URLs
-        // const res = await updateSupabaseShowItem(show.id, 'photo_urls', newPhotoUrls);
+
         setSelectedImages([]);
     };
     
