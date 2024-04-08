@@ -32,13 +32,47 @@ export default function FindVenueScreen() {
     }
   }, [venueSelected]);
 
+  const handleVenueSelected = (
+    venueId: string,
+    venueName: string,
+    venueLoc: string
+  ) => {
+    router.push({
+      pathname: '/select-date',
+      params: {
+        artistId: params.artistId,
+        artistName: params.artistName,
+        artistImageUri: params.artistImageUri,
+        artistSpotifyUrl: params.artistSpotifyUrl,
+        venueName: venueName,
+        venueId: venueId,
+        venueLoc: venueLoc,
+        }
+    })
+  }
+
+  const handleCustomVenueSelected = (
+    venueName: string
+  ) => {
+    router.push({
+      pathname: '/select-date',
+      params: {
+        artistId: params.artistId,
+        artistName: params.artistName,
+        artistImageUri: params.artistImageUri,
+        artistSpotifyUrl: params.artistSpotifyUrl,
+        venueName: venueName,
+        venueId: '',
+        venueLoc: '',
+        }
+    })
+  }
+
   return (
     <View className='flex-1 justify-center'>
       <SearchVenueDropdown 
-        setVenueId={setVenueId} 
-        setVenueName={setVenueName} 
-        setVenueLoc={setVenueLoc}
-        setVenueSelected={setVenueSelected} />
+        handleVenueSelected={handleVenueSelected} 
+        handleCustomVenueSelected={handleCustomVenueSelected}/>
     </View>
   );
 }

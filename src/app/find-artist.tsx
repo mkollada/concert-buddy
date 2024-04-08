@@ -7,35 +7,43 @@ import { useRouter } from "expo-router";
 export default function FindArtistScreen() {  
 
   const router = useRouter(); // Initialize the navigation hook
-  const [artistName, setArtistName] = useState('')
-  const [artistId, setArtistId] = useState('')
-  const [artistImageUri, setArtistImageUri] = useState('')
-  const [artistSelected, setArtistSelected] = useState(false)
-  const [artistSpotifyUrl, setArtistSpotifyUrl] = useState('')
 
-  useEffect(() => { 
-    if(artistSelected) {
-      setArtistSelected(false)
-      router.push({
-          pathname: '/select-show',
-          params: {
-              artistId: artistId,
-              artistName: artistName,
-              artistImageUri: artistImageUri,
-              artistSpotifyUrl: artistSpotifyUrl
-          }
-      })
-    } 
-  }, [artistSelected]);
+  const handleArtistSelected = (
+    artistId: string,
+    artistName: string,
+    artistImageUri: string,
+    artistSpotifyUrl: string
+  ) => {
+    router.push({
+      pathname: '/select-show',
+      params: {
+          artistId: artistId,
+          artistName: artistName,
+          artistImageUri: artistImageUri,
+          artistSpotifyUrl: artistSpotifyUrl
+      }
+    })
+  }
+
+  const handleCustomArtistSelected = (
+    artistName: string,
+  ) => {
+    router.push({
+      pathname: '/find-venue',
+      params: {
+          artistId: '',
+          artistName: artistName,
+          artistImageUri: 'https://www.jambase.com/wp-content/uploads/2021/08/jambase-default-band-image-bw-1480x832.png',
+          artistSpotifyUrl: ''
+      }
+    })
+  }
 
     return (
     <View className='flex-1 justify-center'>
       <SearchArtistDropdown 
-        setArtistName={setArtistName} 
-        setArtistId={setArtistId} 
-        setArtistImageUri={setArtistImageUri}
-        setArtistSpotifyUrl={setArtistSpotifyUrl}
-        setArtistSelected={setArtistSelected}/>
+        handleArtistSelected={handleArtistSelected}
+        handleCustomArtistSelected={handleCustomArtistSelected}/>
     </View>
   );
 }

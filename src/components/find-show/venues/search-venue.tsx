@@ -10,17 +10,20 @@ import { searchVenues } from '../../../api/jambase';
 import VenueBlock from './venue-block';
 
 interface SearchVenueDropdownProps {
-  setVenueName: (value: string) => void
-  setVenueId: (value: string) => void
-  setVenueLoc: (value: string) => void
-  setVenueSelected: (value: boolean) => void
+  handleVenueSelected: (
+    venueId: string,
+    venueName: string,
+    venueLoc: string
+  ) => void
+  handleCustomVenueSelected: (venueName: string) => void
 }
 
 
 export function SearchVenueDropdown({
-  setVenueName, setVenueId, setVenueLoc, setVenueSelected
+  handleVenueSelected, handleCustomVenueSelected
 }: SearchVenueDropdownProps) {
   const [venues, setVenues] = useState<JamBaseVenue[]>([])
+  const [nameText, setNameText] = useState('')
   // const router = useRouter(); // Initialize the navigation hook
   // const params = useLocalSearchParams()
 
@@ -44,10 +47,16 @@ export function SearchVenueDropdown({
   );
 
   const handleSubmitPress = (venue: JamBaseVenue) => {
-    setVenueLoc(venue.address.addressLocality)
-    setVenueId(venue.identifier)
-    setVenueName(venue.name)
-    setVenueSelected(true)
+    
+    handleVenueSelected(
+      venue.identifier,
+      venue.name,
+      venue.address.addressLocality
+    )
+  }
+
+  const handleUseAsTypedPress = () => {
+    handleCustomVenueSelected(nameText)
   }
   
   return (
@@ -60,9 +69,15 @@ export function SearchVenueDropdown({
         <Text className='text-sm text-white'>Find a Venue</Text>
         <TextInput className='p-2 text-2xl text-white font-bold'
         onChangeText={(text) => {
+            setNameText(text)
             debouncedInputChange(text);
           }}
         placeholder='Search here...'/>
+      </View>
+      <View className='p-2 items-center'>
+          <TouchableOpacity onPress={handleUseAsTypedPress}>
+            <Text className='underline text-white text-ul'>Use as typed</Text>
+          </TouchableOpacity>
       </View>
       
       <View className='flex-1'>
@@ -70,17 +85,6 @@ export function SearchVenueDropdown({
          
           <View className='flex-row' key={ix}>
             <TouchableOpacity className='flex-1'
-              // onPress={() => {
-              //   router.push({ pathname: "/select-date", 
-              //   params: { 
-              //     artistId: params.artistId,
-              //     artistName: params.artistName,
-              //     artistImageUri: params.artistImageUri,
-              //     venueId: venue.identifier,
-              //     venueName: venue.name,
-              //     venueLoc: venue.address.addressLocality
-              //   } });
-              // }}
               onPress={() => handleSubmitPress(venue)}
               >
               <VenueBlock venue={venue} />

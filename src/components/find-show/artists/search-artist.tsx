@@ -9,18 +9,21 @@ import ArtistBlock from './artist-block';
 import { searchArtistName } from '../../../api/jambase';
 
 interface SearchArtistDropdownProps {
-  setArtistName: (value: string) => void
-  setArtistId: (value: string) => void
-  setArtistImageUri: (value: string) => void
-  setArtistSelected: (value: boolean) => void
-  setArtistSpotifyUrl: (value: string) => void
+  handleArtistSelected: (
+    artistId: string,
+    artistName: string,
+    artistImageUri: string,
+    artistSpotifyUrl: string
+  ) => void
+  handleCustomArtistSelected: (artistName: string) => void
 }
 
 
 export function SearchArtistDropdown({
-  setArtistName, setArtistId, setArtistImageUri, setArtistSelected, setArtistSpotifyUrl
+  handleArtistSelected, handleCustomArtistSelected
 }: SearchArtistDropdownProps) {
   const [artists, setArtists] = useState<JamBaseArtist[]>([])
+  const [nameText, setNameText] = useState('')
 
   const debouncedInputChange = useCallback(
     debounce((text: string) => {
@@ -40,23 +43,31 @@ export function SearchArtistDropdown({
     []  // ensures that the debounce function isn't recreated on every render
   );
 
-  const handleSetArtistSpotifyUrl = (artist: JamBaseArtist) => {
+  const getArtistSpotifyUrl = (artist: JamBaseArtist) => {
 
     const identifiers = artist['sameAs'];
 
     // Find the object where source is 'spotify'
     const spotifyObj = identifiers.find(identifier => identifier.identifier === 'spotify');
 
+    let url = ''
+
     // Set the identifier if found, otherwise set empty string
-    spotifyObj ? setArtistSpotifyUrl( spotifyObj.url ) : setArtistSpotifyUrl('')
+    spotifyObj ? (url = spotifyObj.url) : (url = '')
+
+    return url
   }
 
   const handleSubmitPress = (artist: JamBaseArtist) => {
-    setArtistImageUri(artist.image)
-    setArtistId(artist.identifier)
-    setArtistName(artist.name)
-    handleSetArtistSpotifyUrl(artist)
-    setArtistSelected(true)
+    handleArtistSelected(
+      artist.identifier,
+      artist.name,
+      getArtistSpotifyUrl(artist),
+      artist.image)
+  }
+
+  const handleUseAsTypedPress = () => {
+    handleCustomArtistSelected(nameText)
   }
   
   return (
@@ -65,27 +76,27 @@ export function SearchArtistDropdown({
       extraHeight={100}
       keyboardShouldPersistTaps='handled' 
       className='flex-1'>
-      <View className='bg-themeGray p-3'>
+      <View className='bg-themeGray p-4'>
         <Text className='text-sm text-white'>Find an Artist</Text>
         <TextInput className='p-2 text-2xl text-white font-bold'
         onChangeText={(text) => {
+            setNameText(text)
             debouncedInputChange(text);
           }}
         placeholder='Search here...'/>
+        
+      </View>
+      <View className='p-2 items-center'>
+          <TouchableOpacity onPress={handleUseAsTypedPress}>
+            <Text className='underline text-white text-ul'>Use as typed</Text>
+          </TouchableOpacity>
       </View>
       
       <View className='flex-1'>
        { artists.map((artist, ix) => (
          
-          <View className='flex-row p-5' key={ix}>
+          <View className='flex-row p-4' key={ix}>
             <TouchableOpacity className='flex-1'
-              // onPress={() => {
-                // router.push({ pathname: "/find-venue", 
-                // params: { 
-                //   artistId: artist.identifier,
-                //   artistName: artist.name,
-                //   artistImageUri: artist.image } });
-              // }}
               onPress={() => handleSubmitPress(artist)}
               >
               <ArtistBlock artist={artist} />
