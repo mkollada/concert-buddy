@@ -17,6 +17,7 @@ export default function LogShowScreen() {
   const [sessErr, setSessErr] = useState(false)
   const [show, setShow] = useState<Show|null>(null)
   const [submitReady, setSubmitReady] = useState(false)
+  const [unsavedChanges, setUnsavedChanges] = useState(true)
 
   const rawParams = useLocalSearchParams();
 
@@ -34,6 +35,7 @@ export default function LogShowScreen() {
   }, [data, error]);
 
   const handleShowSubmit = async (submitShow: Show) => {
+    setUnsavedChanges(false)
     const createdAt = Date().toString()
     const newPhotoUrls = await uploadSupabasePhotos(submitShow.photoUrls)
 
@@ -130,8 +132,8 @@ export default function LogShowScreen() {
         submitReady={submitReady}
         setSubmitReady={setSubmitReady}
         handleEditCancel={router.back}
-        unsavedChanges={true}
-        setUnsavedChanges={(value: boolean) => {}}
+        unsavedChanges={unsavedChanges}
+        setUnsavedChanges={setUnsavedChanges}
         handleShowSubmit={handleShowSubmit}
       /> 
     </View>
