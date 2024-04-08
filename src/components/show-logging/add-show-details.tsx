@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import {
     SafeAreaView,
@@ -40,14 +40,13 @@ interface AddShowDetailsProps {
     handleEditCancel: () => void
     unsavedChanges: boolean
     setUnsavedChanges: (value: boolean) => void
+    handleShowSubmit: (show: Show) => void
 }
 
 export default function AddShowDetails({ 
-    title, show, setShow, edit, submitReady, setSubmitReady, handleEditCancel, unsavedChanges, setUnsavedChanges
+    title, show, edit, handleShowSubmit, handleEditCancel, unsavedChanges, setUnsavedChanges
 }: AddShowDetailsProps) {
 
-    // console.log(artistImageUri)
-    const router = useRouter(); // Initialize the navigation hook
 
     const [isLoading, setIsLoading] = useState(false)
     const [photoModalVisible, setPhotoModalVisible] = useState(false)
@@ -55,14 +54,16 @@ export default function AddShowDetails({
     const [memoriesModalVisible, setMemoriesModalVisible] = useState(false)
 
 
-    const [photoUrls, setPhotoUrls] = useState(show.photoUrls)
-    const [overallRating, setOverallRating] = useState(show.overallRating)
-    const [venueRating, setVenueRating] = useState(show.venueRating)
-    const [musicalityRating, setMusicalityRating] = useState(show.musicalityRating)
-    const [productionRating, setProductionRating] = useState(show.stagePresenceRating)
-    const [stagePresenceRating, setStagePresenceRating] = useState(show.stagePresenceRating)
-    const [notes, setNotes] = useState(show.notes)
-    const [memories, setMemories] = useState(show.memories)
+    // const [photoUrls, setPhotoUrls] = useState(show.photoUrls)
+    // const [overallRating, setOverallRating] = useState(show.overallRating)
+    // const [venueRating, setVenueRating] = useState(show.venueRating)
+    // const [musicalityRating, setMusicalityRating] = useState(show.musicalityRating)
+    // const [productionRating, setProductionRating] = useState(show.stagePresenceRating)
+    // const [stagePresenceRating, setStagePresenceRating] = useState(show.stagePresenceRating)
+    // const [notes, setNotes] = useState(show.notes)
+    // const [memories, setMemories] = useState(show.memories)
+
+    const [editedShow, setEditedShow] = useState(show)
 
 
     const [photosSubtitle, setPhotosSubtitle] = useState('')
@@ -76,7 +77,10 @@ export default function AddShowDetails({
             setNotesSubtitle('')
         }
 
-        setNotes(notes)
+        setEditedShow({
+            ...editedShow,
+            notes: notes
+        })
         setUnsavedChanges(true)
     }
 
@@ -89,37 +93,59 @@ export default function AddShowDetails({
             setPhotosSubtitle(`${photoUrls.length} Photos`)
         }
 
-        setPhotoUrls(photoUrls)
+        setEditedShow({
+            ...editedShow,
+            photoUrls: photoUrls
+        })
         setUnsavedChanges(true)
     }
 
     const handleSetMemories = (memories: Memories) => {
-        setMemories(memories)
+        setEditedShow({
+            ...editedShow,
+            memories: memories
+        })
         setUnsavedChanges(true)
     }
 
     const handleSetOverallRating = (overallRating: number) => {
-        setOverallRating(overallRating)
+        setEditedShow({
+            ...editedShow,
+            overallRating: overallRating
+        })
         setUnsavedChanges(true)
     }
 
     const handleSetVenueRating = (venueRating: number) => {
-        setVenueRating(overallRating)
+        // setVenueRating(venueRating)
+        setEditedShow({
+            ...editedShow,
+            venueRating: venueRating
+        })
         setUnsavedChanges(true)
     }
 
     const handleSetMusicalityRating = (musicalityRating: number) => {
-        setMusicalityRating(musicalityRating)
+        setEditedShow({
+            ...editedShow,
+            musicalityRating: musicalityRating
+        })
         setUnsavedChanges(true)
     }
 
     const handleSetStagePresenceRating = (stagePresenceRating: number) => {
-        setStagePresenceRating(stagePresenceRating)
+        setEditedShow({
+            ...editedShow,
+            stagePresenceRating: stagePresenceRating
+        })
         setUnsavedChanges(true)
     }
 
     const handleSetProductionRating = (productionRating: number) => {
-        setProductionRating(productionRating)
+        setEditedShow({
+            ...editedShow,
+            productionRating: productionRating
+        })
         setUnsavedChanges(true)
     }
     
@@ -149,44 +175,9 @@ export default function AddShowDetails({
     }
 
     async function handleSavePress() {
-        if(!show.overallRating) {
-            alert('Please select a rating for the show to submit!')
-            return false
-        }
-
-        if(!show.venueRating) {
-            alert('Please select a rating for the venue to submit!')
-            return false
-        }
 
         setSaving(true)
-
-        setShow({
-            ...show,
-            photoUrls: photoUrls,
-            overallRating: overallRating,
-            venueRating: venueRating,
-            musicalityRating: musicalityRating,
-            productionRating: productionRating,
-            stagePresenceRating: stagePresenceRating,
-            notes: notes,
-            memories: memories
-        })
-
-        const newPhotoUrls = await uploadSupabasePhotos(show.photoUrls)
-        setShow({
-            ...show,
-            photoUrls: newPhotoUrls
-        })
-        
-        if(!edit) {
-            setShow({
-                ...show,
-                createdAt: Date().toString()
-            })
-        }
-
-        setSubmitReady(true)
+        handleShowSubmit(editedShow)
         setSaving(false)        
     }
 
@@ -219,9 +210,9 @@ export default function AddShowDetails({
             {/* Photos Item */}
             <EditItem title='Photos' subtitle={photosSubtitle} setModalVisible={setPhotoModalVisible} />
 
-            <AccordionEmojiRating title='Show Rating' setRating={handleSetOverallRating} rating={overallRating} editEnabled={true}/>
+            <AccordionEmojiRating title='Show Rating' setRating={handleSetOverallRating} rating={editedShow.overallRating} editEnabled={true}/>
 
-            <AccordionStarRating title='Venue Rating' setRating={handleSetVenueRating} rating={venueRating} editEnabled={true}/>
+            <AccordionStarRating title='Venue Rating' setRating={handleSetVenueRating} rating={editedShow.venueRating} editEnabled={true}/>
             <EditItem title='Memories' subtitle='' setModalVisible={setMemoriesModalVisible} />
             <EditItem title='Notes' subtitle={notesSubtitle} setModalVisible={setNotesModalVisible} />
             <Modal 
@@ -234,7 +225,7 @@ export default function AddShowDetails({
                 }}
             >
                 <View className='h-[3%]'/>
-                <ManagePhotos photoUrls={photoUrls} setPhotoUrls={handleSetPhotoUrls} setModalVisible={setPhotoModalVisible}/>
+                <ManagePhotos photoUrls={editedShow.photoUrls} setPhotoUrls={handleSetPhotoUrls} setModalVisible={setPhotoModalVisible}/>
 
             </Modal>
             {/* Notes Modal */}
@@ -248,7 +239,7 @@ export default function AddShowDetails({
                 }}
             >   
                 <View className='h-[3%]'/>
-                <EditNotes notes={notes} setNotes={handleSetNotes} setModalVisible={setNotesModalVisible}/>
+                <EditNotes notes={editedShow.notes} setNotes={handleSetNotes} setModalVisible={setNotesModalVisible}/>
             </Modal>
             {/* Memories Modal */}
             <Modal
@@ -261,7 +252,7 @@ export default function AddShowDetails({
                 }}>
                     <View className='h-[3%]'/>
                     <ManageMemories     
-                        memories={memories} 
+                        memories={editedShow.memories} 
                         setMemories={handleSetMemories} 
                         setModalVisible={setMemoriesModalVisible} />
             </Modal>
@@ -269,10 +260,10 @@ export default function AddShowDetails({
             <Modal
                 animationType="fade"
                 transparent={true}
-                visible={submitReady || saving} 
+                visible={saving} 
                 onRequestClose={() => {
                     // Handle the case when the modal is requested to be closed
-                    setSubmitReady(false);
+                    setSaving(false);
                 }}
             >
                 <View  className='flex-1 justify-center items-center'>

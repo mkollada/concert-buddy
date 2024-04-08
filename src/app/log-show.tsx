@@ -5,7 +5,7 @@ import AddShowDetails from '../components/show-logging/add-show-details';
 import { ensureString } from '../utils';
 import uuid from 'react-native-uuid';
 import { Show } from '../types/types';
-import { addSupabaseShow, getSupabaseSession, updateSupabaseShow } from '../api';
+import { addSupabaseShow, getSupabaseSession, uploadSupabasePhotos } from '../api';
 import { Session } from '@supabase/supabase-js';
 import { Alert } from 'react-native';
 
@@ -17,10 +17,8 @@ export default function LogShowScreen() {
   const [sessErr, setSessErr] = useState(false)
   const [show, setShow] = useState<Show|null>(null)
   const [submitReady, setSubmitReady] = useState(false)
-  const [unsavedChanges, setUnsavedChanges] = useState(false)
 
   const rawParams = useLocalSearchParams();
-
 
 
   const {data, error} = getSupabaseSession()
@@ -35,32 +33,25 @@ export default function LogShowScreen() {
     }
   }, [data, error]);
 
-  
+  const handleShowSubmit = async (submitShow: Show) => {
+    const createdAt = Date().toString()
+    const newPhotoUrls = await uploadSupabasePhotos(submitShow.photoUrls)
 
-  useEffect(() => {
-    const handleSubmitReady = async (show: Show) => {
-      try {
-        await addSupabaseShow(show)
-      } catch (error) {
-        Alert.alert('Error uploading show')
-        console.error('error uploading to supabase')
-      }
-      
-      setSubmitReady(false)
-      setUnsavedChanges(false)
-      router.push('/')
+    const newSubmitShow = {
+      ...submitShow,
+      createdAt: createdAt,
+      photoUrls: newPhotoUrls
     }
-    
-    if(submitReady){
-      if(show){
-        handleSubmitReady(show)
-      } else {
-        Alert.alert('Error submitting show')
-        console.error('show was null, could not log show')
-      }
-      
+
+    try {
+      await addSupabaseShow(newSubmitShow)
+    } catch (error) {
+      Alert.alert('Error uploading show')
+      console.error('error uploading to supabase')
     }
-  }, [submitReady])
+    router.push('/')
+
+  }
 
   const createNewShow = (session: Session) => {
 
@@ -139,8 +130,9 @@ export default function LogShowScreen() {
         submitReady={submitReady}
         setSubmitReady={setSubmitReady}
         handleEditCancel={router.back}
-        unsavedChanges={unsavedChanges}
-        setUnsavedChanges={setUnsavedChanges}
+        unsavedChanges={true}
+        setUnsavedChanges={(value: boolean) => {}}
+        handleShowSubmit={handleShowSubmit}
       /> 
     </View>
   );

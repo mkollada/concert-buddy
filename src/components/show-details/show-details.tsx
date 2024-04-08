@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { View, Text, TouchableOpacity, Modal} from "react-native";
 import { Show } from "../../types/types";
-import { getSupabaseShow, updateSupabaseShow } from "../../api";
+import { getSupabaseShow, updateSupabaseShow, uploadSupabasePhotos } from "../../api";
 import ShowDetailsCarousel from "./show-details-carousel";
 import ShowNotesSummary from "./notes/show-notes-summary";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -81,22 +81,19 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
     }
   }, [show])
 
-  const handleSubmit = async (show: Show) => {
-    setShow(editShow)
-    await updateSupabaseShow(show)
-    setSubmitReady(false)
+  const handleShowSubmit = async (submitShow: Show) => {
+    const newPhotoUrls = await uploadSupabasePhotos(submitShow.photoUrls)
+
+    const newSubmitShow = {
+      ...submitShow,
+      photoUrls: newPhotoUrls
+    }
+
+    await updateSupabaseShow(newSubmitShow)
+    setShow(newSubmitShow)
     setUnsavedChanges(false)
     setEditShowModalVisible(false)
   }
-
-  useEffect(() => {
-    if(submitReady){
-      if(editShow && show){
-        handleSubmit(editShow)
-      }
-      
-    }
-  }, [submitReady])
 
   const handleXPress = () => {
     navigation.goBack()
@@ -281,6 +278,7 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
                   title={show.artistName}
                   unsavedChanges={unsavedChanges}
                   setUnsavedChanges={setUnsavedChanges}
+                  handleShowSubmit={handleShowSubmit}
                 /> 
             </View>
         </Modal>
