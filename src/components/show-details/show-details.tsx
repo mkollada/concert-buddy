@@ -1,17 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import { View, Text, TouchableOpacity, Modal} from "react-native";
 import { Show } from "../../types/types";
-import { deleteSupabaseShow, getSupabaseShow, updateSupabaseShow, updateSupabaseShowItem, uploadSupabasePhotos } from "../../api";
+import { getSupabaseShow, updateSupabaseShow } from "../../api";
 import ShowDetailsCarousel from "./show-details-carousel";
 import ShowNotesSummary from "./notes/show-notes-summary";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import SpotifyButton from "./spotify-button";
 import EmojiRatingBar from "../utils/emoji-rating-bar";
 import { useNavigation, useRouter } from "expo-router";
-import * as ImagePicker from 'expo-image-picker';
 import { Entypo, Feather, FontAwesome } from "@expo/vector-icons";
 import ExtraActionsModal from "./extra-actions-modal";
-import { router } from "expo-router";
 import AddShowDetails from "../show-logging/add-show-details";
 import ViewAllNotes from "./notes/view-all-notes";
 import MemoryCarousel from "../show-details/memories/memory-carousel";
@@ -46,45 +44,6 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
     setEditShow({...s})
     setShowUnsavedChanges(false)
     initialLoad.current = false; // Set to false after initial load
-  }
-
-  const setOverallShowRatingUpdateShow = (newOverallShowRating: number) => {
-    if(show) {
-      const updatedShow = {
-        ...show,
-        overallRating: newOverallShowRating
-      }
-      setShow(updatedShow);
-    } else {
-      console.error('Cannot update show rating if show is null')
-    }
-    
-  }
-
-  const setVenueRatingUpdateShow = (newVenueRating: number) => {
-    if(show) {
-      const updatedShow = {
-        ...show,
-        venueRating: newVenueRating
-      }
-      setShow(updatedShow);
-    } else {
-      console.error('Cannot update show rating if show is null')
-    }
-    
-  }
-
-  const setPhotosUpdateShow = (photoUrls: string[]) => {
-    if(show) {
-      const updatedShow = {
-        ...show,
-        photoUrls: photoUrls
-      }
-      setShow(updatedShow);
-    } else {
-      console.error('Cannot update show photos if show is null')
-    }
-    
   }
 
   useEffect(() => {
@@ -206,7 +165,7 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
                 <View>
                   <Text className='text-white text-lg'>The Show</Text>
                 </View>
-                <EmojiRatingBar rating={show.overallRating} setRating={setOverallShowRatingUpdateShow} editEnabled={false}/>
+                <EmojiRatingBar rating={show.overallRating} setRating={()=>{}} editEnabled={false}/>
               </View>
               {/* Venue Ratings View  */}
               <View className="py-2">
@@ -214,7 +173,7 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
                   <Text className='text-white text-lg'>The Venue</Text>
                   <Text className='text-gray-400 text-md'>{show.venue}{show.venueLoc ? `, ${show.venueLoc}` : ''}</Text>
                 </View>
-                <StarRatingBar rating={show.venueRating} setRating={setVenueRatingUpdateShow} editEnabled={false}/>
+                <StarRatingBar rating={show.venueRating} setRating={()=>{}} editEnabled={false}/>
               </View>
               
             </View>

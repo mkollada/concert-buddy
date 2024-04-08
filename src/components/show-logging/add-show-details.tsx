@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import {
-    Button,
     SafeAreaView,
     Text,
     View,
@@ -69,27 +68,6 @@ export default function AddShowDetails({
     const [photosSubtitle, setPhotosSubtitle] = useState('')
     const [notesSubtitle, setNotesSubtitle] = useState('')
     const [saving, setSaving] = useState(false)
-
-    // const [unsavedChanges, setUnsavedChanges] = useState(false)
-    
-    useEffect(() => {
-
-        // if(photoUrls.length == 0){
-        //     setPhotosSubtitle('')
-        // } else if (photoUrls.length == 1){
-        //     setPhotosSubtitle('1 Photo')
-        // } else {
-        //     setPhotosSubtitle(`${photoUrls.length} Photos`)
-        // }
-
-        // if(notes != ''){
-        //     setNotesSubtitle('Saved')
-        // } else {
-        //     setNotesSubtitle('')
-        // }
-
-    }, [photoUrls, overallRating, venueRating, musicalityRating, productionRating,
-    stagePresenceRating, notes, memories])
 
     const handleSetNotes = (notes: string) => {
         if(notes != ''){
