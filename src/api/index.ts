@@ -121,6 +121,8 @@ export async function uploadSupabasePhotos(uris: string[]) {
         const url = supabase.storage.from('show_photos').getPublicUrl(path);
         supabasePhotoURLs.push(url.data.publicUrl);
       }
+    } else {
+      supabasePhotoURLs.push(uri)
     }
     
   }

@@ -30,6 +30,8 @@ const ThumbnailGallery: React.FC<ThumbnailGalleryProps> = ({ photoUrls, setPhoto
             })
             setPhotoUrls([...photoUrls, ...newPhotoUrls])          
         }
+        console.log('gallery')
+        console.log(photoUrls)
     };
 
     const toggleSelectImage = (index: number) => {

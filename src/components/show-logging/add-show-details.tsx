@@ -29,6 +29,7 @@ import ManagePhotos from '../show-details/photos/manage-photos';
 import EditNotes from '../show-details/notes/edit-notes';
 import ManageMemories from '../show-details/memories/manage-memories';
 import PageHeader from '../utils/page-header';
+import ManageSetlist from '../show-details/setlist/manage-setlist';
 
 interface AddShowDetailsProps {
     title: string
@@ -40,42 +41,48 @@ interface AddShowDetailsProps {
     handleEditCancel: () => void
     unsavedChanges: boolean
     setUnsavedChanges: (value: boolean) => void
-    handleShowSubmit: (show: Show) => void
+    handleShowSubmit: (show: Show) => Promise<void>
 }
 
 export default function AddShowDetails({ 
     title, show, edit, handleShowSubmit, handleEditCancel, unsavedChanges, setUnsavedChanges
 }: AddShowDetailsProps) {
 
-
     const [isLoading, setIsLoading] = useState(false)
     const [photoModalVisible, setPhotoModalVisible] = useState(false)
     const [notesModalVisible, setNotesModalVisible] = useState(false)
     const [memoriesModalVisible, setMemoriesModalVisible] = useState(false)
-
-
-    // const [photoUrls, setPhotoUrls] = useState(show.photoUrls)
-    // const [overallRating, setOverallRating] = useState(show.overallRating)
-    // const [venueRating, setVenueRating] = useState(show.venueRating)
-    // const [musicalityRating, setMusicalityRating] = useState(show.musicalityRating)
-    // const [productionRating, setProductionRating] = useState(show.stagePresenceRating)
-    // const [stagePresenceRating, setStagePresenceRating] = useState(show.stagePresenceRating)
-    // const [notes, setNotes] = useState(show.notes)
-    // const [memories, setMemories] = useState(show.memories)
+    const [setlistModalVisible, setSetlistModalVisible] = useState(false)
 
     const [editedShow, setEditedShow] = useState(show)
 
 
     const [photosSubtitle, setPhotosSubtitle] = useState('')
+    const [memoriesSubtitle, setMemoriesSubtitle] = useState('')
     const [notesSubtitle, setNotesSubtitle] = useState('')
+    const [setlistSubtitle, setSetlistSubtitle] = useState('')
+
+    
+
+    useEffect(() => {
+        handleSetPhotoSubtitle(editedShow.photoUrls)
+        handleSetNotesSubtitle(editedShow.notes)
+        handleSetSetlistSubtitle(editedShow.setlist)
+        handleSetMemoriesSubtitile(editedShow.memories)
+    }, [editedShow])
+
     const [saving, setSaving] = useState(false)
 
-    const handleSetNotes = (notes: string) => {
+    const handleSetNotesSubtitle = (notes: string) => {
         if(notes != ''){
             setNotesSubtitle('Saved')
         } else {
             setNotesSubtitle('')
         }
+    }
+
+    const handleSetNotes = (notes: string) => {
+        handleSetNotesSubtitle(notes)
 
         setEditedShow({
             ...editedShow,
@@ -84,7 +91,7 @@ export default function AddShowDetails({
         setUnsavedChanges(true)
     }
 
-    const handleSetPhotoUrls = (photoUrls: string[]) => {
+    const handleSetPhotoSubtitle = (photoUrls: string[]) => {
         if(photoUrls.length == 0){
             setPhotosSubtitle('')
         } else if (photoUrls.length == 1){
@@ -92,7 +99,12 @@ export default function AddShowDetails({
         } else {
             setPhotosSubtitle(`${photoUrls.length} Photos`)
         }
+    }
 
+    const handleSetPhotoUrls = (photoUrls: string[]) => {
+        handleSetPhotoSubtitle(photoUrls)
+        console.log('handle')
+        console.log(photoUrls)
         setEditedShow({
             ...editedShow,
             photoUrls: photoUrls
@@ -100,10 +112,50 @@ export default function AddShowDetails({
         setUnsavedChanges(true)
     }
 
+    const handleSetMemoriesSubtitile = (memories: Memories) => {
+        let numMems = 0
+        for (const i in memories) {
+            if(memories[i]['response'] != ''){
+                numMems += 1
+            }
+        }
+
+        if(numMems == 0){
+            setSetlistSubtitle('')
+        } else if (numMems == 1) {
+            setSetlistSubtitle('1 Memory Saved')
+        } else {
+            setSetlistSubtitle(`${numMems} Memories Saved`)
+        }
+    }
+
     const handleSetMemories = (memories: Memories) => {
+        handleSetMemoriesSubtitile(memories)
+        
         setEditedShow({
             ...editedShow,
             memories: memories
+        })
+        setUnsavedChanges(true)
+    }
+
+    const handleSetSetlistSubtitle = (setlist: string[]) => {
+        if(setlist.length == 0){
+            setSetlistSubtitle('')
+        } else if (setlist.length == 1) {
+            setSetlistSubtitle('1 Song Saved')
+        } else {
+            setSetlistSubtitle(`${setlist.length} Songs Saved`)
+        }
+    }
+
+    const handleSetSetlist = (setlist: string[]) => {
+        // console.log(setlist)
+        // setSetlist(setlist)
+        handleSetSetlistSubtitle(setlist)
+        setEditedShow({
+            ...editedShow,
+            setlist: setlist
         })
         setUnsavedChanges(true)
     }
@@ -117,7 +169,6 @@ export default function AddShowDetails({
     }
 
     const handleSetVenueRating = (venueRating: number) => {
-        // setVenueRating(venueRating)
         setEditedShow({
             ...editedShow,
             venueRating: venueRating
@@ -177,7 +228,7 @@ export default function AddShowDetails({
     async function handleSavePress() {
 
         setSaving(true)
-        handleShowSubmit(editedShow)
+        await handleShowSubmit(editedShow)
         setSaving(false)        
     }
 
@@ -215,6 +266,7 @@ export default function AddShowDetails({
             <AccordionStarRating title='Venue Rating' setRating={handleSetVenueRating} rating={editedShow.venueRating} editEnabled={true}/>
             <EditItem title='Memories' subtitle='' setModalVisible={setMemoriesModalVisible} />
             <EditItem title='Notes' subtitle={notesSubtitle} setModalVisible={setNotesModalVisible} />
+            <EditItem title='Setlist' subtitle={setlistSubtitle} setModalVisible={setSetlistModalVisible} />
             <Modal 
                 animationType="slide"
                 visible={photoModalVisible}
@@ -255,6 +307,20 @@ export default function AddShowDetails({
                         memories={editedShow.memories} 
                         setMemories={handleSetMemories} 
                         setModalVisible={setMemoriesModalVisible} />
+            </Modal>
+            <Modal
+                animationType="slide"
+                visible={setlistModalVisible}
+                transparent={true}
+                onRequestClose={() => {
+                //   Alert.alert('Modal has been closed.')
+                setSetlistModalVisible(false)
+                }}>
+                    <View className='h-[3%]'/>
+                    <ManageSetlist     
+                        setlist={editedShow.setlist} 
+                        setSetlist={handleSetSetlist} 
+                        setModalVisible={setSetlistModalVisible} />
             </Modal>
             {/* Saving Indicator Modal */}
             <Modal

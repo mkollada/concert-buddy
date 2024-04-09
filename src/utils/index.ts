@@ -32,7 +32,9 @@ export function showToSupabaseShow(show: Show): SupabaseShow {
     event_id: show.eventId,
     artist_spotify_url: show.artistSpotifyUrl,
     memories: show.memories,
-    venue_rating: show.venueRating
+    venue_rating: show.venueRating,
+    setlist: show.setlist,
+    supporting_acts: show.supportingActs
   }
 }
 
@@ -58,7 +60,9 @@ export function supabaseShowToShow(show: any): Show {
     eventId: show.event_id,
     artistSpotifyUrl: show.artist_spotify_url,
     memories: show.memories,
-    venueRating: show.venue_rating
+    venueRating: show.venue_rating,
+    setlist: show.setlist,
+    supportingActs: show.supporting_acts
   }
 }
 

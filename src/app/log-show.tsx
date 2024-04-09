@@ -109,6 +109,8 @@ export default function LogShowScreen() {
       eventId: params.eventId,
       memories: initialMemories,
       venueRating: 2,
+      setlist: [],
+      supportingActs: []
     };
 
     setShow(newShow);

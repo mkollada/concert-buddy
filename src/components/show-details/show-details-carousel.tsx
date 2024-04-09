@@ -31,9 +31,6 @@ const ShowDetailsCarousel: React.FC<ShowDetailsCarouselProps> = ({ show }) => {
             setPublicUrls(show.photoUrls)
 
         }
-
-        console.log(publicUrls)
-
     }, [show])
 
 

@@ -19,6 +19,8 @@ export type Show = {
     eventId: string
     artistSpotifyUrl?: string
     venueRating: number
+    supportingActs: [string, string][] //(artistId, artistName)
+    setlist: string[]
 }
 
 export type SupabaseShow = {
@@ -42,6 +44,8 @@ export type SupabaseShow = {
     event_id: string
     artist_spotify_url?: string
     venue_rating: number
+    supporting_acts: [string, string][] //(artistId, artistName)
+    setlist: string[]
 }
 
 export type Memories = {
@@ -70,14 +74,15 @@ export function isShow(obj: any): obj is Show {
         typeof obj.eventId === 'string' &&
         typeof obj.memories === 'object' &&
         typeof obj.venueRating === 'number' &&
-
+        
         // Checking for optional fields
         (typeof obj.id === 'undefined' || typeof obj.id === 'string') &&
         (typeof obj.createdAt === 'undefined' || typeof obj.createdAt === 'string') &&
         (typeof obj.stagePresenceRating === 'undefined' || typeof obj.stagePresenceRating === 'number') &&
         (typeof obj.musicalityRating === 'undefined' || typeof obj.musicalityRating === 'number') &&
         (typeof obj.productionRating === 'undefined' || typeof obj.productionRating === 'number') &&
-        (typeof obj.artistSpotifyUrl === 'undefined' || typeof obj.artistSpotifyUrl === 'number')
-
+        (Array.isArray(obj.setlist) && obj.setlist.every((item: string) => typeof item === 'string')) &&
+        (Array.isArray(obj.supportingActs) && obj.supportingActs.every((act: string) => typeof act === 'string')) &&
+        (typeof obj.artistSpotifyUrl === 'undefined' || typeof obj.artistSpotifyUrl === 'string') // Assuming artistSpotifyUrl should be a string, correcting previous assumption it's a number
     );
 }

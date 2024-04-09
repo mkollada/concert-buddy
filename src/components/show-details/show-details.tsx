@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { View, Text, TouchableOpacity, Modal} from "react-native";
+import { View, Text, TouchableOpacity, Modal, ActivityIndicator} from "react-native";
 import { Show } from "../../types/types";
 import { getSupabaseShow, updateSupabaseShow, uploadSupabasePhotos } from "../../api";
 import ShowDetailsCarousel from "./show-details-carousel";
@@ -39,41 +39,37 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
   const initialLoad = useRef(true); // Ref to track initial load
 
 
-  const setShowInitial = (s: Show) => {
+  const handleSetShow = (s: Show) => {
     setShow(s)
     setEditShow({...s})
     setShowUnsavedChanges(false)
     initialLoad.current = false; // Set to false after initial load
   }
+  
 
   useEffect(() => {
-    const unsubscribeFocus = navigation.addListener('focus', () => {
-      // Do something when the screen is focused
-
-      const fetchShow = async () => {
-        try {
-          console.log('Loading show from supabase')
-          const s = await getSupabaseShow(showId);
-          initialLoad.current = true
-          if (s) {
-            setShowInitial(s)
-          } else {
-            console.error('Show is null');
-          }
-          
-          
-        } catch (error) {
-          console.error('Error fetching shows', error);
+    
+    const fetchShow = async () => {
+      try {
+        console.log('Loading show from supabase')
+        const s = await getSupabaseShow(showId);
+        console.log('loaded show from supabase')
+        initialLoad.current = true
+        if (s) {
+          handleSetShow(s)
+        } else {
+          console.error('Show is null');
         }
-      };
+        
+        
+      } catch (error) {
+        console.error('Error fetching shows', error);
+      }
+    };
   
       fetchShow();
-    });
 
-    return () => {
-      unsubscribeFocus();
-    };
-  }, [navigation]);
+  }, []);
 
   useEffect(() => {
     if (!initialLoad.current) {
@@ -82,17 +78,21 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
   }, [show])
 
   const handleShowSubmit = async (submitShow: Show) => {
+    console.log('submit')
+    console.log(submitShow.photoUrls)
     const newPhotoUrls = await uploadSupabasePhotos(submitShow.photoUrls)
-
+    console.log('new')
+    console.log(newPhotoUrls)
     const newSubmitShow = {
       ...submitShow,
       photoUrls: newPhotoUrls
     }
 
     await updateSupabaseShow(newSubmitShow)
-    setShow(newSubmitShow)
+    handleSetShow(newSubmitShow)
     setUnsavedChanges(false)
     setEditShowModalVisible(false)
+    // setShowReload(false)
   }
 
   const handleXPress = () => {
@@ -291,6 +291,23 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
             <ViewAllNotes notes={show.notes} setModalVisible={setNotesModalVisible} />
           </View>
         </Modal>
+        {/* Loading modal 
+        <Modal
+                animationType="fade"
+                transparent={true}
+                visible={showReload} 
+                onRequestClose={() => {
+                    // Handle the case when the modal is requested to be closed
+                    setShowReload(false);
+                }}
+            >
+                <View  className='flex-1 justify-center items-center'>
+                    <View className='flex-row p-4 rounded-xl items-center bg-themeGray' >
+                        <ActivityIndicator size="large" color="white" />
+                        <Text className='pl-2 text-white'>Loading...</Text>
+                    </View>
+                </View>
+            </Modal> */}
 
         
         </KeyboardAwareScrollView>
