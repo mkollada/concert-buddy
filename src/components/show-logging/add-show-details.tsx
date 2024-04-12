@@ -30,6 +30,7 @@ import EditNotes from '../show-details/notes/edit-notes';
 import ManageMemories from '../show-details/memories/manage-memories';
 import PageHeader from '../utils/page-header';
 import ManageSetlist from '../show-details/setlist/manage-setlist';
+import ManageSupportingActs from '../show-details/supporting-acts/manage-supporting-acts';
 
 interface AddShowDetailsProps {
     title: string
@@ -53,6 +54,7 @@ export default function AddShowDetails({
     const [notesModalVisible, setNotesModalVisible] = useState(false)
     const [memoriesModalVisible, setMemoriesModalVisible] = useState(false)
     const [setlistModalVisible, setSetlistModalVisible] = useState(false)
+    const [supportingActsModalVisible, setSupportingActsModalVisible] = useState(false)
 
     const [editedShow, setEditedShow] = useState(show)
 
@@ -61,6 +63,7 @@ export default function AddShowDetails({
     const [memoriesSubtitle, setMemoriesSubtitle] = useState('')
     const [notesSubtitle, setNotesSubtitle] = useState('')
     const [setlistSubtitle, setSetlistSubtitle] = useState('')
+    const [supportingActsSubtitle, setSupportingActsSubtitle] = useState('')
 
     
 
@@ -69,6 +72,7 @@ export default function AddShowDetails({
         handleSetNotesSubtitle(editedShow.notes)
         handleSetSetlistSubtitle(editedShow.setlist)
         handleSetMemoriesSubtitile(editedShow.memories)
+        handleSetSupportingActsSubtitle(editedShow.supportingActs)
     }, [editedShow])
 
     const [saving, setSaving] = useState(false)
@@ -98,6 +102,16 @@ export default function AddShowDetails({
             setPhotosSubtitle('1 Photo')
         } else {
             setPhotosSubtitle(`${photoUrls.length} Photos`)
+        }
+    }
+
+    const handleSetSupportingActsSubtitle = (supportingActs: [string, string][]) => {
+        if(supportingActs.length == 0){
+            setSupportingActsSubtitle('')
+        } else if (supportingActs.length == 1){
+            setSupportingActsSubtitle('1 Act Added')
+        } else {
+            setSupportingActsSubtitle(`${supportingActs.length} Acts Added`)
         }
     }
 
@@ -156,6 +170,17 @@ export default function AddShowDetails({
         setEditedShow({
             ...editedShow,
             setlist: setlist
+        })
+        setUnsavedChanges(true)
+    }
+
+    const handleSetSupportingActs = (supportingActs: [string, string][]) => {
+        // console.log(setlist)
+        // setSetlist(setlist)
+        handleSetSupportingActsSubtitle(supportingActs)
+        setEditedShow({
+            ...editedShow,
+            supportingActs: supportingActs
         })
         setUnsavedChanges(true)
     }
@@ -266,6 +291,9 @@ export default function AddShowDetails({
             <AccordionStarRating title='Venue Rating' setRating={handleSetVenueRating} rating={editedShow.venueRating} editEnabled={true}/>
             <EditItem title='Memories' subtitle='' setModalVisible={setMemoriesModalVisible} />
             <EditItem title='Notes' subtitle={notesSubtitle} setModalVisible={setNotesModalVisible} />
+            <EditItem title='Supporting Acts' 
+                subtitle={supportingActsSubtitle} 
+                setModalVisible={setSupportingActsModalVisible} />
             <EditItem title='Setlist' subtitle={setlistSubtitle} setModalVisible={setSetlistModalVisible} />
             <Modal 
                 animationType="slide"
@@ -308,6 +336,22 @@ export default function AddShowDetails({
                         setMemories={handleSetMemories} 
                         setModalVisible={setMemoriesModalVisible} />
             </Modal>
+            {/* Supporting Acts Modal */}
+            <Modal
+                animationType="slide"
+                visible={supportingActsModalVisible}
+                transparent={true}
+                onRequestClose={() => {
+                //   Alert.alert('Modal has been closed.')
+                setSupportingActsModalVisible(false)
+                }}>
+                    <View className='h-[3%]'/>
+                    <ManageSupportingActs     
+                        supportingActs={editedShow.supportingActs} 
+                        setSupportingActs={handleSetSupportingActs} 
+                        setModalVisible={setSupportingActsModalVisible} />
+            </Modal>
+            {/* Setlist Modal */}
             <Modal
                 animationType="slide"
                 visible={setlistModalVisible}
