@@ -15,11 +15,12 @@ export default function FindArtistScreen() {
     artistSpotifyUrl: string
   ) => {
     router.push({
-      pathname: '/select-show',
+      // pathname: '/select-show',
+      pathname: '/find-venue', // will use select-show once api problem fixed
       params: {
           artistId: artistId,
           artistName: artistName,
-          artistImageUri: artistImageUri,
+          artistImageUri: artistImageUri ? artistImageUri : 'https://www.jambase.com/wp-content/uploads/2021/08/jambase-default-band-image-bw-1480x832.png',
           artistSpotifyUrl: artistSpotifyUrl
       }
     })
