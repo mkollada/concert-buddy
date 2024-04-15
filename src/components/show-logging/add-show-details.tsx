@@ -135,11 +135,11 @@ export default function AddShowDetails({
         }
 
         if(numMems == 0){
-            setSetlistSubtitle('')
+            setMemoriesSubtitle('')
         } else if (numMems == 1) {
-            setSetlistSubtitle('1 Memory Saved')
+            setMemoriesSubtitle('1 Memory Saved')
         } else {
-            setSetlistSubtitle(`${numMems} Memories Saved`)
+            setMemoriesSubtitle(`${numMems} Memories Saved`)
         }
     }
 
@@ -289,7 +289,7 @@ export default function AddShowDetails({
             <AccordionEmojiRating title='Show Rating' setRating={handleSetOverallRating} rating={editedShow.overallRating} editEnabled={true}/>
 
             <AccordionStarRating title='Venue Rating' setRating={handleSetVenueRating} rating={editedShow.venueRating} editEnabled={true}/>
-            <EditItem title='Memories' subtitle='' setModalVisible={setMemoriesModalVisible} />
+            <EditItem title='Memories' subtitle={memoriesSubtitle} setModalVisible={setMemoriesModalVisible} />
             <EditItem title='Notes' subtitle={notesSubtitle} setModalVisible={setNotesModalVisible} />
             <EditItem title='Supporting Acts' 
                 subtitle={supportingActsSubtitle} 
