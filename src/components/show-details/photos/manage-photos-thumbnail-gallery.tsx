@@ -16,12 +16,23 @@ const ThumbnailGallery: React.FC<ThumbnailGalleryProps> = ({ photoUrls, setPhoto
     const [selectedImages, setSelectedImages] = useState<number[]>([]);
 
     const pickImage = async () => {
+        try {
+            // First, request the necessary permissions
+            const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+            if (status !== 'granted') {
+                alert('Sorry, we need camera roll permissions to make this work!');
+                return;
+            }
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             aspect: [4, 3],
             quality: 1,
             allowsMultipleSelection: true
         });
+
+
+        console.log('bm')
+        
 
         if (!result.canceled) {
             let newPhotoUrls: string[] = []
@@ -32,6 +43,11 @@ const ThumbnailGallery: React.FC<ThumbnailGalleryProps> = ({ photoUrls, setPhoto
         }
         console.log('gallery')
         console.log(photoUrls)
+
+    } catch (e) {
+        console.error("Error picking image: ", e);
+        alert("An error occurred while picking the image.");
+    }
     };
 
     const toggleSelectImage = (index: number) => {
