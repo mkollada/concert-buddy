@@ -1,33 +1,48 @@
-import React, { useState } from 'react'
-import { Alert, StyleSheet, View } from 'react-native'
-import { supabase } from '../../utils/supabase'
-import { Button, Input } from 'react-native-elements'
+import React, { useState } from 'react';
+import { Alert, StyleSheet, View, Text } from 'react-native';
+import { supabase } from '../../utils/supabase';
+import { Button, Input } from 'react-native-elements';
 
 export default function Auth() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
   async function signInWithEmail() {
-    setLoading(true)
+    setLoading(true);
     const { error } = await supabase.auth.signInWithPassword({
       email: email,
       password: password,
-    })
+    });
 
-    if (error) Alert.alert(error.message)
-    setLoading(false)
+    if (error) Alert.alert(error.message);
+    setLoading(false);
   }
 
   async function signUpWithEmail() {
-    setLoading(true)
+    setLoading(true);
     const { error } = await supabase.auth.signUp({
       email: email,
       password: password,
-    })
+    });
 
-    if (error) Alert.alert(error.message)
-    setLoading(false)
+    if (error) {
+      Alert.alert(error.message);
+    } else {
+      // Alert.alert('Check your email', 'A link to confirm your account has been sent.')
+    }
+    setLoading(false);
+  }
+
+  async function resetPassword() {
+    setLoading(true);
+    const { error } = await supabase.auth.resetPasswordForEmail(email);
+    if (error) {
+      Alert.alert('Error', error.message);
+    } else {
+      Alert.alert('Check your email', 'A password reset link has been sent to your email address.');
+    }
+    setLoading(false);
   }
 
   return (
@@ -36,7 +51,7 @@ export default function Auth() {
         <Input
           className='text-white'
           label="Email"
-          leftIcon={{ type: 'font-awesome', name: 'envelope', color:'white' }}
+          leftIcon={{ type: 'font-awesome', name: 'envelope', color: 'white' }}
           onChangeText={(text) => setEmail(text)}
           value={email}
           placeholder="email@address.com"
@@ -60,9 +75,16 @@ export default function Auth() {
       </View>
       <View style={styles.verticallySpaced}>
         <Button title="Sign up" disabled={loading} onPress={() => signUpWithEmail()} />
+        <Text>Enter</Text>
       </View>
+      <View className='items-center' style={styles.verticallySpaced}>
+        <Text className='text-white'>To create account, enter email and password, then press Sign Up</Text>
+      </View>
+      {/* <View style={[styles.verticallySpaced, styles.mt20]}>
+        <Button title="Forgot Password?" type="clear" onPress={resetPassword} />
+      </View> */}
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -78,4 +100,4 @@ const styles = StyleSheet.create({
   mt20: {
     marginTop: 20,
   },
-})
+});
