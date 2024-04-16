@@ -175,16 +175,16 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
               
             </View>
             
-            {
-  Object.entries(show.memories).some(([_, { response }]) => response.trim() !== "") ? (
-    <View>
-      <Text style={{ paddingVertical: 16, textAlign: 'left', fontSize: 24, color: 'white' }}>Memories:</Text>
-      <View style={{ alignItems: 'center' }}>
-        <MemoryCarousel show={show} />
-      </View>
-    </View>
-  ) : null
-}
+                          {
+                Object.entries(show.memories).some(([_, { response }]) => response.trim() !== "") ? (
+                  <View>
+                    <Text style={{ paddingVertical: 16, textAlign: 'left', fontSize: 24, color: 'white' }}>Memories:</Text>
+                    <View style={{ alignItems: 'center' }}>
+                      <MemoryCarousel show={show} />
+                    </View>
+                  </View>
+                ) : null
+              }
 
             {/* <View>
             { show.photoUrls && show.photoUrls.length > 0 ? (
@@ -230,19 +230,40 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
               <></>
             )}
             </View> */}
-            {/* <View>
-            { setlist ? (
-               <></>
+            <View>
+            { show.supportingActs ? (
+              <View className="px-2">
+                <Text className="py-4  items-left text-2xl text-white">Supporting Acts:</Text>
+                <View>
+                  { show.supportingActs.map((artist: [string, string]) => (
+                    <View key={artist[0]} className="flex-row items-center justify-between bg-themeGray p-2">
+                      <Text className="text-white flex-1">- {artist[1]}</Text>
+                    </View>
+                  ))}
+                </View>
+              </View>
               
             ) : (
-              <EmptyDetail 
-                title="Setlist" 
-                subtitle="Add the setlist for the night" 
-                iconName="list-ul" 
-                link="show-details/edit-notes"
-                show={show}/>
+              <></>
             )}
-            </View> */}
+            </View>
+            <View>
+            { show.setlist ? (
+              <View className="px-2">
+                <Text className="py-4  items-left text-2xl text-white">Setlist:</Text>
+                <View>
+                  { show.setlist.map((song: string) => (
+                    <View key={song} className="flex-row items-center justify-between bg-themeGray p-2">
+                      <Text className="text-white flex-1">- {song}</Text>
+                    </View>
+                  ))}
+                </View>
+              </View>
+              
+            ) : (
+              <></>
+            )}
+            </View>
             { show.artistSpotifyUrl ? (
               <View className="p-2">
                 <SpotifyButton spotifyUrl={show.artistSpotifyUrl} />
