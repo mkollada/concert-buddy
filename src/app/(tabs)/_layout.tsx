@@ -18,7 +18,7 @@ export default function TabLayout() {
 
   return (
     <SafeAreaProvider>
-      <SafeAreaView className='flex-1'>
+      <SafeAreaView className='flex-1 bg-black'>
       <Tabs
         screenOptions={{
           tabBarActiveTintColor: Colors['dark'].tint,

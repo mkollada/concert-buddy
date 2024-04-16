@@ -260,7 +260,7 @@ export default function AddShowDetails({
     return (
         
 
-        <SafeAreaView className='flex-1'>
+        <SafeAreaView className='flex-1 bg-black'>
             {/* <AddShowDetailsHeader title={title} handleSavePress={handleSavePress} handleCancelPress={handleEditCancel}/> */}
             <PageHeader title={title} 
                 handleDonePress={handleSavePress} 
