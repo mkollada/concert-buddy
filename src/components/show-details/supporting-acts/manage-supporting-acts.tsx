@@ -45,14 +45,20 @@ const ManageSupportingActs: React.FC<ManageSupportingActsProps> = ({
     setModalVisible(false)
 }
 
-  const renderItem = ({item }: {item: [artistId: string, artistName: string] }) => (
-    <View className="bg-black p-1">
-        <View className="bg-themeGray p-2 w-full ">
-            <Text className="text-white">- {item[1]}</Text>
-        </View>
-    </View>
-    
-  );
+const handleDelete = (index: number) => {
+  const newActs = tempSupportingActs.filter((_, idx) => idx !== index);
+  setTempSupportingActs(newActs);
+  setUnsavedChanges(true);
+};
+
+const renderItem = ({ item, index }: { item: [string, string], index: number }) => (
+  <View className="flex-row items-center justify-between bg-themeGray py-2 px-8">
+    <Text className="text-white flex-1">{item[1]}</Text>
+    <TouchableOpacity onPress={() => handleDelete(index)} style={{ padding: 10 }}>
+      <Text style={{ color: 'red' }}>Delete</Text>
+    </TouchableOpacity>
+  </View>
+);
 
   const handleArtistModalCancel = () => {
     setArtistModalVisible(false)
@@ -93,7 +99,7 @@ const ManageSupportingActs: React.FC<ManageSupportingActsProps> = ({
         />
         <View className="flex-1 items-center">
             
-            <View className='items-center w-1/2'>
+            {/* <View className='flex-1 items-center'> */}
                 <FlatList
                     className="w-full"
                     data={tempSupportingActs}
@@ -101,7 +107,7 @@ const ManageSupportingActs: React.FC<ManageSupportingActsProps> = ({
                     keyExtractor={(item, index) => `song-${index}`}
                     ListFooterComponent={
                         
-                        <TouchableOpacity className="items-center" onPress={() => setArtistModalVisible(true)}>
+                        <TouchableOpacity className="items-center p-2" onPress={() => setArtistModalVisible(true)}>
                         <Text className="underline text-themePurple">Add Supporting Act</Text>
                         </TouchableOpacity>
 
@@ -109,11 +115,7 @@ const ManageSupportingActs: React.FC<ManageSupportingActsProps> = ({
                     // inverted // Invert the list to keep the input field at the bottom
                 />
                 
-            </View>
-            <View className="flex-row text-white">
-                        
-                        
-                    </View>
+            {/* </View> */}
             <Modal
                 animationType="slide"
                 visible={artistModalVisible}
