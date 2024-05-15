@@ -16,6 +16,7 @@ module.exports = {
         cardGray: '#040D17',
         background: '#0C1319',
         themeGrayOpaque: '#1E212980',
+        purpleShadoe: '#8A00BB25'
         
       }
     },
