@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Alert, TouchableOpacity } from 'react-native';
+import { Image, Alert, TouchableOpacity, StyleSheet } from 'react-native';
 import { Text, View } from "react-native";
 import { Show } from "../../types/types";
 import { Swipeable } from 'react-native-gesture-handler';
@@ -16,19 +16,10 @@ export const LoggedShowBlock: React.FC<LoggedShowBlockProps> = ({ show, setDelet
     const rightSwipeActions = () => {
         return (
             <TouchableOpacity
-                className=''
                 onPress={() => confirmDelete()}
-                style={{
-                    backgroundColor: 'red',
-                    justifyContent: 'center',
-                    alignItems: 'flex-end',
-                    height: '100%',
-                    paddingHorizontal: 20,
-                    paddingVertical: 0,
-                    marginVertical: 0
-                }}
+                className="bg-red-500 justify-center items-end h-full px-5"
             >
-                <Text style={{ color: 'white' }}>
+                <Text className="text-white">
                     Delete
                 </Text>
             </TouchableOpacity>
@@ -36,14 +27,14 @@ export const LoggedShowBlock: React.FC<LoggedShowBlockProps> = ({ show, setDelet
     };
 
     const onDelete = async () => {
-        const {data, error} = await deleteSupabaseShow(show.id)
+        const { data, error } = await deleteSupabaseShow(show.id)
         if (error) {
-          alert('Error deleting row: error')
+            alert('Error deleting row: error')
         } else {
-          console.log('Deleted:', data)
-          setDeleteShowId(show.id)
+            console.log('Deleted:', data)
+            setDeleteShowId(show.id)
         }
-      }
+    }
 
     const confirmDelete = () => {
         Alert.alert(
@@ -65,40 +56,48 @@ export const LoggedShowBlock: React.FC<LoggedShowBlockProps> = ({ show, setDelet
     };
 
     return (
-        
-            
         <View className='py-1'>
             <Swipeable
-            renderRightActions={rightSwipeActions}
-            onSwipeableOpen={(direction) => {
-                if (direction === 'right') {
-                    // No additional logic needed here for now
-                }
-            }}
+                renderRightActions={rightSwipeActions}
+                onSwipeableOpen={(direction) => {
+                    if (direction === 'right') {
+                        // No additional logic needed here for now
+                    }
+                }}
             >
                 <Link href={`/show-details/${show.id}`}>
                     <View className='flex-row'>
-                        <View className="px-3 w-[20%] justify-center          ">
-                            <Text className="text-white font-bold">{show.date.substring(5,7)}.{show.date.substring(8,10)}</Text>
+                        <View className="px-3 w-[20%] justify-center">
+                            <Text className="text-white font-bold">{show.date.substring(5, 7)}.{show.date.substring(8, 10)}</Text>
                         </View>
                         <View className='flex-row w-[80%] items-center p-4 bg-cardGray rounded-xl'>
                             <Image
                                 className='aspect-square h-16 px-2 rounded-xl'
-                                source={{
-                                    uri: show.artistImageUri,
-                                }}
+                                source={{ uri: show.artistImageUri }}
                             />
-                            <View className="flex-column justify-center px-2">
-                                <Text className="text-white font-bold">{show.artistName}</Text>
-                                <Text className="text-white">{show.venue}</Text>
+                            <View className="flex-column justify-center px-2" style={styles.textContainer}>
+                                <Text numberOfLines={1} style={[styles.overflowEllipsis, styles.textBold]}>{show.artistName}</Text>
+                                <Text numberOfLines={1} style={styles.overflowEllipsis}>{show.venue}</Text>
                             </View>
                         </View>
-                        
                     </View>
                 </Link>
             </Swipeable>
         </View>
-            
-        
     );
 }
+
+const styles = StyleSheet.create({
+    textContainer: {
+        flex: 1,
+    },
+    overflowEllipsis: {
+        color: 'white',
+        overflow: 'hidden',
+        whiteSpace: 'nowrap',
+        textOverflow: 'ellipsis',
+    },
+    textBold: {
+        fontWeight: 'bold',
+    },
+});
