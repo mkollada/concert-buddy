@@ -70,7 +70,7 @@ export default function LoggedShowList({ showReload, setShowReload }: LoggedShow
                 >
                     <View className='bg-transparent'>
                         {shows.map((show: Show) => (
-                            <View className='flex-1 justify-center' key={`${show.id}-btn`}>
+                            <View className='w-[100%] justify-center' key={`${show.id}-btn`}>
                                 <LoggedShowBlock show={show} setDeleteShowId={setDeleteShowId}/>
                             </View>
                         ))}
