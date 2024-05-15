@@ -94,8 +94,6 @@ const styles = StyleSheet.create({
     overflowEllipsis: {
         color: 'white',
         overflow: 'hidden',
-        whiteSpace: 'nowrap',
-        textOverflow: 'ellipsis',
     },
     textBold: {
         fontWeight: 'bold',
