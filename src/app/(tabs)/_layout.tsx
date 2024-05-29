@@ -3,7 +3,8 @@ import { Tabs } from 'expo-router';
 import React from 'react';
 import Colors from '../../constants/Colors';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-
+import { Edit04 } from 'untitledui-js-base'
+import { CustomIcon } from '../../components/utils/icons';
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
  */
@@ -28,7 +29,7 @@ export default function TabLayout() {
           options={{
             title: 'My Shows',
             headerShown: false,
-            tabBarIcon: ({ color }) => <TabBarIcon name="pencil-square-o" color={color} />,
+            tabBarIcon: ({ color }) => <CustomIcon name='edit-04' color='white' size={24}/>,
           }}
         />
         <Tabs.Screen
