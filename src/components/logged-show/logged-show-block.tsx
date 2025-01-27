@@ -70,11 +70,11 @@ export const LoggedShowBlock: React.FC<LoggedShowBlockProps> = ({ show, setDelet
                         <View className="px-3 w-[20%] justify-center">
                             <Text className="text-white font-bold">{show.date.substring(5, 7)}.{show.date.substring(8, 10)}</Text>
                         </View>
-                        <View className='flex-row w-[80%] items-center p-4 bg-cardGray rounded-xl'>
-                            <Image
+                        <View className='flex-row w-[80%] items-center p-5 bg-cardGray rounded-xl'>
+                            { /*<Image
                                 className='aspect-square h-16 px-2 rounded-xl'
                                 source={{ uri: show.artistImageUri }}
-                            />
+                            /> */}
                             <View className="flex-column justify-center px-2" style={styles.textContainer}>
                                 <Text numberOfLines={1} style={[styles.overflowEllipsis, styles.textBold]}>{show.artistName}</Text>
                                 <Text numberOfLines={1} style={styles.overflowEllipsis}>{show.venue}</Text>

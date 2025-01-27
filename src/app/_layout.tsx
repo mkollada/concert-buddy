@@ -1,13 +1,13 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { DarkTheme, ThemeProvider, DefaultTheme } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { Session } from '@supabase/supabase-js'
+import { Session } from '@supabase/supabase-js';
 import { supabase } from '../utils/supabase';
 import Auth from '../components/account/Auth';
-import { SafeAreaContext, SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -22,99 +22,110 @@ export const unstable_settings = {
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const [session, setSession] = useState<Session | null>(null)
+  const [session, setSession] = useState<Session | null>(null);
 
-  const [loaded, error] = useFonts({
+  const [fontsLoaded, fontError] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
     ...FontAwesome.font,
   });
 
-  // Expo Router uses Error Boundaries to catch errors in the navigation tree.
+  // Handle font loading errors
   useEffect(() => {
-    if (error) throw error;
-  }, [error]);
+    if (fontError) throw fontError;
+  }, [fontError]);
 
+  // Hide the splash screen once fonts are loaded
   useEffect(() => {
-    if (loaded) {
+    if (fontsLoaded) {
       SplashScreen.hideAsync();
     }
-  }, [loaded]);
+  }, [fontsLoaded]);
 
+  // Manage Supabase session
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session)
-    })
+    const getSession = async () => {
+      const { data } = await supabase.auth.getSession();
+      setSession(data.session);
+    };
+    getSession();
 
-    supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session)
-    })
-  }, [])
+    const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
 
-  if (!loaded) {
-    return null;
+    return () => {
+      authListener.subscription.unsubscribe();
+    };
+  }, []);
+
+  if (!fontsLoaded) {
+    return null; // Prevent rendering until fonts are loaded
   }
+
   return (
-    <>
-      { session && session.user ? <RootLayoutNav /> : <Auth />}
-    </>
-  )
+    <SafeAreaProvider>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        {session && session.user ? <RootLayoutNav /> : <Auth />}
+      </GestureHandlerRootView>
+    </SafeAreaProvider>
+  );
 }
 
 function RootLayoutNav() {
-
   const theme = {
+    
+    ...DarkTheme,
     dark: true,
     colors: {
-      primary: 'rgb(255, 45, 85)', // The primary color of the app used in various components.
-      background: '#0C1319', // Background color of the screens.
-      card: '#040D17', // Background color of card-like elements, such as headers.
-      text: '#FFFFFF', // The color of text.
-      border: '#000000', // Color for borders and dividers.
-      notification: 'rgb(255, 69, 58)', // Color for Notification dots.
-    }
-  }
+      primary: 'rgb(255, 45, 85)',
+      background: '#0C1319',
+      card: '#040D17',
+      text: '#FFFFFF',
+      border: '#000000',
+      notification: 'rgb(255, 69, 58)',
+    },
+  };
 
   return (
-    // <SafeAreaProvider>
-    //   <SafeAreaView className='flex-1'>
-    <GestureHandlerRootView>
-        <ThemeProvider value={theme}>
-          <Stack>
-            <Stack.Screen name="(tabs)" options={{ title: "Shows", headerShown: false, presentation: 'modal' }} />
-            <Stack.Screen name="find-artist" options={{  title: 'Artist' }} />
-            <Stack.Screen name="find-venue" options={{ title: 'Venue' }} />
-            <Stack.Screen name="select-date" options={{ title: 'Date' }} />
-            <Stack.Screen name="select-show" options={{ title: 'Show' }} />
-            
-            <Stack.Screen 
-              name="log-show" 
-              options={{ 
-                title: 'Log Show',
-                headerShown: false
-              }} />
-            <Stack.Screen 
-              name="show-details/[id]"
-              options={{
-                presentation: 'modal',
-                headerShown: false
-              }}
-            />
-            <Stack.Screen 
-              name="show-details/edit-notes" 
-              options={{ 
-                presentation: 'modal',
-                headerShown: false    
-            }} />
-            <Stack.Screen 
-              name="show-details/manage-photos-page" 
-              options={{ 
-                presentation: 'modal',
-                headerShown: false    
-            }} />
-          </Stack>
-        </ThemeProvider>
-        </GestureHandlerRootView>
-    //   </SafeAreaView>
-    // </SafeAreaProvider>
+    <ThemeProvider value={theme}>
+      <Stack>
+        <Stack.Screen
+          name="(tabs)"
+          options={{ title: 'Shows', headerShown: false }}
+        />
+        <Stack.Screen name="find-artist" options={{ title: 'Artist' }} />
+        <Stack.Screen name="find-venue" options={{ title: 'Venue' }} />
+        <Stack.Screen name="select-date" options={{ title: 'Date' }} />
+        <Stack.Screen name="select-show" options={{ title: 'Show' }} />
+        <Stack.Screen
+          name="log-show"
+          options={{
+            title: 'Log Show',
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="show-details/[id]"
+          options={{
+            presentation: 'modal',
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="show-details/edit-notes"
+          options={{
+            presentation: 'modal',
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="show-details/manage-photos-page"
+          options={{
+            presentation: 'modal',
+            headerShown: false,
+          }}
+        />
+      </Stack>
+    </ThemeProvider>
   );
 }

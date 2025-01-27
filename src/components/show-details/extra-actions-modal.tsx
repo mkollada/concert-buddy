@@ -1,6 +1,6 @@
 import { View, Text, Pressable, Dimensions, TouchableWithoutFeedback, Alert } from "react-native";
 import React from "react";
-import { router } from "expo-router";
+import { useRouter } from "expo-router";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Feather } from "@expo/vector-icons";
 import { Divider } from "react-native-elements";
@@ -23,7 +23,7 @@ export default function ExtraActionsModal({
         setActionModalVisible(false)
     }
 
-    
+    const router = useRouter()
 
     const onDelete = async () => {
         const {data, error} = await deleteSupabaseShow(showId)

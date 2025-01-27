@@ -4,7 +4,6 @@ import { Pressable, StyleSheet, TouchableOpacity, } from "react-native";
 import { AirbnbRating } from 'react-native-ratings';
 import { Text, View } from 'react-native';
 import EmojiRatingBar from "../utils/emoji-rating-bar";
-import { useNavigation } from '@react-navigation/native';
 
 import { AntDesign } from "@expo/vector-icons";
 import StarRatingBar from "../utils/star-rating-bar";
@@ -28,8 +27,6 @@ export const EditItem: React.FC<EditItemProps> = (
     if(setModalVisible){
         plusActive = true
     } 
-
-    const navigation = useNavigation()
 
     const handlePlusPress = () => {
         if(setModalVisible){

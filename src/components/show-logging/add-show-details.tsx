@@ -23,7 +23,6 @@ import {
     EditItem,
 } from './add-show-details-components';
 
-import { useRouter } from 'expo-router';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import ManagePhotos from '../show-details/photos/manage-photos';
 import EditNotes from '../show-details/notes/edit-notes';
@@ -58,14 +57,11 @@ export default function AddShowDetails({
 
     const [editedShow, setEditedShow] = useState(show)
 
-
     const [photosSubtitle, setPhotosSubtitle] = useState('')
     const [memoriesSubtitle, setMemoriesSubtitle] = useState('')
     const [notesSubtitle, setNotesSubtitle] = useState('')
     const [setlistSubtitle, setSetlistSubtitle] = useState('')
     const [supportingActsSubtitle, setSupportingActsSubtitle] = useState('')
-
-    
 
     useEffect(() => {
         handleSetPhotoSubtitle(editedShow.photoUrls)

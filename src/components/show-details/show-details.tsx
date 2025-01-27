@@ -7,7 +7,7 @@ import ShowNotesSummary from "./notes/show-notes-summary";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import SpotifyButton from "./spotify-button";
 import EmojiRatingBar from "../utils/emoji-rating-bar";
-import { useNavigation, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { Entypo, Feather, FontAwesome } from "@expo/vector-icons";
 import ExtraActionsModal from "./extra-actions-modal";
 import AddShowDetails from "../show-logging/add-show-details";
@@ -23,7 +23,7 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
     showId
 }) => {  
 
-  const navigation = useNavigation()
+  const router = useRouter()
 
   const [show, setShow] = useState<Show|null>(null)
   const [editShow, setEditShow] = useState<Show|null>(null)
@@ -38,13 +38,14 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
   
   const initialLoad = useRef(true); // Ref to track initial load
 
-
   const handleSetShow = (s: Show) => {
     setShow(s)
     setEditShow({...s})
     setShowUnsavedChanges(false)
     initialLoad.current = false; // Set to false after initial load
   }
+
+
   
 
   useEffect(() => {
@@ -60,7 +61,6 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
         } else {
           console.error('Show is null');
         }
-        
         
       } catch (error) {
         console.error('Error fetching shows', error);
@@ -87,16 +87,20 @@ const ShowDetails: React.FC<ShowDetailsProps> = ({
       ...submitShow,
       photoUrls: newPhotoUrls
     }
-
+    console.log(0)
     await updateSupabaseShow(newSubmitShow)
+    console.log(1)
     handleSetShow(newSubmitShow)
+    console.log(2)
     setUnsavedChanges(false)
+    console.log(3)
     setEditShowModalVisible(false)
+    console.log(4)
     // setShowReload(false)
   }
 
   const handleXPress = () => {
-    navigation.goBack()
+    router.back()
   }
 
   const handleDotsPress = () => {

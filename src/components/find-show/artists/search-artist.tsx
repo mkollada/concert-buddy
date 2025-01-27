@@ -90,7 +90,7 @@ export function SearchArtistDropdown({
       </View>
       <View className='p-2 items-center'>
           <TouchableOpacity onPress={handleUseAsTypedPress}>
-            <Text className='underline text-white text-ul'>Use as typed</Text>
+            <Text className='underline text-themePurple font-bold text-2xl text-ul'>Save</Text>
           </TouchableOpacity>
       </View>
       

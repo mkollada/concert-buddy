@@ -1,6 +1,6 @@
 import { View, Text } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { router, useLocalSearchParams } from 'expo-router';
+import { useRouter, useLocalSearchParams } from 'expo-router';
 import AddShowDetails from '../components/show-logging/add-show-details';
 import { ensureString } from '../utils';
 import uuid from 'react-native-uuid';
@@ -18,6 +18,8 @@ export default function LogShowScreen() {
   const [show, setShow] = useState<Show|null>(null)
   const [submitReady, setSubmitReady] = useState(false)
   const [unsavedChanges, setUnsavedChanges] = useState(true)
+
+  const router = useRouter()
 
   const rawParams = useLocalSearchParams();
 
@@ -51,7 +53,10 @@ export default function LogShowScreen() {
       Alert.alert('Error uploading show')
       console.error('error uploading to supabase')
     }
-    router.push('/')
+    console.log(0)
+
+    router.navigate({pathname:'/'})
+    console.log(1)
 
   }
 
