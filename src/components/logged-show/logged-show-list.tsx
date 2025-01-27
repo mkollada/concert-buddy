@@ -4,6 +4,7 @@ import { Link } from 'expo-router';
 import { getSupabaseShows } from '../../api';
 import { Show } from '../../types/types';
 import { LoggedShowBlock } from '../../components/logged-show/logged-show-block';
+import { TouchableOpacity } from 'react-native';
 
 interface LoggedShowListProps {
     showReload: boolean;
@@ -55,9 +56,9 @@ export default function LoggedShowList({ showReload, setShowReload }: LoggedShow
             {shows.length === 0 ? (
                 <View className='flex-1 justify-center items-center'>
                     <Text className='font-bold text-white'>Get started logging a show!</Text>
-                    <Link href="/find-artist" asChild>
-                        <Button title='Log a show'/>
-                    </Link>
+                    <TouchableOpacity>
+                        <Text style={{ color: 'blue', fontSize: 16 }}>Log a show</Text>
+                    </TouchableOpacity>
                 </View>
             ) : (
                 <ScrollView className='flex-1'

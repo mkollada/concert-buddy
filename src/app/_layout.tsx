@@ -7,6 +7,7 @@ import { Session } from '@supabase/supabase-js'
 import { supabase } from '../utils/supabase';
 import Auth from '../components/account/Auth';
 import { SafeAreaContext, SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -76,9 +77,10 @@ function RootLayoutNav() {
   return (
     // <SafeAreaProvider>
     //   <SafeAreaView className='flex-1'>
+    <GestureHandlerRootView>
         <ThemeProvider value={theme}>
           <Stack>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false, presentation: 'modal' }} />
+            <Stack.Screen name="(tabs)" options={{ title: "Shows", headerShown: false, presentation: 'modal' }} />
             <Stack.Screen name="find-artist" options={{  title: 'Artist' }} />
             <Stack.Screen name="find-venue" options={{ title: 'Venue' }} />
             <Stack.Screen name="select-date" options={{ title: 'Date' }} />
@@ -111,6 +113,7 @@ function RootLayoutNav() {
             }} />
           </Stack>
         </ThemeProvider>
+        </GestureHandlerRootView>
     //   </SafeAreaView>
     // </SafeAreaProvider>
   );

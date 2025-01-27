@@ -273,9 +273,9 @@ export default function AddShowDetails({
             extraHeight={100}
             keyboardShouldPersistTaps='handled'
             className='flex-1 px-3'>
-            <View className='h-[30vh] p-3 rounded-xl'>
+            {/* <View className='h-[30vh] p-3 rounded-xl'>
                 <Image className="h-full w-full rounded-xl" source={{ uri: show.artistImageUri }} />
-            </View>
+            </View> */}
 
             <EditItem title="Artist" subtitle={show.artistName} setModalVisible={null}/>
             <EditItem title="Venue" subtitle={show.venue} setModalVisible={null}/>

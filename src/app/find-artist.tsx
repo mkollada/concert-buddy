@@ -7,7 +7,7 @@ import { useRouter } from "expo-router";
 export default function FindArtistScreen() {  
 
   const router = useRouter(); // Initialize the navigation hook
-
+  console.log('here')
   const handleArtistSelected = (
     artistId: string,
     artistName: string,

@@ -15,7 +15,7 @@ const CustomButton: React.FC = () => {
   const router = useRouter()
 
   return (
-    <Link href="/find-artist" asChild>
+    
     <Shadow
       distance={100}
       startColor="#8A00BB25"
@@ -23,6 +23,7 @@ const CustomButton: React.FC = () => {
       offset={[0, 0]}
     >
       <TouchableOpacity className="bg-black p-2 rounded-xl">
+      <Link href="/find-artist" asChild>
         <AntDesign
                     name="plus"
                     size={25}
@@ -30,9 +31,10 @@ const CustomButton: React.FC = () => {
                     color="white"
 
                   />
+      </Link>
       </TouchableOpacity>
     </Shadow>
-    </Link>
+    
   );
 };
 

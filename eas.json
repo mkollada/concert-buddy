@@ -10,16 +10,6 @@
     },
     "preview": {
       "distribution": "internal"
-    },
-    "production": {
-      "env": {
-        "EXPO_PUBLIC_JAMBASE_API_KEY": "6f60db48-00f8-46d3-88b1-a1433cbb496c"
-      }
-    },
-    "test": {
-      "env": {
-        "EXPO_PUBLIC_JAMBASE_API_KEY": "6f60db48-00f8-46d3-88b1-a1433cbb496c"
-      }
     }
   },
   "submit": {
