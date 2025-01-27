@@ -28,23 +28,24 @@ export function SearchVenueDropdown({
   // const params = useLocalSearchParams()
 
 
-  const debouncedInputChange = useCallback(
-    debounce((text: string) => {
-      // Handle the text input change after the user has stopped typing for 300ms
-      async function fetchApiData() {
-        if(text.length>0) {
-          const response = await searchVenues(text);
-          if (response) {
-            setVenues(response.venues);
-          }
-        }
-      }
+  // COMMENTING OUT FOR NOW WHILE JAMBASE API KEY IS SORTED
+  // const debouncedInputChange = useCallback(
+  //   debounce((text: string) => {
+  //     // Handle the text input change after the user has stopped typing for 300ms
+  //     async function fetchApiData() {
+  //       if(text.length>0) {
+  //         const response = await searchVenues(text);
+  //         if (response) {
+  //           setVenues(response.venues);
+  //         }
+  //       }
+  //     }
 
-      fetchApiData();
-      // console.log("User finished typing:", text);
-    }, 300),
-    []  // ensures that the debounce function isn't recreated on every render
-  );
+  //     fetchApiData();
+  //     // console.log("User finished typing:", text);
+  //   }, 300),
+  //   []  // ensures that the debounce function isn't recreated on every render
+  // );
 
   const handleSubmitPress = (venue: JamBaseVenue) => {
     
@@ -70,7 +71,8 @@ export function SearchVenueDropdown({
         <TextInput className='p-2 text-2xl text-white font-bold'
         onChangeText={(text) => {
             setNameText(text)
-            debouncedInputChange(text);
+            // COMMENTING OUT FOR NOW WHILE JAMBASE API KEY IS SORTED
+            // debouncedInputChange(text); 
           }}
         placeholder='Search here...'/>
       </View>

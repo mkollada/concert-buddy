@@ -25,23 +25,24 @@ export function SearchArtistDropdown({
   const [artists, setArtists] = useState<JamBaseArtist[]>([])
   const [nameText, setNameText] = useState('')
 
-  const debouncedInputChange = useCallback(
-    debounce((text: string) => {
-      // Handle the text input change after the user has stopped typing for 300ms
-      async function fetchApiData() {
-        if(text.length>0) {
-          const response = await searchArtistName(text);
-          if (response) {
-            setArtists(response.artists);
-          }
-        }
-      }
+  // COMMENTING OUT FOR NOW WHILE JAMBASE API KEY IS SORTED
+  // const debouncedInputChange = useCallback(
+  //   debounce((text: string) => {
+  //     // Handle the text input change after the user has stopped typing for 300ms
+  //     async function fetchApiData() {
+  //       if(text.length>0) {
+  //         const response = await searchArtistName(text);
+  //         if (response) {
+  //           setArtists(response.artists);
+  //         }
+  //       }
+  //     }
 
-      fetchApiData();
-      // console.log("User finished typing:", text);
-    }, 300),
-    []  // ensures that the debounce function isn't recreated on every render
-  );
+  //     fetchApiData();
+  //     // console.log("User finished typing:", text);
+  //   }, 300),
+  //   []  // ensures that the debounce function isn't recreated on every render
+  // );
 
   const getArtistSpotifyUrl = (artist: JamBaseArtist) => {
 
@@ -81,7 +82,8 @@ export function SearchArtistDropdown({
         <TextInput className='p-2 text-2xl text-white font-bold'
         onChangeText={(text) => {
             setNameText(text)
-            debouncedInputChange(text);
+            // COMMENTING OUT FOR NOW WHILE JAMBASE API KEY IS SORTED
+            // debouncedInputChange(text);
           }}
         placeholder='Search here...'/>
         

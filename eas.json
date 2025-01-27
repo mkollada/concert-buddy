@@ -10,6 +10,15 @@
     },
     "preview": {
       "distribution": "internal"
+    },
+    "production": {
+      "distribution": "store",
+      "android": {
+        "buildType": "app-bundle"
+      },
+      "ios": {
+        "simulator": false
+      }
     }
   },
   "submit": {
@@ -17,7 +26,7 @@
       "android": {
         "serviceAccountKeyPath": "/Users/mattkollada/Desktop/shows-410219-2fa800452357.json",
         "track": "internal",
-        "releaseStatus":"draft"
+        "releaseStatus": "draft"
       }
     }
   }
