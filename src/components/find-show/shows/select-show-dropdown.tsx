@@ -29,7 +29,7 @@ export function SelectPastShowDropdown({
   setShowSelected,
   setLogOwnShowSelected
 }: SelectPastShowDropdownProps) {
-  const [events, setEvents] = useState<{ [year: string]: JamBaseEvent[]; }>({})
+  const [events, setEvents] = useState<JamBaseEvent[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [shows, setShows] = useState<{ [year: string]: Show[]; }>({})
 
@@ -66,7 +66,7 @@ export function SelectPastShowDropdown({
       if (artistId) {
         const response = await getPastEventsForArtist(artistId);
         if (response) {
-          setEvents(response.artist['x-pastEvents'])
+          setEvents(response.events)
           setIsLoading(false)
         }
       }
@@ -110,30 +110,23 @@ export function SelectPastShowDropdown({
                 <Text className='underline font-bold text-themePurple'>Don&apos;t see your show here?</Text>
               </TouchableOpacity>
             </View>
-            {Object.keys(events)
-              .sort((a, b) => Number(b) - Number(a))  // Sorting in descending order
-              .map(year => (
-                <View key={year} className='p-4'>
-                  <Text className='text-xl text-white font-bold'>{year}</Text>
-                  {events[year].map((event, ix) => (
-                    <View className='flex-row px-5 py-2' key={ix}>
-                      <TouchableOpacity className='flex-1'
-                        onPress={() => {
-                          setVenueIdCheck(event)
-                          setVenueNameCheck(event)
-                          setVenueLocCheck(event)
-                          setEventId(event.identifier)
-                          setDate(event.startDate.substring(0,10))
-                          setShowSelected(true)
-                        }}
-                      >
-                        <SelectShowBlock event={event} />
-                      </TouchableOpacity>          
-                    </View>
-                  ))}
-                </View>
-              ))}
-              </>
+            {events.map((event, ix) => (
+              <View className='flex-row px-5 py-2' key={ix}>
+                <TouchableOpacity className='flex-1'
+                  onPress={() => {
+                    setVenueIdCheck(event)
+                    setVenueNameCheck(event)
+                    setVenueLocCheck(event)
+                    setEventId(event.identifier)
+                    setDate(event.startDate.substring(0,10))
+                    setShowSelected(true)
+                  }}
+                >
+                  <SelectShowBlock event={event} />
+                </TouchableOpacity>          
+              </View>
+            ))}
+            </> 
           )}
         </View>
     )}

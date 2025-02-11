@@ -43,7 +43,7 @@ const ShowDetailsCarousel: React.FC<ShowDetailsCarouselProps> = ({ show }) => {
                 width={width}
                 height={5*width/7}
                 data={publicUrls}
-                onSnapToItem={(index) => console.log('current index:', index, publicUrls[index])}
+                // onSnapToItem={(index) => console.log('current index:', index, publicUrls[index])}
                 renderItem={({ index }) => {
                     return (
                       <View className="flex-1">

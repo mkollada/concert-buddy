@@ -5,6 +5,7 @@ export type JamBaseApiResponse = {
   artist: JamBaseArtist;
   venues: JamBaseVenue[];
   request: JamBaseRequest;
+  events: JamBaseEvent[];
 };
 
 type JamBasePagination = {
