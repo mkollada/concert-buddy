@@ -28,24 +28,23 @@ export function SearchVenueDropdown({
   // const params = useLocalSearchParams()
 
 
-  // COMMENTING OUT FOR NOW WHILE JAMBASE API KEY IS SORTED
-  // const debouncedInputChange = useCallback(
-  //   debounce((text: string) => {
-  //     // Handle the text input change after the user has stopped typing for 300ms
-  //     async function fetchApiData() {
-  //       if(text.length>0) {
-  //         const response = await searchVenues(text);
-  //         if (response) {
-  //           setVenues(response.venues);
-  //         }
-  //       }
-  //     }
+  const debouncedInputChange = useCallback(
+    debounce((text: string) => {
+      // Handle the text input change after the user has stopped typing for 300ms
+      async function fetchApiData() {
+        if(text.length>0) {
+          const response = await searchVenues(text);
+          if (response) {
+            setVenues(response.venues);
+          }
+        }
+      }
 
-  //     fetchApiData();
-  //     // console.log("User finished typing:", text);
-  //   }, 300),
-  //   []  // ensures that the debounce function isn't recreated on every render
-  // );
+      fetchApiData();
+      // console.log("User finished typing:", text);
+    }, 300),
+    []  // ensures that the debounce function isn't recreated on every render
+  );
 
   const handleSubmitPress = (venue: JamBaseVenue) => {
     
@@ -71,14 +70,13 @@ export function SearchVenueDropdown({
         <TextInput className='p-2 text-2xl text-white font-bold'
         onChangeText={(text) => {
             setNameText(text)
-            // COMMENTING OUT FOR NOW WHILE JAMBASE API KEY IS SORTED
-            // debouncedInputChange(text); 
+            debouncedInputChange(text); 
           }}
         placeholder='Search here...'/>
       </View>
       <View className='p-2 items-center'>
           <TouchableOpacity onPress={handleUseAsTypedPress}>
-            <Text className='underline text-themePurple font-bold text-2xl text-ul'>Save</Text>
+            <Text className='underline text-white font-bold text-ul'>Use as typed</Text>
           </TouchableOpacity>
       </View>
       
