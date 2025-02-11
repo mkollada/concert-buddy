@@ -7,6 +7,7 @@
     "icon": "./src/assets/images/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
     "splash": {
       "image": "./src/assets/images/splash.png",
       "resizeMode": "contain",
@@ -56,8 +57,7 @@
       },
       "eas": {
         "projectId": "760fa3c2-f853-40c6-a340-58d7d94cff1e"
-      },
-      "newArchEnabled": true
+      }
     },
     "runtimeVersion": {
       "policy": "appVersion"
