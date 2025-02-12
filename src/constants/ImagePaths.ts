@@ -1,0 +1,1 @@
+export const jambaseDefaultBandImage =  require('../assets/images/jambase-default-band-image.png')

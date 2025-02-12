@@ -5,6 +5,7 @@ import { Show } from "../../types/types";
 import { Swipeable } from 'react-native-gesture-handler';
 import { deleteSupabaseShow } from '../../api';
 import { Link } from 'expo-router';
+import { jambaseDefaultBandImage } from '../../constants/ImagePaths';
 
 interface LoggedShowBlockProps {
     show: Show
@@ -56,6 +57,7 @@ export const LoggedShowBlock: React.FC<LoggedShowBlockProps> = ({ show, setDelet
     };
 
     console.log(show.artistImageUri)
+    console.log(jambaseDefaultBandImage)
 
     return (
         <View className='py-1'>
@@ -74,9 +76,9 @@ export const LoggedShowBlock: React.FC<LoggedShowBlockProps> = ({ show, setDelet
                         </View>
                         <View className='flex-row w-[80%] items-center p-2 bg-cardGray rounded-xl'>
                             <Image
-                                className='aspect-square h-16 rounded-xl'
-                                source={{ uri: show.artistImageUri }}
-                            /> 
+                            className='aspect-square h-16 rounded-xl'
+                            source={{ uri: show.artistImageUri }}
+                            defaultSource={ jambaseDefaultBandImage } />
                             <View className="flex-column justify-center px-2" style={styles.textContainer}>
                                 <Text numberOfLines={1} style={[styles.overflowEllipsis, styles.textBold]}>{show.artistName}</Text>
                                 <Text numberOfLines={1} style={styles.overflowEllipsis}>{show.venue}</Text>

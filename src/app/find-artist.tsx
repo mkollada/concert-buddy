@@ -7,7 +7,6 @@ import { useRouter } from "expo-router";
 export default function FindArtistScreen() {  
 
   const router = useRouter(); // Initialize the navigation hook
-  console.log('here')
   const handleArtistSelected = (
     artistId: string,
     artistName: string,
@@ -15,8 +14,8 @@ export default function FindArtistScreen() {
     artistSpotifyUrl: string
   ) => {
     router.push({
-      // pathname: '/select-show',
-      pathname: '/find-venue', // will use select-show once api problem fixed
+      pathname: '/select-show',
+      // pathname: '/find-venue', // will use select-show once api problem fixed
       params: {
           artistId: artistId,
           artistName: artistName,
